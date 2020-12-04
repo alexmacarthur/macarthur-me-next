@@ -1,0 +1,21 @@
+.jc-CommentBox h3 {
+  @apply mb-3;
+}
+
+.jc-Message {
+  p {
+    color: inherit;
+  }
+}
+
+.jc-CommentBox-button {
+  @include button;
+}
+
+.jc-Comment {
+  @apply text-lg;
+
+  h3, label {
+    @apply text-xl;
+  }
+}

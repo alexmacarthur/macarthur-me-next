@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://macarthur.me/sitemap.xml
