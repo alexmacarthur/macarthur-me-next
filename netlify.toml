@@ -6,9 +6,6 @@
   NODE_VERSION = "14.15.0"
   NPM_VERSION = "6.14.8"
 
-[[plugins]]
-  package = "netlify-plugin-cache-nextjs"
-
 [[redirects]]
   from = "/typeit"
   to = "https://typeitjs.com"
