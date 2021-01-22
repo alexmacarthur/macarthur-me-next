@@ -35,19 +35,21 @@ In all of my environments _except_ `production`, I wanted to set `compile` to `t
 
 ```yaml
 default: &default
-    compile: true
+  compile: true
 
 development:
-  <<: *default
+  <<:
+    *default
     # other settings...
 
 test:
-    <<: *default
-    # other settings...
+  <<: *default
+  # other settings...
 
 production:
   <<: *default
-  compile: false
+  compile:
+    false
     # other settings...
 ```
 

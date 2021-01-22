@@ -10,17 +10,17 @@ type GTagEvent = {
 
 const log = (label: string, data: any): void => {
   console.log(label, data);
-}
+};
 
 export const gtag = function (...args: any[]): void {
-  if(!isProduction) {
+  if (!isProduction) {
     log("gtag event:", args);
     return;
   }
 
-  window['dataLayer'] = window['dataLayer'] || [];
-  window['dataLayer'].push(arguments);
-}
+  window["dataLayer"] = window["dataLayer"] || [];
+  window["dataLayer"].push(arguments);
+};
 
 export const pageView = function (url: string): void {
   if (!isProduction) {
@@ -29,11 +29,16 @@ export const pageView = function (url: string): void {
   }
 
   gtag("config", GA_TRACKING_ID, {
-    page_path: url
+    page_path: url,
   });
 };
 
-export const event = function ({ action, category, label, value }: GTagEvent): void {
+export const event = function ({
+  action,
+  category,
+  label,
+  value,
+}: GTagEvent): void {
   if (!isProduction) {
     log("custom event:", arguments);
     return;

@@ -1,7 +1,7 @@
-import fs from 'fs';
+import fs from "fs";
 import { join } from "path";
 import matter from "gray-matter";
-import { processMarkdown, stripMarkdown } from './markdown';
+import { processMarkdown, stripMarkdown } from "./markdown";
 
 export default class PostCompiler {
   posts: PostData[];
@@ -16,12 +16,12 @@ export default class PostCompiler {
   }
 
   getPosts() {
-    if(this.posts.length > 0) {
+    if (this.posts.length > 0) {
       return this.posts;
     }
 
-    const files: PostData[] = this.readFiles()
-      .map((dirent): PostData => {
+    const files: PostData[] = this.readFiles().map(
+      (dirent): PostData => {
         const { name } = dirent;
         const slug = this.getSlug(name);
 
@@ -29,12 +29,13 @@ export default class PostCompiler {
           slug,
           path: name,
           date: this.getDate(name),
-          ...this.getContent(name, slug)
-        }
-      });
+          ...this.getContent(name, slug),
+        };
+      }
+    );
 
-    const directories: PostData[] = this.readDirectories()
-      .map((dirent): PostData => {
+    const directories: PostData[] = this.readDirectories().map(
+      (dirent): PostData => {
         const { name } = dirent;
         const slug = this.getSlug(name);
         const path = `${name}/index.md`;
@@ -43,9 +44,10 @@ export default class PostCompiler {
           slug,
           path,
           date: this.getDate(name),
-          ...this.getContent(path, slug)
-        }
-      });
+          ...this.getContent(path, slug),
+        };
+      }
+    );
 
     this.posts = this.sortByDate([...directories, ...files]);
 
@@ -53,19 +55,23 @@ export default class PostCompiler {
   }
 
   getContentBySlug(slug: string): PostData {
-    return this.getPosts().find(post => {
-      return post.slug === slug;
-    }) || null;
+    return (
+      this.getPosts().find((post) => {
+        return post.slug === slug;
+      }) || null
+    );
   }
 
   readFiles() {
-    return fs.readdirSync(this.directory, { withFileTypes: true })
-      .filter(dirent => dirent.isFile());
+    return fs
+      .readdirSync(this.directory, { withFileTypes: true })
+      .filter((dirent) => dirent.isFile());
   }
 
   readDirectories() {
-    return fs.readdirSync(this.directory, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory());
+    return fs
+      .readdirSync(this.directory, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory());
   }
 
   getDate(fileName: string): string {
@@ -79,18 +85,16 @@ export default class PostCompiler {
   }
 
   sortByDate(posts: PostData[]): PostData[] {
-    return posts
-      .sort((p1, p2) => {
-        const date1 = new Date(p1.date);
-        const date2 = new Date(p2.date);
+    return posts.sort((p1, p2) => {
+      const date1 = new Date(p1.date);
+      const date2 = new Date(p2.date);
 
-        if (date2.getTime() === date1.getTime()) {
-          return 0;
-        }
+      if (date2.getTime() === date1.getTime()) {
+        return 0;
+      }
 
-        return date2.getTime() < date1.getTime()
-          ? -1 : 1;
-      });
+      return date2.getTime() < date1.getTime() ? -1 : 1;
+    });
   }
 
   getContent(filePath: string, slug: string) {
@@ -99,16 +103,16 @@ export default class PostCompiler {
     const { data, content } = matter(fileContents);
 
     const strippedContent = stripMarkdown(content)
-      .replace(/\s\s+/g, ' ')
-      .replace(/\r?\n|\r/g, '');
-    const words = strippedContent.split(' ');
-    const excerpt = words.slice(0, 50).join(' ') + '...';
+      .replace(/\s\s+/g, " ")
+      .replace(/\r?\n|\r/g, "");
+    const words = strippedContent.split(" ");
+    const excerpt = words.slice(0, 50).join(" ") + "...";
 
     return {
       content: processMarkdown(content, slug),
       excerpt,
       title: data.title,
-      ogImage: data.ogImage || ""
-    }
+      ogImage: data.ogImage || "",
+    };
   }
 }

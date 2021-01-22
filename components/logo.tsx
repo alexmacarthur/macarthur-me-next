@@ -40,11 +40,7 @@ const selectRange = (angle: number): Array<any> => {
   return ranges[activeRangeIndex === 3 ? 0 : activeRangeIndex + 1];
 };
 
-const Logo = ({
-  asLink = false
-}: {
-  asLink?: boolean;
-}): ReactElement => {
+const Logo = ({ asLink = false }: { asLink?: boolean }): ReactElement => {
   const router = useRouter();
 
   useEffect(() => {
@@ -87,7 +83,7 @@ const Logo = ({
       (document as any).fonts.status === "loaded" ||
         (await (document as any).fonts.ready);
 
-        rafId = requestAnimationFrame(turnGradient);
+      rafId = requestAnimationFrame(turnGradient);
     };
 
     gradientEffect();

@@ -1,7 +1,7 @@
 ---
 title: Why I Like Tailwind CSS
 subtitle: And a Couple of Challenges I've Seen Too
-ogImage: 'https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1200&w=1200'
+ogImage: "https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1200&w=1200"
 ---
 
 I've used [Tailwind CSS](https://tailwindcss.com/) for a few projects over the last several months, and it's been steadily growing on me -- to the point of it becoming **my go-to tool for styling new projects**.
@@ -54,7 +54,6 @@ Much of this is probably just preferential, or perhaps due to the fact that it g
 
 I experienced some of this pain when building [TypeIt's site](https://typeitjs.com) with Tailwind + [Gatsby](https://gatsbyjs.org). In order to fine-tune the styling I wanted, I had to do stuff like this:
 
-
 ```jsx
 <div
   className={`
@@ -89,7 +88,7 @@ I experienced some of this pain when building [TypeIt's site](https://typeitjs.c
       );
     })}
   </ul>
-</div>;
+</div>
 ```
 
 With so many utility classes in play, it was just _hard_ to figure out the best way to format everything while keeping the entire file relatively legible.

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const ContactForm = () => {
   const [validationMessage, setValidationMessage] = useState("");
@@ -11,17 +11,21 @@ const ContactForm = () => {
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString()
+      body: new URLSearchParams(formData as any).toString(),
     }).then(() => {
       e.target.reset();
-      setValidationMessage('Message successfully sent!');
+      setValidationMessage("Message successfully sent!");
     });
-  }
+  };
 
   return (
     <div className="mx-auto max-w-2xl">
       {validationMessage && (
-        <span className={"block text-base md:text-xl bg-green-200 text-green-700 px-3 py-2 rounded-md mb-10 text-center"}>
+        <span
+          className={
+            "block text-base md:text-xl bg-green-200 text-green-700 px-3 py-2 rounded-md mb-10 text-center"
+          }
+        >
           {validationMessage}
         </span>
       )}
@@ -37,7 +41,6 @@ const ContactForm = () => {
           flex: "1",
         }}
       >
-
         <input type="hidden" name="form-name" value="contact" />
 
         <p hidden>
@@ -50,11 +53,7 @@ const ContactForm = () => {
           <label>
             Your name:
             <br />
-            <input
-              required
-              type="text"
-              name="name"
-            />
+            <input required type="text" name="name" />
           </label>
         </p>
 
@@ -62,11 +61,7 @@ const ContactForm = () => {
           <label>
             Your email:
             <br />
-            <input
-              required
-              type="email"
-              name="email"
-            />
+            <input required type="email" name="email" />
           </label>
         </p>
 
@@ -79,12 +74,13 @@ const ContactForm = () => {
         </p>
 
         <p className="mt-6">
-          <button type="submit" className="button">Send</button>
+          <button type="submit" className="button">
+            Send
+          </button>
         </p>
-
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default ContactForm;

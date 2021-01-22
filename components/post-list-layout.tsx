@@ -1,14 +1,18 @@
-import Layout from './layout';
-import Title from './title';
-import Pagination from './pagination';
-import PostList from './post-list';
+import Layout from "./layout";
+import Title from "./title";
+import Pagination from "./pagination";
+import PostList from "./post-list";
 
-const PostListLayout = ({ posts, nextPage, previousPage, currentPage, totalPages }: PostListLayoutProps) => {
+const PostListLayout = ({
+  posts,
+  nextPage,
+  previousPage,
+  currentPage,
+  totalPages,
+}: PostListLayoutProps) => {
   return (
     <Layout narrow={true}>
-      <Title>
-        Posts
-      </Title>
+      <Title>Posts</Title>
 
       <PostList posts={posts} />
 
@@ -19,7 +23,7 @@ const PostListLayout = ({ posts, nextPage, previousPage, currentPage, totalPages
         totalPages={totalPages}
       />
     </Layout>
-  )
-}
+  );
+};
 
 export default PostListLayout;

@@ -1,5 +1,5 @@
 ---
-title: 'If the Democratic Presidential Candidates Were JavaScript Packages'
+title: "If the Democratic Presidential Candidates Were JavaScript Packages"
 ogImage: >-
   https://cdn.vox-cdn.com/thumbor/QppMA6zQaXK9l1a4SBDNVSWl91U=/0x0:4644x3096/2820x1586/filters:focal(1399x973:2141x1715):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/66103952/AP_20015078494132__1_.0.jpg
 ---

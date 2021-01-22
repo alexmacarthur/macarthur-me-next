@@ -1,9 +1,14 @@
-import Layout from './layout'
-import Container from './container'
-import Title from './title';
-import Head from 'next/head';
+import Layout from "./layout";
+import Container from "./container";
+import Title from "./title";
+import Head from "next/head";
 
-export default function PageLayout ({children, title, subtitle = "", open_graph = null }) {
+export default function PageLayout({
+  children,
+  title,
+  subtitle = "",
+  open_graph = null,
+}) {
   return (
     <Layout>
       <Container narrow={true}>
@@ -12,12 +17,10 @@ export default function PageLayout ({children, title, subtitle = "", open_graph 
           {open_graph && <meta property="og:image" content={open_graph} />}
         </Head>
 
-        <Title subtitle={subtitle}>
-          { title }
-        </Title>
+        <Title subtitle={subtitle}>{title}</Title>
 
         {children}
       </Container>
     </Layout>
-  )
+  );
 }

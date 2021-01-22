@@ -10,6 +10,7 @@ Frequently enough, I find myself needing to copy the SHA of the latest commit in
 **Solution:** Make a shell function that'll allow me to do it with a simple terminal command.
 
 ## Building the Function
+
 Most of the experimentation I did for this was done in a regular shell script on my machine. But to quickly test the script as a terminal command, I copied my iterations inside my `~/.zshrc` and sourced it with `source ~/.zshrc`. Over time, this is how those iterations progressed.
 
 ### Iteration #1 :: Stupid Simple

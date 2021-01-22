@@ -1,6 +1,6 @@
 ---
 title: As an Engineer, Write
-date: '2020-06-01'
+date: "2020-06-01"
 external: >-
   https://www.ramseyinhouse.com/blog/as-an-engineer-write
 ---

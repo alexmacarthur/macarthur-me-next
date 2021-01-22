@@ -1,5 +1,5 @@
 ---
-title: 'Streamlining Conditional Statements with Logical Operators'
+title: "Streamlining Conditional Statements with Logical Operators"
 ogImage: >-
   https://images.unsplash.com/photo-1533073526757-2c8ca1df9f1c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=100
 ---
@@ -43,7 +43,7 @@ let greeting;
 
 if (isFamily(person)) {
   greeting = "hug";
-} else if (isBuddy(person)){
+} else if (isBuddy(person)) {
   greeting = "high five";
 } else {
   greeting = "handshake";
@@ -61,7 +61,7 @@ if (isFamily(person)) {
   return "hug";
 }
 
-if (isBuddy(person)){
+if (isBuddy(person)) {
   return "high five";
 }
 
@@ -87,6 +87,7 @@ const myOtherVar = null || "not null at all";
 This tactic is cleaner than using a ternary, and far more elegant than an `if/else` block.
 
 ##### Good: `If/Then` Block
+
 ```javascript
 let myVar;
 
@@ -98,11 +99,13 @@ if (otherVal) {
 ```
 
 ##### Better: Ternary
+
 ```javascript
 let myVar = otherVal ? otherVal : "fallback";
 ```
 
 ##### Best: Logical Operator
+
 ```javascript
 let myVar = otherVal || "fallback";
 ```
@@ -110,11 +113,11 @@ let myVar = otherVal || "fallback";
 Similarly, the `&&` operator continues to evaluate as long as the previous value is `truthy`, returning the last evaluated expression.
 
 ```javascript
-const myVar = "left side" && "right side"
+const myVar = "left side" && "right side";
 // evaluates to "right side"
 
-const func = () => "a string"
-const myVar = "" && func()
+const func = () => "a string";
+const myVar = "" && func();
 // evaluates to ""
 ```
 
@@ -123,6 +126,7 @@ const myVar = "" && func()
 And that makes for some succinct conditional statements, allowing you to abandon the `if/else` block altogether. As long as the first expression is `truthy`, the next will be evaluated as well.
 
 ##### Before: `If/Then` Block
+
 ```javascript
 if (snack) {
   eat(snack);
@@ -130,6 +134,7 @@ if (snack) {
 ```
 
 ##### After: Logical Operator
+
 ```javascript
 snack && eat(snack);
 ```
@@ -159,17 +164,14 @@ Or, for a more modern approach, you could use `Array.prototype.find()` to _find_
 ##### Option #2: `Array.prototype.find()`
 
 ```javascript
-const possibilities = [
-  val1,
-  val2,
-  val3
-];
+const possibilities = [val1, val2, val3];
 
-let firstTruthyReturnValue = possibilities.find(val => {
-  return tryIt(val)
+let firstTruthyReturnValue = possibilities.find((val) => {
+  return tryIt(val);
 });
 
-firstTruthyReturnValue = firstTruthyReturnValue === undefined ? "default" : firstTruthyReturnValue;
+firstTruthyReturnValue =
+  firstTruthyReturnValue === undefined ? "default" : firstTruthyReturnValue;
 ```
 
 But by using a logical operator, all that mess can be pulled together more elegantly, while preserving the ability set a default value.
@@ -178,10 +180,7 @@ But by using a logical operator, all that mess can be pulled together more elega
 
 ```javascript
 let firstTruthyReturnValue =
-  tryIt(var1) ||
-  tryIt(var2) ||
-  tryIt(var3) ||
-  "default value";
+  tryIt(var1) || tryIt(var2) || tryIt(var3) || "default value";
 ```
 
 ## Possible Objections
@@ -193,4 +192,3 @@ There are also those who probably say this approach makes the code less readable
 But that's not a deterrent for me, maybe for the same reason many favor the early return, or even those who are good with using the `||` operator to set fallback values for variables. Once you get used to the semantics, the gained elegance might hook you for life.
 
 Or, you might yet again change your preference a few months down the road, which is entirely possible for me.
-

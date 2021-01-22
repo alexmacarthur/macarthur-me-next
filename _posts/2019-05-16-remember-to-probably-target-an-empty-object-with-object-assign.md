@@ -2,6 +2,7 @@
 title: Remember to Probably Target an Empty Object with Object.assign()
 ogImage: /uploads/merge.jpg
 ---
+
 Hearken back, for a moment, to what it was like merging objects in 2014. There was no support for the feature in JavaScript runtimes themselves, and it was quite common to find a solution to the problem by wading through StackOverflow to find something like this:
 
 ```js
@@ -22,11 +23,11 @@ function merge(obj1, obj2) {
 
 ```js
 var var1 = {
-  key1: "value1"
+  key1: "value1",
 };
 
 var var2 = {
-  key2: "value2"
+  key2: "value2",
 };
 
 console.log(merge(var1, var2));
@@ -40,17 +41,17 @@ Recently, I made the mistake in assuming that `Object.assign()` operates in a si
 
 ```js
 let var1 = {
-  key1: "value1"
+  key1: "value1",
 };
 
 let var2 = {
-  key2: "value2"
+  key2: "value2",
 };
 
 let var3 = Object.assign(var1, var2);
 ```
 
-I *expected* this to leave each of my three variables with the following values:
+I _expected_ this to leave each of my three variables with the following values:
 
 ```js
 // What I THOUGHT I'd get:
@@ -92,12 +93,12 @@ var3 = {
 Looking at [the documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) for `Object.assign()`, this makes sense. Here's the syntax:
 
 ```js
-Object.assign(target, ...sources)
+Object.assign(target, ...sources);
 ```
 
 And the description is pretty clear about what it does:
 
-"The Object.assign() method is used to copy the values of all enumerable own properties from one or more *source* objects to a *target* object. It will return the target object."
+"The Object.assign() method is used to copy the values of all enumerable own properties from one or more _source_ objects to a _target_ object. It will return the target object."
 
 The method makes no promises to not mutate that target object. It'll copy over properties to it and spit it that mutated version back to you.
 

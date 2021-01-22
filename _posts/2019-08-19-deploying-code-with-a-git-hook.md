@@ -1,6 +1,6 @@
 ---
 title: Deploying Code with a Git Hook on a DigitalOcean Droplet
-ogImage: 'https://images.pexels.com/photos/256229/pexels-photo-256229.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1200&w=1200'
+ogImage: "https://images.pexels.com/photos/256229/pexels-photo-256229.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1200&w=1200"
 ---
 
 I've been working on a project involving long-running, resource-intensive batch jobs in Node. At first, when my needs were simpler, I used Heroku to run these jobs. It was great, but eventually, the price:performance ratio offered became a little too unwieldy, and I chose to make a move from Heroku to DigitalOcean.

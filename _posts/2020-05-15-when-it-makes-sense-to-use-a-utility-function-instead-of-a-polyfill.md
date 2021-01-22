@@ -8,13 +8,13 @@ Modern iterations of JavaScript have introduced some nice methods that make writ
 
 ```js
 const players = [
-  {id: 3, name: "Bob"},
-  {id: 9, name: "Bill"},
-  {id: 2, name: "Baker"},
-  {id: 4, name: "Bo"},
+  { id: 3, name: "Bob" },
+  { id: 9, name: "Bill" },
+  { id: 2, name: "Baker" },
+  { id: 4, name: "Bo" },
 ];
 
-const player = players.find(p => p.id === 9);
+const player = players.find((p) => p.id === 9);
 
 // {id: 9, name: "Bill"}
 ```
@@ -30,8 +30,8 @@ Consider that `find()` method. It sounds simple, but with a good share of polyfi
 ```js
 // https://tc39.github.io/ecma262/#sec-array.prototype.find
 if (!Array.prototype.find) {
-  Object.defineProperty(Array.prototype, 'find', {
-    value: function(predicate) {
+  Object.defineProperty(Array.prototype, "find", {
+    value: function (predicate) {
       // 1\. Let O be ? ToObject(this value).
       if (this == null) {
         throw TypeError('"this" is null or not defined');
@@ -43,8 +43,8 @@ if (!Array.prototype.find) {
       var len = o.length >>> 0;
 
       // 3\. If IsCallable(predicate) is false, throw a TypeError exception.
-      if (typeof predicate !== 'function') {
-        throw TypeError('predicate must be a function');
+      if (typeof predicate !== "function") {
+        throw TypeError("predicate must be a function");
       }
 
       // 4\. If thisArg was supplied, let T be thisArg; else let T be undefined.
@@ -71,7 +71,7 @@ if (!Array.prototype.find) {
       return undefined;
     },
     configurable: true,
-    writable: true
+    writable: true,
   });
 }
 ```
@@ -90,23 +90,23 @@ Looking at `find()` once again, a suitable utility method might look like this:
 
 ```js
 const find = (arr, func) => {
-  for(let index = 0; index < arr.length; index++) {
-    if(func.call(this, arr[index], index)) {
-       return arr[index];
-     }
+  for (let index = 0; index < arr.length; index++) {
+    if (func.call(this, arr[index], index)) {
+      return arr[index];
+    }
   }
 
   return undefined;
-}
+};
 
 const players = [
-    {id: 3, name: "Bob"},
-    {id: 9, name: "Bill"},
-    {id: 2, name: "Baker"},
-    {id: 4, name: "Bo"},
+  { id: 3, name: "Bob" },
+  { id: 9, name: "Bill" },
+  { id: 2, name: "Baker" },
+  { id: 4, name: "Bo" },
 ];
 
-const player = find(players, p => p.id === 9);
+const player = find(players, (p) => p.id === 9);
 
 // {id: 9, name: "Bill"}
 ```
@@ -117,23 +117,23 @@ And that could be easily converted into a `findIndex()` utility as well:
 
 ```js
 const findIndex = (arr, func) => {
-  for(let index = 0; index < arr.length; index++) {
-    if(func.call(this, arr[index], index)) {
-       return index;
-     }
+  for (let index = 0; index < arr.length; index++) {
+    if (func.call(this, arr[index], index)) {
+      return index;
+    }
   }
 
   return undefined;
-}
+};
 
 const players = [
-    {id: 3, name: "Bob"},
-    {id: 9, name: "Bill"},
-    {id: 2, name: "Baker"},
-    {id: 4, name: "Bo"},
+  { id: 3, name: "Bob" },
+  { id: 9, name: "Bill" },
+  { id: 2, name: "Baker" },
+  { id: 4, name: "Bo" },
 ];
 
-const player = findIndex(players, p => p.id === 9);
+const player = findIndex(players, (p) => p.id === 9);
 
 // 1
 ```
@@ -145,9 +145,9 @@ If you're simply looking to convert something like a `NodeList` into an array, y
 ```js
 const arrayFrom = (arrayLikeThing) => {
   return [].slice.call(arrayLikeThing);
-}
+};
 
-arrayFrom(document.querySelectorAll('span'));
+arrayFrom(document.querySelectorAll("span"));
 
 // [ ...array of nodes ]
 ```
@@ -157,21 +157,21 @@ arrayFrom(document.querySelectorAll('span'));
 For one more example, here's how a simple utility method for `fill()` might look:
 
 ```js
-const fill = ({array, value, start = 0, end = undefined}) => {
+const fill = ({ array, value, start = 0, end = undefined }) => {
   end = end ? end + 1 : array.length;
   array.splice(
     start,
     end - start,
-    array.slice(start, end).map(i => value)
+    array.slice(start, end).map((i) => value)
   );
   return [].concat.apply([], array);
-}
+};
 
 fill({
   array: [1, 2, 3, 4, 5],
   value: "x",
   start: 1,
-  end: 3
+  end: 3,
 });
 
 // [ 1, 'x', 'x', 'x', 5 ]

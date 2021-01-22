@@ -1,4 +1,4 @@
-import Container from './container'
+import Container from "./container";
 
 export default function Footer() {
   return (
@@ -10,5 +10,5 @@ export default function Footer() {
         </span>
       </Container>
     </footer>
-  )
+  );
 }

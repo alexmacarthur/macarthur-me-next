@@ -15,19 +15,21 @@ Admittedly, the reason listeners stick out to me so much is due to my initial mi
 Here's the type of code that came to mind:
 
 ```javascript
-const calculateResultsButton = document.getElementById('calculateResultsButton');
-const openMenuButton = document.getElementById('#openMenuButton');
-const resultBox = document.getElementById('resultBox');
+const calculateResultsButton = document.getElementById(
+  "calculateResultsButton"
+);
+const openMenuButton = document.getElementById("#openMenuButton");
+const resultBox = document.getElementById("resultBox");
 
-calculateResultsButton.addEventListener('click', (e) => {
-    // "Why put this into a Worker when I
-    // can't update the DOM until it's done anyway?"
-    const result = performLongRunningCalculation();
-    resultBox.innerText = result;
+calculateResultsButton.addEventListener("click", (e) => {
+  // "Why put this into a Worker when I
+  // can't update the DOM until it's done anyway?"
+  const result = performLongRunningCalculation();
+  resultBox.innerText = result;
 });
 
-openMenuButton.addEventListener('click', (e) => {
-    // Do stuff to open menu.
+openMenuButton.addEventListener("click", (e) => {
+  // Do stuff to open menu.
 });
 ```
 
@@ -51,25 +53,23 @@ Frozen, because that long, synchronous pause is blocking the thread. And the imp
 Any normal user would be annoyed to have to deal with an experience like this -- and we were only dealing with a couple of event listeners. In the real world, though, there's a lot more going on. Using Chrome's `getEventListeners` method, I used the following script to take a tally of all event listeners attached to every DOM element on a page. Drop it into the inspector, and it'll spit back a total.
 
 ```javascript
-[document, ...document.querySelectorAll('*')]
-  .reduce((accumulator, node) => {
-    let listeners = getEventListeners(node);
-    for (let property in listeners) {
-      accumulator = accumulator + listeners[property].length
-    }
-    return accumulator;
-  }, 0);
+[document, ...document.querySelectorAll("*")].reduce((accumulator, node) => {
+  let listeners = getEventListeners(node);
+  for (let property in listeners) {
+    accumulator = accumulator + listeners[property].length;
+  }
+  return accumulator;
+}, 0);
 ```
 
 I ran it on an arbitrary page within each of the following applications to get a quick count of the active listeners.
 
-
-Application | Number of Listeners |
------- | -----------------------------------
-Dropbox | 602 |
-Google Messages | 581 |
-Reddit | 692 |
-YouTube | 6,054 (!!!) |
+| Application     | Number of Listeners |
+| --------------- | ------------------- |
+| Dropbox         | 602                 |
+| Google Messages | 581                 |
+| Reddit          | 692                 |
+| YouTube         | 6,054 (!!!)         |
 
 Pay little attention to the specific numbers. The point is that the numbers are big, and **if even a single long-running process in your application goes awry, _all_ of these listeners will be unresponsive.** That's a lot of opportunity to frustrate your users.
 

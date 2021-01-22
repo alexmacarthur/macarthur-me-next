@@ -4,8 +4,17 @@ interface PostData {
   path: string;
   date: string;
   title: string;
+  ogImage?: string;
   content: string;
   excerpt?: string;
+}
+
+interface MarkdownLayoutProps {
+  pageData: PostData;
+  isPost: boolean;
+  comments?: any[];
+  jamCommentsApiKey?: string;
+  jamCommentsDomain?: string;
 }
 interface ContentData {
   slugPattern: RegExp;

@@ -1,54 +1,64 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router';
-import Logo from './logo';
-import { useEffect, useState } from 'react';
-import MenuToggle from './menu-toggle';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Logo from "./logo";
+import { useEffect, useState } from "react";
+import MenuToggle from "./menu-toggle";
 
 const navItems = [
   {
     name: "Posts",
-    link: "/posts"
+    link: "/posts",
   },
   {
     name: "Projects",
-    link: "/projects"
+    link: "/projects",
   },
   {
     name: "About",
-    link: "/about"
+    link: "/about",
   },
   {
     name: "Contact",
-    link: "/contact"
-  }
+    link: "/contact",
+  },
 ];
 
-const Nav = ({isAbsolute = false}) => {
+const Nav = ({ isAbsolute = false }) => {
   const router = useRouter();
   const [shouldHideLogo, setShouldHideLogo] = useState(() => {
-    return router.route === '/';
+    return router.route === "/";
   });
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      setShouldHideLogo(url === '/');
-    }
+      setShouldHideLogo(url === "/");
+    };
 
-    router.events.on('routeChangeComplete', handleRouteChange)
+    router.events.on("routeChangeComplete", handleRouteChange);
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
   }, []);
 
   const positionClass = isAbsolute ? "absolute" : "relative";
 
   return (
-    <nav className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav ${positionClass}`}>
+    <nav
+      className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav ${positionClass}`}
+    >
+      <input
+        type="checkbox"
+        id="menuToggle"
+        className="absolute opacity-0 lg:hidden -z-10"
+        aria-labelledby="menuToggleLabel"
+      />
 
-      <input type="checkbox" id="menuToggle" className="absolute opacity-0 lg:hidden -z-10" aria-labelledby="menuToggleLabel" />
-
-      <span className={`flex-none font-bold text-2xl lg:text-3xl ${shouldHideLogo ? 'opacity-0 pointer-events-none' : ''}`}>
+      <span
+        className={`flex-none font-bold text-2xl lg:text-3xl ${
+          shouldHideLogo ? "opacity-0 pointer-events-none" : ""
+        }`}
+      >
         <Logo asLink={true} />
       </span>
 
@@ -61,8 +71,8 @@ const Nav = ({isAbsolute = false}) => {
       </label>
 
       <div className="nav-menu-wrapper fixed w-full left-0 top-0 h-0 lg:relative lg:h-auto lg:l-0">
-
-        <div className="
+        <div
+          className="
           invisible
           nav-menu-items
           bg-gray-700
@@ -89,8 +99,10 @@ const Nav = ({isAbsolute = false}) => {
           lg:h-auto
           lg:w-auto
           lg:block
-        ">
-          <ul className="
+        "
+        >
+          <ul
+            className="
             transition-all
             flex
             flex-col
@@ -102,23 +114,21 @@ const Nav = ({isAbsolute = false}) => {
             justify-end transform
             -translate-x-full"
           >
-            {navItems.map(item => {
+            {navItems.map((item) => {
               return (
                 <li
-                className="text-6xl lg:text-xl font-bold lg:font-light text-white lg:text-gray-500 hover:text-white lg:hover:text-gray-900 lg:font-200"
-                key={item.link}
+                  className="text-6xl lg:text-xl font-bold lg:font-light text-white lg:text-gray-500 hover:text-white lg:hover:text-gray-900 lg:font-200"
+                  key={item.link}
                 >
-                  <Link href={item.link}>
-                    {item.name}
-                  </Link>
+                  <Link href={item.link}>{item.name}</Link>
                 </li>
-              )
+              );
             })}
           </ul>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
 export default Nav;

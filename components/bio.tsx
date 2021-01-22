@@ -6,16 +6,18 @@ const Bio = () => {
           data-lazy-src="/avatar.jpg"
           src={"/avatar.jpg"}
           alt=""
-          className="rounded w-20 md:w-32" />
+          className="rounded w-20 md:w-32"
+        />
       </div>
 
       <div>
         <p className="prose">
-          Alex MacArthur is a software developer working for Dave Ramsey in Nashville, TN. Soli Deo gloria.
+          Alex MacArthur is a software developer working for Dave Ramsey in
+          Nashville, TN. Soli Deo gloria.
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Bio;

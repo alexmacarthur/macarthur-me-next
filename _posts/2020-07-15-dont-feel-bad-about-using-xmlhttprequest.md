@@ -15,8 +15,8 @@ But in this very particular case, the following bits of context made me wonder i
 
 The `fetch` API is a welcomed upgrade to making HTTP requests in JavaScript, but in order to leverage it here, teams would need to rely on two different polyfills: the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) object, and the `fetch` API itself. And that would mean putting at least a little more burden on the teams who implement it, as well as the users who interact with it:
 
-* It'd require teams supporting IE to set up additional dependencies, which would involve vetting which polyfills to use (there are several for any given API), ensuring none are already being loaded by the application, and potentially working through unforseen issues.
-* Unless some sort of [differential serving](https://macarthur.me/posts/should-we-implement-differential-serving) is set up, it'd require most users to download polyfills they don't actually need ([~94%+ are on browsers](https://caniuse.com/#feat=fetch) that support `fetch`).
+- It'd require teams supporting IE to set up additional dependencies, which would involve vetting which polyfills to use (there are several for any given API), ensuring none are already being loaded by the application, and potentially working through unforseen issues.
+- Unless some sort of [differential serving](https://macarthur.me/posts/should-we-implement-differential-serving) is set up, it'd require most users to download polyfills they don't actually need ([~94%+ are on browsers](https://caniuse.com/#feat=fetch) that support `fetch`).
 
 For my simple needs, this just felt like too much, especially considering the strong culture of performance that exists throughout the organization as a whole.
 
@@ -27,18 +27,22 @@ So, I thought back to what our ancestors used to do such things: `XMLHttpRequest
 Despite that reputation, I gave it a shot wiring it up. And as it turned out, **for simple requests, most of those rumors were overblown.** After the switch, my implementation went from something like this:
 
 ```js
-try  {
-    let response = await axios.post('http://localhost:4000', {
-        name: 'Alex'
-    }, {
-        headers: {
-            'x-api-key': 'my-api-key'
-        }
-    });
+try {
+  let response = await axios.post(
+    "http://localhost:4000",
+    {
+      name: "Alex",
+    },
+    {
+      headers: {
+        "x-api-key": "my-api-key",
+      },
+    }
+  );
 
-    console.log(response.data);
+  console.log(response.data);
 } catch (e) {
-    console.log('Request failed!');
+  console.log("Request failed!");
 }
 ```
 
@@ -46,24 +50,24 @@ To something more like this:
 
 ```js
 const xhr = new XMLHttpRequest();
-xhr.open('POST', "http://localhost:4000");
-xhr.setRequestHeader('Content-Type', 'application/json');
-xhr.setRequestHeader('x-api-key', 'my-api-key');
+xhr.open("POST", "http://localhost:4000");
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader("x-api-key", "my-api-key");
 
 xhr.onload = function () {
-    if (this.status >= 200 && this.status < 400) {
-        console.log(JSON.parse(this.responseText));
-        return;
-    }
+  if (this.status >= 200 && this.status < 400) {
+    console.log(JSON.parse(this.responseText));
+    return;
+  }
 
-    console.log('Something went wrong!');
+  console.log("Something went wrong!");
 };
 
 xhr.onerror = function () {
-    console.log('Something went wrong!');
-}
+  console.log("Something went wrong!");
+};
 
-xhr.send(JSON.stringify({ name: 'Alex' }));
+xhr.send(JSON.stringify({ name: "Alex" }));
 ```
 
 That's a very similar amount of code for virtually the same functionality. **And no polyfills.**
@@ -76,10 +80,10 @@ Given all that aforementioned context, a few notable perks surfaced as a result 
 
 Being so old-school in terms of making HTTP requests, [browser support](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#Browser_compatibility) isn't even remotely a concern. By using it, teams can avoid loading those polyfills still required to use `fetch` in IE, saving about ~4kb of bundled code (assuming teams would've used these two pretty good polyfills I came across):
 
-|Polyfill|Size (minified)|Size (minified + gzipped)|
-|---|---|---|
-|[`promise-polyfill`](https://bundlephobia.com/result?p=promise-polyfill@8.1.3)|2.9kb|1.1kb|
-|[`unfetch`](https://bundlephobia.com/result?p=unfetch@4.1.0)|1kb|554b|
+| Polyfill                                                                       | Size (minified) | Size (minified + gzipped) |
+| ------------------------------------------------------------------------------ | --------------- | ------------------------- |
+| [`promise-polyfill`](https://bundlephobia.com/result?p=promise-polyfill@8.1.3) | 2.9kb           | 1.1kb                     |
+| [`unfetch`](https://bundlephobia.com/result?p=unfetch@4.1.0)                   | 1kb             | 554b                      |
 
 Those savings aren't monumental, but they shouldn't be scoffed at either, especially considering the low amount of effort on my part, and the fact that those savings will be multipled throughout several different projects.
 
@@ -115,36 +119,36 @@ Me too! But thankfully, it's easy enough to wrap an `XMLHttpRequest` implementat
 
 ```js
 const fire = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', "http://localhost:4000");
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('x-api-key', 'my-api-key');
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:4000");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("x-api-key", "my-api-key");
 
-    return new Promise((resolve, reject) => {
-        xhr.onload = function () {
-            if (this.status >= 200 && this.status < 400) {
-                return resolve(JSON.parse(this.responseText));
-            } else {
-                return reject(new Error('Something went wrong!'));
-            }
-        };
+  return new Promise((resolve, reject) => {
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        return resolve(JSON.parse(this.responseText));
+      } else {
+        return reject(new Error("Something went wrong!"));
+      }
+    };
 
-        xhr.onerror = function () {
-            return reject(new Error('Something went wrong!'));
-        }
+    xhr.onerror = function () {
+      return reject(new Error("Something went wrong!"));
+    };
 
-        xhr.send(JSON.stringify({ name: 'Alex' }));
-    });
-}
+    xhr.send(JSON.stringify({ name: "Alex" }));
+  });
+};
 ```
 
 ```js
 (async () => {
-    try {
-        console.log(await fire());
-    } catch(e) {
-        console.log(e.message);
-    }
+  try {
+    console.log(await fire());
+  } catch (e) {
+    console.log(e.message);
+  }
 })();
 ```
 

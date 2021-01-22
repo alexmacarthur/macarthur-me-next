@@ -8,8 +8,12 @@ If you've been a developer for more than 7 minutes, you've probably felt uncomfo
 When I meet scenarios like this, by default, I instantly architecting the most terrible, complicated solution that's tied to my unique context.
 
 ```css
-.page-whatever-wordpress-plugin .this-class + .that-class > h3:nth-child(3) ~ span {
-     font-weight: bold;
+.page-whatever-wordpress-plugin
+  .this-class
+  + .that-class
+  > h3:nth-child(3)
+  ~ span {
+  font-weight: bold;
 }
 ```
 
@@ -21,13 +25,15 @@ Or, as you might otherwise call it, the [:not() selector](https://developer.mozi
 
 This trick isn't new, but I'd usually seen it used to avoid selecting elements by a specific attribute _value_. For example:
 
-* Selecting all elements that don't have a `whatever-class-i-want-to-avoid` class:
+- Selecting all elements that don't have a `whatever-class-i-want-to-avoid` class:
+
 ```css
 *:not(.whatever-class-i-want-to-avoid) {
 }
 ```
 
-* Select all elements that don't have a `data-id` of 33.
+- Select all elements that don't have a `data-id` of 33.
+
 ```css
 *:not([data-id="33"]) {
 }
@@ -35,17 +41,19 @@ This trick isn't new, but I'd usually seen it used to avoid selecting elements b
 
 But this time, I don't care about what the value is. I want to know if the attribute exists on the element at all.
 
-### You can use the negation pseudo-class to (not) select only by attribute too. *crazy text*
+### You can use the negation pseudo-class to (not) select only by attribute too. _crazy text_
 
 And remember, `class` _is_ just an HTML attribute. Meaning, we can do completely permissible, non-hacky things like this:
 
-* Select all elements that have no class:
+- Select all elements that have no class:
+
 ```css
 *:not([class]) {
 }
 ```
 
-* Select elements that have a class attribute whose value is empty:
+- Select elements that have a class attribute whose value is empty:
+
 ```css
 *:not([class=""]) {
 }

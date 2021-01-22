@@ -1,7 +1,7 @@
-import '../styles/index.scss'
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { gtag, pageView} from "../lib/ga";
+import "../styles/index.scss";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { gtag, pageView } from "../lib/ga";
 
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -16,14 +16,12 @@ export default function MyApp({ Component, pageProps }) {
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-
   }, [router.events]);
 
   useEffect(() => {
-    gtag('js', new Date());
+    gtag("js", new Date());
     pageView(window.location.pathname);
   }, []);
 
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
-

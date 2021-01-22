@@ -5,8 +5,8 @@ export const randomInRange = (min, max): number => {
   max = Math.floor(max);
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 export const fullUrlFromPath = (path) => {
   return `${SITE_URL}${path}`;
-}
+};

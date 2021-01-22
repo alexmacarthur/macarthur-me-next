@@ -7,12 +7,14 @@ const MenuToggle = () => {
         return (
           <li
             key={index}
-            className={`h-1 w-12 bg-gray-700 rounded-sm transition-all menu-bar menu-bar-${index + 1}`}>
-          </li>
-        )
+            className={`h-1 w-12 bg-gray-700 rounded-sm transition-all menu-bar menu-bar-${
+              index + 1
+            }`}
+          ></li>
+        );
       })}
     </ul>
-  )
-}
+  );
+};
 
 export default MenuToggle;

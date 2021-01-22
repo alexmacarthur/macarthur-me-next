@@ -5,11 +5,11 @@ ogImage: "https://images.pexels.com/photos/8775/traffic-car-vehicle-black.jpg"
 
 It's easy to rattle off a bunch of ways you can improve the performance of your website:
 
-* minify your CSS & JS
-* optimize your images
-* cache the crap out of it
-* use a CDN
-* etc.
+- minify your CSS & JS
+- optimize your images
+- cache the crap out of it
+- use a CDN
+- etc.
 
 Those are all important, but there's also a more modern, less-discussed approach that can almost immediately earn you some serious performance points: **resource hints**. Sparing the [long, detailed explanation of what these actually are](https://www.w3.org/TR/resource-hints/), you can think of them as rules you give the browser for how and when it downloads resources needed for your website, including CSS, JS, images, fonts, and any other assets. When the browser follows these rules, your site loads and becomes interactive more quickly, causing metrics like time to interactive and perceptual speed index to improve.
 

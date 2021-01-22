@@ -1,22 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
 interface ImageProps {
-  src: string,
-  alt?: string,
-  height?: string,
-  width?: string,
-  classes?: string,
-  loadedClass?: string
+  src: string;
+  alt?: string;
+  height?: string;
+  width?: string;
+  classes?: string;
+  loadedClass?: string;
 }
 
 const createObserver = (imageElement, callback: () => any) => {
   const options = {
-    rootMargin: '100px',
-    threshold: 1.0
+    rootMargin: "100px",
+    threshold: 1.0,
   };
 
   const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         observer.unobserve(imageElement);
         callback();
@@ -26,15 +26,22 @@ const createObserver = (imageElement, callback: () => any) => {
 
   return {
     observe: () => observer.observe(imageElement),
-    kill: () => observer.observe(imageElement)
-  }
-}
+    kill: () => observer.observe(imageElement),
+  };
+};
 
-const Image = ({ src, alt = "", height = "", width = "", classes = "", loadedClass = "" }: ImageProps) => {
+const Image = ({
+  src,
+  alt = "",
+  height = "",
+  width = "",
+  classes = "",
+  loadedClass = "",
+}: ImageProps) => {
   const imageRef = useRef(null);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const computedClasses = `${classes} ${isLoaded ? loadedClass : ''}`;
+  const computedClasses = `${classes} ${isLoaded ? loadedClass : ""}`;
 
   useEffect(() => {
     const { kill, observe } = createObserver(imageRef.current, () => {
@@ -45,7 +52,7 @@ const Image = ({ src, alt = "", height = "", width = "", classes = "", loadedCla
 
     return () => {
       kill();
-    }
+    };
   }, []);
 
   return (
@@ -60,7 +67,7 @@ const Image = ({ src, alt = "", height = "", width = "", classes = "", loadedCla
         onLoad={() => setIsLoaded(true)}
       />
     </span>
-  )
-}
+  );
+};
 
 export default Image;
