@@ -40,8 +40,14 @@ const selectRange = (angle: number): Array<any> => {
   return ranges[activeRangeIndex === 3 ? 0 : activeRangeIndex + 1];
 };
 
-const Logo = ({ asLink = false }: { asLink?: boolean }): ReactElement => {
+type LogoProps = {
+  asLink?: boolean;
+  short?: boolean;
+}
+
+const Logo = ({ asLink = false, short = false }: LogoProps ): ReactElement => {
   const router = useRouter();
+  const logoText: string = short ? "AM" : "Alex MacArthur";
 
   useEffect(() => {
     let rafId: number = 0;
@@ -95,7 +101,7 @@ const Logo = ({ asLink = false }: { asLink?: boolean }): ReactElement => {
 
   const children = (
     <span className="z-30 text-gray-900 left-0 top-0 gradient-text font-extrabold">
-      Alex MacArthur
+      { logoText }
     </span>
   );
 

@@ -59,7 +59,7 @@ const Nav = ({ isAbsolute = false }) => {
           shouldHideLogo ? "opacity-0 pointer-events-none" : ""
         }`}
       >
-        <Logo asLink={true} />
+        <Logo asLink={true} short={true} />
       </span>
 
       <label
