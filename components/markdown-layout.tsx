@@ -17,8 +17,6 @@ export default function PostLayout({
   pageData,
   isPost = false,
   comments = [],
-
-
   jamCommentsApiKey = "",
   jamCommentsDomain = "",
 }: MarkdownLayoutProps) {
@@ -83,7 +81,7 @@ export default function PostLayout({
 
               <div className="mt-16">
                 <JamComments
-                  comments={comments}
+                  initialComments={comments}
                   domain={jamCommentsDomain}
                   apiKey={jamCommentsApiKey}
                 />

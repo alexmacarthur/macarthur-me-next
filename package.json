@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
-    "build": "npm run build:images && next build && next export && npm run build:sitemap",
+    "build": "npm run build:images && npm run build:repos && next build && next export && npm run build:sitemap",
     "start": "next start",
     "prettify": "prettier ./**/*.{tsx,md,js} --write",
     "build:images": "node ./_scripts/build-images.js",
-    "build:sitemap": "node ./_scripts/build-sitemap.js"
+    "build:sitemap": "node ./_scripts/build-sitemap.js",
+    "build:repos": "node ./_scripts/get-repos.js"
   },
   "dependencies": {
     "@babel/preset-env": "^7.12.11",
-    "@jam-comments/next": "0.0.3",
+    "@jam-comments/next": "0.0.4",
     "@next/bundle-analyzer": "^10.0.5",
     "@tailwindcss/typography": "^0.3.1",
     "babel-plugin-inline-react-svg": "^1.1.2",
