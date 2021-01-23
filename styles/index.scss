@@ -103,7 +103,7 @@ span {
 
 .gradient-text {
   transition: background .15s ease-in-out;
-  background: linear-gradient(var(--gradient-angle), theme('colors.gray.500') 50%, theme('colors.gray.700') 50%);
+  background: linear-gradient(var(--gradient-angle), theme('colors.gray.500') 50%, theme('colors.gray.800') 50%);
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 }
