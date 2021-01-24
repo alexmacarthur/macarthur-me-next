@@ -10,9 +10,9 @@ type TitleProps = {
 
 const Title = ({ children, date, isPost, subtitle }: TitleProps) => {
   return (
-    <div className="mt-1 lg:mt-6 mb-6 lg:mb-12">
+    <div className="mt-1 lg:mt-6 mb-4 lg:mb-12">
       <div>
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-2 gradient-text inline-block leading-none">
+        <h1 className="text-4xl md:text-6xl font-extrabold pb-2 gradient-text inline-block leading-none">
           {children}
         </h1>
 

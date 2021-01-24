@@ -1,21 +1,38 @@
-.jc-CommentBox h3 {
-  @apply mb-3;
-}
+.jc-Shell {
+  .jc-Message {
+    p {
+      color: inherit;
+    }
+  }
 
-.jc-Message {
-  p {
-    color: inherit;
+  .jc-CommentBox {
+    &-button {
+      @include button;
+    }
+
+    &-buttonWrapper {
+      @apply mt-3;
+    }
+
+    h3 {
+      @apply mb-3;
+    }
+
+    input {
+      @apply p-1.5;
+    }
+
+    input, textarea {
+      @apply text-base;
+    }
+  }
+
+  .jc-Comment {
+    @apply text-lg;
+
+    h3, label {
+      @apply text-xl;
+    }
   }
 }
 
-.jc-CommentBox-button {
-  @include button;
-}
-
-.jc-Comment {
-  @apply text-lg;
-
-  h3, label {
-    @apply text-xl;
-  }
-}

@@ -26,8 +26,8 @@ const SocialShare = ({ title, url }) => {
     <div className="mt-16">
       <hr className="divider" />
 
-      <div className="flex flex-col-reverse md:flex-row justify-between items-center pt-14 pb-0 md:space-x-6">
-        <span className="block prose">
+      <div className="flex flex-col-reverse md:flex-row justify-between items-center py-14 md:space-x-6">
+        <span className="text-center md:text-left block prose">
           Helpful, interesting, or something else positive? Share it!
         </span>
 
@@ -45,6 +45,8 @@ const SocialShare = ({ title, url }) => {
           })}
         </ul>
       </div>
+
+      <hr className="divider" />
     </div>
   );
 };

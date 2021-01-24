@@ -1,7 +1,7 @@
 const Bio = () => {
   return (
-    <div className="flex flex-col md:flex-row items-center md:space-x-6">
-      <div className="mb-3 md:mb-0">
+    <div className="flex md:flex-row md:items-center space-x-3 md:space-x-6">
+      <div className="flex-none w-14 md:w-24">
         <img
           data-lazy-src="/avatar.jpg"
           src={"/avatar.jpg"}
@@ -10,7 +10,7 @@ const Bio = () => {
         />
       </div>
 
-      <div>
+      <div className="-mt-1">
         <p className="prose">
           Alex MacArthur is a software developer working for Dave Ramsey in
           Nashville, TN. Soli Deo gloria.

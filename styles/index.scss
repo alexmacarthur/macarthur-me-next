@@ -4,9 +4,14 @@
 @mixin button {
   @apply transition-all inline-flex items-center space-x-2 px-4 py-2 rounded-md;
   @apply text-white bg-purple-400 hover:text-white hover:bg-purple-500;
+  @apply text-xl;
 
   &.naked {
     @apply bg-transparent hover:bg-transparent text-purple-400 hover:text-purple-500;
+  }
+
+  @screen md {
+    @apply text-xl;
   }
 }
 
@@ -102,6 +107,7 @@ span {
 }
 
 .gradient-text {
+  padding-bottom: 1rem;
   transition: background .15s ease-in-out;
   background: linear-gradient(var(--gradient-angle), theme('colors.gray.500') 50%, theme('colors.gray.800') 50%);
   -webkit-text-fill-color: transparent;
