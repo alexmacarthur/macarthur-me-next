@@ -115,7 +115,7 @@ Similar markup, but shaken up attributes:
 
 Clearly, my expression's main fault was its tendency to find a match way too soon, without searching the entire `img` string to know if it has `class=` or not. So, after several hours of beating my head against a screen, I ended up with this.
 
-```re
+```
 /<img((.(?!class=))*)\/?>/
 ```
 
@@ -130,7 +130,7 @@ Part | What It Matches
 `\/?`  | an optional slash closing the tag
 `>`    | a closing bracket
 
-```re
+```
 /<img(.*)\/?>/
 ```
 
@@ -140,7 +140,7 @@ Expectedly, this will match pretty much anything that has the shell of an `img` 
 
 And I know that within that shell, I'm just fine with matching anything -- UNLESS it's a class attribute. So, let's modify that inner group. Rather than matching _any_ character, let's replace that character to target any character that is _not_ followed by a class attribute.
 
-```re
+```
 /<img((.(?!class=))*)\/?>/
 ```
 

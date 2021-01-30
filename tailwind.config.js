@@ -46,13 +46,18 @@ module.exports = {
             'ol > li::before': {
               color: theme('colors.gray.700'),
             },
+            'li': {
+              marginTop: '0 !important',
+              marginBottom: '0 !important'
+            },
             code: {
               fontWeight: 'inherit',
               color: theme('colors.gray.700'),
               borderRadius: theme('border.sm'),
               padding: theme('padding.1'),
               fontFamily: "'Public Sans', sans-serif",
-              background: theme('colors.gray.200')
+              background: theme('colors.gray.200'),
+              fontSize: 'inherit !important'
             },
             'code::before': {
               content: 'none',

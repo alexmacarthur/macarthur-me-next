@@ -11,7 +11,7 @@ const pageSlugPattern = new RegExp(/(.+)(?:\.mdx?)/);
 const postCompiler = new PostCompiler(postsDirectory, postSlugPattern);
 const pageCompiler = new PostCompiler(pagesDirectory, pageSlugPattern);
 
-const PER_PAGE = 5;
+const PER_PAGE = 10;
 
 export function getContentBySlug(slug: string, contentType: ContentType) {
   const compiler = contentType === "post" ? postCompiler : pageCompiler;

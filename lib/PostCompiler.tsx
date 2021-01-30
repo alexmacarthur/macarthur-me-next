@@ -65,7 +65,7 @@ export default class PostCompiler {
   readFiles() {
     return fs
       .readdirSync(this.directory, { withFileTypes: true })
-      .filter((dirent) => dirent.isFile());
+      .filter((dirent) => dirent.isFile() && !/^\..*/.test(dirent.name));
   }
 
   readDirectories() {

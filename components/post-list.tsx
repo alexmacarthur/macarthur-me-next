@@ -6,6 +6,7 @@ const PostList = ({ posts }) => {
   return (
     <ul className="space-y-10">
       {posts.map((post) => {
+
         return (
           <li key={post.slug}>
             <article>
