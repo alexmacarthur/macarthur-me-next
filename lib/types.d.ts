@@ -7,6 +7,7 @@ interface PostData {
   ogImage?: string;
   content: string;
   excerpt?: string;
+  external?: string;
 }
 
 interface MarkdownLayoutProps {

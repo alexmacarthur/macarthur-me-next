@@ -41,7 +41,8 @@
     "sass": "^1.30.0",
     "shelljs": "^0.8.4",
     "strip-markdown": "^4.0.0",
-    "tailwind": "^4.0.0"
+    "tailwind": "^4.0.0",
+    "typeit": "^7.0.4"
   },
   "lint-staged": {
     ".{tsx,js,md}": "prettier --write"
