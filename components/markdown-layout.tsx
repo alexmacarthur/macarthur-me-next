@@ -81,7 +81,7 @@ export default function PostLayout({
 
               <div className="mt-16">
                 <JamComments
-                  initialComments={comments}
+                  comments={comments}
                   domain={jamCommentsDomain}
                   apiKey={jamCommentsApiKey}
                 />
