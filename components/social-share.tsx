@@ -28,7 +28,7 @@ const SocialShare = ({ title, url }) => {
 
       <div className="flex flex-col-reverse md:flex-row justify-between items-center py-14 md:space-x-6">
         <span className="text-center md:text-left block prose">
-          Helpful, interesting, or something else positive? Share it!
+          Did this post make you feel something? Share it!
         </span>
 
         <ul className="flex space-x-1 mb-3 md:mb-0">
