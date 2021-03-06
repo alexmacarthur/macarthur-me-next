@@ -5,10 +5,10 @@ type TitleProps = {
   children: React.ReactNode;
   date?: string;
   isPost?: boolean;
-  subtitle?: string;
+  subTitle?: string;
 };
 
-const Title = ({ children, date, isPost, subtitle }: TitleProps) => {
+const Title = ({ children, date, isPost, subTitle }: TitleProps) => {
   return (
     <div className="mt-1 lg:mt-6 mb-4 lg:mb-12">
       <div>
@@ -16,9 +16,9 @@ const Title = ({ children, date, isPost, subtitle }: TitleProps) => {
           {children}
         </h1>
 
-        {subtitle && (
-          <h2 className="font-light text-2xl italic text-gray-500">
-            {subtitle}
+        {subTitle && (
+          <h2 className="font-light text-xl italic text-gray-500 mb-2">
+            {subTitle}
           </h2>
         )}
       </div>

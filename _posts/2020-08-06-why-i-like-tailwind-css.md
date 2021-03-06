@@ -1,6 +1,6 @@
 ---
 title: Why I Like Tailwind CSS
-subtitle: And a Couple of Challenges I've Seen Too
+subTitle: And a Couple of Challenges I've Seen Too
 ogImage: "https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1200&w=1200"
 ---
 

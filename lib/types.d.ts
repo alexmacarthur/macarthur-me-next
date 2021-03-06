@@ -4,6 +4,7 @@ interface PostData {
   path: string;
   date: string;
   title: string;
+  subTitle?: string;
   ogImage?: string;
   content: string;
   excerpt?: string;

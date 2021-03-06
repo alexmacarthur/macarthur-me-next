@@ -6,7 +6,7 @@ import Head from "next/head";
 export default function PageLayout({
   children,
   title,
-  subtitle = "",
+  subTitle = "",
   open_graph = null,
 }) {
   return (
@@ -17,7 +17,7 @@ export default function PageLayout({
           {open_graph && <meta property="og:image" content={open_graph} />}
         </Head>
 
-        <Title subtitle={subtitle}>{title}</Title>
+        <Title subTitle={subTitle}>{title}</Title>
 
         {children}
       </Container>
