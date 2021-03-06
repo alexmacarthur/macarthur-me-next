@@ -24,7 +24,7 @@ const Star = (props) => {
 
 const Projects = ({ repos, specialProjects }) => {
   return (
-    <PageLayout title="Projects" subtitle="Code I Write on the Side">
+    <PageLayout title="Projects" subTitle="Code I Write on the Side">
       <div className="mb-12">
         <h2 className="text-4xl font-semibold mb-6">Some Big Ones</h2>
 
