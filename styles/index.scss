@@ -52,7 +52,6 @@ h1, h2, h3, h4, h5 {
   &:not(pre, pre *) {
     @apply text-gray-700 tracking-tight;
     font-family: 'Public Sans', sans-serif;
-    transition: all .05s ease-in-out;
   }
 }
 
