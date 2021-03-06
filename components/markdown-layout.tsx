@@ -65,7 +65,7 @@ export default function PostLayout({
 
   return (
     <Layout ref={contentRef}>
-      <Meta isPost={true} title={title} image={ogImage} description={excerpt} />
+      <Meta isPost={true} title={title} subTitle={subTitle} image={ogImage} description={excerpt} />
       <Container narrow={true}>
         {!isPost && <ContainerContent />}
 

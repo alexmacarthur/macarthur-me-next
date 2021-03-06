@@ -12,6 +12,7 @@ export default function Meta({
   isPost = false,
   description = "I'm Alex MacArthur, a web developer in Nashville-ish, TN.",
   title = "",
+  subTitle = "",
   image = "https://macarthur.me/open-graph.jpg",
 }) {
   const router = useRouter();
@@ -19,6 +20,11 @@ export default function Meta({
   const computedTitle = title
     ? `${title} // Alex MacArthur`
     : "Alex MacArthur // Web Developer in Nashville";
+
+  // Special case: if we have a subtitle, override the description.
+  if (subTitle) {
+    description = subTitle;
+  }
 
   const schemaOrgJSONLD: any[] = [
     {
