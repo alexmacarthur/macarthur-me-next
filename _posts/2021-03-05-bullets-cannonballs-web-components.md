@@ -1,7 +1,7 @@
 ---
 title: Bullets, Cannonballs, and Web Components
 subTitle: Pushing the Technological Envelope While Validating New Business Ventures
-ogImage: ''
+ogImage: https://images.unsplash.com/photo-1483494970302-fffedd90fee4?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1200&q=100
 ---
 
 In his book *Great by Choice*, Jim Collins describes how launching new initiatives is best done by first firing [bullets, then cannonballs](https://www.jimcollins.com/concepts/fire-bullets-then-cannonballs.html). That is, performing small, inexpensive experiments helps companies "calibrate their line of sight," increasing the chance of success when the more substantial cannonballs are finally launched.
