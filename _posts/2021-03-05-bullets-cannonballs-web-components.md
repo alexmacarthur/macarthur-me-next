@@ -1,6 +1,6 @@
 ---
 title: Bullets, Cannonballs, and Web Components
-subTitle: Pushing the Technological Envelope While Validating New Business Ventures
+subTitle: Guidelines for Pushing the Technological Envelope While Validating New Business Ventures
 ogImage: https://images.unsplash.com/photo-1483494970302-fffedd90fee4?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1200&q=100
 ---
 
@@ -30,7 +30,7 @@ But this wasn't day-to-day work, which meant we could take a fresh approach to v
 
 ## Guidelines for Trying Vetting Tech While Shooting Bullets
 
-With the foundation for how we had been assessing technology shifting under our feat, it changed the tone of our feedback component discussion. And in doing so, some general criteria seemed to emerge for determining whether it made sense to experiment with this modern solution while still shooting bullets for our bigger initiative.
+With the foundation for how we had been assessing technology shifting under our feet, it changed the tone of our feedback component discussion. And in doing so, some general criteria seemed to emerge for determining whether it made sense to experiment with this modern solution while still shooting bullets for our bigger initiative.
 
 When reading through these, keep this in mind: these are the result of me reviewing our decision-making process in hindsight, and in the scope of our team's particular project. They aren't intended to be exhaustive, and certainly not set in stone. Here they are:
 
