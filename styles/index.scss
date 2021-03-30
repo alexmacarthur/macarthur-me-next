@@ -2,16 +2,13 @@
 @import "~tailwindcss/base";
 
 @mixin button {
-  @apply transition-all inline-flex items-center space-x-2 px-4 py-2 rounded-md;
-  @apply text-white bg-purple-400 hover:text-white hover:bg-purple-500;
-  @apply text-xl;
+  @apply transition-all inline-flex items-center space-x-2 px-3 py-1 rounded-sm;
+  @apply text-white bg-none hover:text-white hover:bg-purple-500;
+  @apply border-2 border-purple-500 border-solid text-purple-500;
+  @apply text-lg font-normal;
 
   &.naked {
     @apply bg-transparent hover:bg-transparent text-purple-400 hover:text-purple-500;
-  }
-
-  @screen md {
-    @apply text-xl;
   }
 }
 
