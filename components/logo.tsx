@@ -100,7 +100,7 @@ const Logo = ({ asLink = false, short = false }: LogoProps ): ReactElement => {
   }, []);
 
   const children = (
-    <span className="z-30 text-gray-900 left-0 top-0 gradient-text font-extrabold">
+    <span className="block z-30 text-gray-900 left-0 top-0 gradient-text font-extrabold">
       { logoText }
     </span>
   );
