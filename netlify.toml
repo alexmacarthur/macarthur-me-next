@@ -40,4 +40,8 @@
   from = "/posts/blog-for-your-own-sake"
   to = "https://www.ramseyinhouse.com/blog/as-an-engineer-write"
   status = 301
-
+  
+[[redirects]]
+  from = "/repo/*"
+  to = "https://github.com/alexmacarthur/:splat"
+  status = 302
