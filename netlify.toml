@@ -42,6 +42,11 @@
   status = 301
   
 [[redirects]]
-  from = "/repo/*"
+  from = "/r/*"
   to = "https://github.com/alexmacarthur/:splat"
   status = 302
+  
+[[redirects]]
+  from = "/jh"
+  to = "https://www.gofundme.com/f/support-the-lindstrom-family-until-jonathans-home"
+  status = "302"
