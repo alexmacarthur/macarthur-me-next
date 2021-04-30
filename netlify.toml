@@ -49,4 +49,4 @@
 [[redirects]]
   from = "/jh"
   to = "https://www.gofundme.com/f/support-the-lindstrom-family-until-jonathans-home"
-  status = "302"
+  status = 302
