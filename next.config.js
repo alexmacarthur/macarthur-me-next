@@ -13,4 +13,7 @@ module.exports = withPlugins(
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
       return config
     },
+    future: {
+      webpack5: true,
+    }
   });

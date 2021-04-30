@@ -154,7 +154,7 @@ span {
         }
       }
 
-      & ~ .nav-menu-label .menu-bar {
+      & ~ .nav-menu-wrapper .nav-menu-label .menu-bar {
         @apply bg-white;
 
         &-1 {

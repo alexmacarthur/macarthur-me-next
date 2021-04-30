@@ -2,7 +2,7 @@ import Container from "./container";
 
 export default function Footer() {
   return (
-    <footer className="mt-16 pb-6 pt-0 px-6">
+    <footer className="mt-16 pb-6 pt-0 px-6 px-0">
       <hr className="divider divider--wide" />
       <Container classes="text-center pt-6">
         <span className="text-base">

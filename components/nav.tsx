@@ -62,15 +62,19 @@ const Nav = ({ isAbsolute = false }) => {
         <Logo asLink={true} short={true} />
       </span>
 
-      <label
-        className="cursor-pointer relative z-20 lg:hidden nav-menu-label"
-        htmlFor="menuToggle"
-        id="menuToggleLabel"
-      >
-        <MenuToggle />
-      </label>
-
       <div className="nav-menu-wrapper fixed w-full left-0 top-0 h-0 lg:relative lg:h-auto lg:l-0">
+
+        <label
+          className="cursor-pointer relative z-20 lg:hidden nav-menu-label absolute right-3"
+          htmlFor="menuToggle"
+          style={{
+            top: "2.25rem"
+          }}
+          id="menuToggleLabel"
+        >
+          <MenuToggle />
+        </label>
+
         <div
           className="
           invisible
@@ -85,7 +89,6 @@ const Nav = ({ isAbsolute = false }) => {
           flex
           flex-col
           justify-center
-          bg-white
           h-screen
           w-screen
           -z-10

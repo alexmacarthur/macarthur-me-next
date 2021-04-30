@@ -9,11 +9,11 @@ type ContainerProps = {
 export default function Container({
   children,
   narrow = false,
-  classes = "",
+  classes = "px-0",
 }: ContainerProps) {
   return (
     <div
-      className={`mx-auto px-0 md:px-5 text-xl ${
+      className={`mx-auto md:px-5 text-xl ${
         narrow ? "max-w-prose" : "max-w-6xl"
       } ${classes}`}
     >
