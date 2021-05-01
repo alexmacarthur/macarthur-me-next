@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.12.11",
-    "@jam-comments/next": "^0.0.13",
+    "@jam-comments/next": "^0.0.14",
     "@next/bundle-analyzer": "^10.0.5",
     "@tailwindcss/jit": "^0.1.17",
     "@tailwindcss/typography": "^0.3.1",
