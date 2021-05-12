@@ -132,6 +132,7 @@ span {
   // Do not make heading anchor links fancy.
   h2, h3, h4, h5, h5 {
     a {
+      @apply text-gray-700;
       box-shadow: none;
       padding: 0;
 
