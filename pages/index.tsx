@@ -13,7 +13,7 @@ export default function Index() {
       <div className="min-h-screen">
         <main className="h-screen w-screen flex items-center justify-center p-6">
           <div className="text-white">
-            <h1 className="font-semibold leading-none text-5xl md:text-7xl text-gray-900 mb-2">
+            <h1 className="font-semibold leading-none text-5xl md:text-7xl text-gray-900">
               <Logo />
             </h1>
             <span className="md:pl-0 text-xl md:text-2xl leading-tight md:leading-10 inline-block text-gray-500 font-light mb-4">
