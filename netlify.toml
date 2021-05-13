@@ -50,3 +50,8 @@
   from = "/jh"
   to = "https://www.gofundme.com/f/support-the-lindstrom-family-until-jonathans-home"
   status = 302
+  
+[[redirects]]
+  from = "/posts/blog-for-your-own-sake"
+  to = "https://www.ramseyinhouse.com/blog/as-an-engineer-write"
+  status = 301
