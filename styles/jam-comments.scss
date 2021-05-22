@@ -28,7 +28,11 @@
   }
 
   .jc-Comment {
-    @apply text-lg;
+    @apply text-base;
+
+    @screen sm {
+      @apply text-lg;
+    }
 
     h3, label {
       @apply text-xl;

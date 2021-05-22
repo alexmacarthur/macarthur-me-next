@@ -74,6 +74,9 @@ module.exports = {
             },
             '.property-access': {
               color: 'white'
+            },
+            ':not(pre) > code[class*="language-"], pre[class*="language-"]': {
+              background: '#1f2937 !important'
             }
           },
         }
