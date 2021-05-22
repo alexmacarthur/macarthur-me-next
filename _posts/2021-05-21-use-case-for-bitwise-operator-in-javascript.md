@@ -63,21 +63,21 @@ In my particular case, this sort of operator's usefulness didn't have much to do
 In [slide-element](https://github.com/alexmacarthur/slide-element), I return a Promise after a sliding animation is complete for an element. That animation is powered by a CSS transition, so knowing when to `resolve()` that Promise requires listening for both the `transitionend` and `transitioncancel` events. The former fires whenever an animation is allowed to fully complete (or "end"), and the latter fires whenever it's stopped before completion (or "cancelled"). To attach those listeners, I store them in an array and loop over `addEventListener`, resolving my Promise when an animation is finished.
 
 ```js
-// ... within the context of a Promise waiting to resolve.
+new Promise((resolve) => {
+  const events = ["transitionend", "transitioncancel"];
 
-const events = ["transitionend", "transitioncancel"];
-
-events.forEach((event, index) => {
-  box.addEventListener(event, (e) => {
-    // Animation is done... whether it's completed or cancelled.
-    resolve();
-  }, { once: true });
-});
+  events.forEach((event, index) => {
+    box.addEventListener(event, (e) => {
+      // Animation is done... whether it's completed or cancelled.
+      resolve();
+    }, { once: true });
+  });
+}
 ```
 
 ## Cleaning Up Unneeded Event Listeners
 
-Attaching the listeners is straightforward enough. Where things get a little more complicated is the cleanup. After an animation is finished, I don't want to let old listeners hang around to potentially cause unexpected behavior or performance bottlenecks.
+Attaching the listeners and resolving the Promise is straightforward enough. Where things get a little more complicated is the cleanup. After an animation is finished, I don't want to let old listeners hang around to potentially cause unexpected behavior or performance bottlenecks.
 
 One thing that helps is setting `{ once: true }` on each event listener I set up. This causes the listener to detach itself after firing, removing the need for me to do it. But the _other_ event listener is left to fend for itself. I went through a couple of approaches to handle this.
 
@@ -86,25 +86,22 @@ One thing that helps is setting `{ once: true }` on each event listener I set up
 This option entailed storing my callback as a variable, and then looping over the events whenever one of them is triggered to fire `removeEventListener`, referencing that same callback in memory.
 
 ```js
-// ... within the context of a Promise waiting to resolve.
+new Promise((resolve) => {
+  const events = ["transitionend", "transitioncancel"];
 
-const events = ["transitionend", "transitioncancel"];
-
-const removeEventListeners = (callback) => {
-  events.forEach(event => {
-    event.removeEventListener(event, callback);
-  });
-}
-
-events.forEach((event, index) => {
   const callback = (e) => {
     // Whenever one of the events fires, remove all listeners.
-    removeEventListeners(callback);
+    events.forEach(event => {
+      event.removeEventListener(event, callback);
+    });
+
     resolve();
   }
 
-  box.addEventListener(event, callback);
-});
+  events.forEach((event, index) => {
+    box.addEventListener(event, callback);
+  });
+};
 ```
 
 This approach worked, but it's a little convoluted, and felt like too much code to do a simple task. As a result, I moved to another tactic that didn't involve `removeEventListener()` at all.
@@ -116,18 +113,20 @@ This method involves "faking" the event by dispatching a `TransitionEvent` insta
 The key piece here is accessing the _other_ event type based on the one that just fired. Conveniently, I was working with an array that had exactly two items, **whose indices would always be binary**, truthy/falsey values (I'd like there to be a term for such an array, but I can't seem to find one). So, I could do something like this:
 
 ```js
-const events = ["transitionend", "transitioncancel"];
+new Promise((resolve) => {
+  const events = ["transitionend", "transitioncancel"];
 
-events.forEach((event, index) => {
-  box.addEventListener(event, (e) => {
-    box.dispatchEvent(
-      // Trigger the OTHER event listener, in order to remove it.
-      new TransitionEvent(EVENTS[index ? 1 : 0])
-    );
+  events.forEach((event, index) => {
+    box.addEventListener(event, (e) => {
+      box.dispatchEvent(
+        // Trigger the OTHER event listener, in order to remove it.
+        new TransitionEvent(EVENTS[index ? 1 : 0])
+      );
 
-    resolve();
-  }, { once: true });
-});
+      resolve();
+    }, { once: true });
+  });
+}
 ```
 
 But on my byte-shaving crusade, that made my gut twist a bit (lol). If it's a binary value I'm trying to access, I shouldn't need to rely on a ternary to explicitly return either a `1` or a `0`. Thankfully, this is just the sort of low-level calculation bitwise operators are well-suited for. All I was interested in was the _opposite_ boolean value, **making the XOR operator the perfect choice.**
@@ -151,19 +150,21 @@ console.log(items[index ^ 1]);
 Knowing this, I could make a subtle change to my event handling snippet:
 
 ```diff
-const events = ["transitionend", "transitioncancel"];
+new Promise((resolve) => {
+  const events = ["transitionend", "transitioncancel"];
 
-events.forEach((event, index) => {
-  box.addEventListener(event, (e) => {
-    box.dispatchEvent(
-      // Trigger the OTHER event listener, in order to remove it.
--     new TransitionEvent(EVENTS[index ? 1 : 0])
-+     new TransitionEvent(EVENTS[index ^ 1])
-    );
+  events.forEach((event, index) => {
+    box.addEventListener(event, (e) => {
+      box.dispatchEvent(
+        // Trigger the OTHER event listener, in order to remove it.
+-       new TransitionEvent(EVENTS[index ? 1 : 0])
++       new TransitionEvent(EVENTS[index ^ 1])
+      );
 
-    resolve();
-  }, { once: true });
-});
+      resolve();
+    }, { once: true });
+  });
+}
 ```
 
 If you're doing the math as you follow along, that change gives me a savings of **four whole characters,** and a fresh understanding of how bitwise operators actually work!
