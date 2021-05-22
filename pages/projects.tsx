@@ -122,7 +122,7 @@ export default Projects;
 
 /**
  * Criteria:
- * - has a commit within the last 12 months
+ * - has a commit within the last 24 months
  * - has a tag
  */
 export async function getStaticProps() {
