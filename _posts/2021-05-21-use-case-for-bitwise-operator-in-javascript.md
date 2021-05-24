@@ -4,7 +4,7 @@ ogImage: >-
   https://images.unsplash.com/photo-1569338270981-4159a7818c13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=100
 ---
 
-There's a certain number of JavaScript APIs that I've never really used and find highly intimidating. Bitwise operators are among them.
+There's a certain number of JavaScript features or APIs that I've never really used and find highly intimidating. Bitwise operators are among them.
 
 These operators exist for manipulating binary representations of data, and for the type of work I usually do, I've never met a scenario when I've needed to dive into nitty-gritty bit handling. As far as I imagined, they'd only be useful to NASA engineers writing their newest rover's operating system, or something else super cerebral.
 
@@ -22,7 +22,7 @@ The data used in the applications we build are represented by multiple bits -- 1
 11110 // 30
 ```
 
-JavaScript's bitwise operators allow us to perform logical operations on the individual, corresponding bits of two values, which results in a new binary sequence. Several operators exist -- AND, OR, XOR, and more -- all of which compare bits in a different way.
+JavaScript's bitwise operators allow us to perform operations on the individual, corresponding bits of two values, which results in a new binary sequence. Several operators exist -- AND, OR, XOR, and more -- all of which compare bits in a different way.
 
 Let's use the bitwise AND (&) operator to illustrate. This operator will spit out a `1` when the bits in a certain positioned are both `1`. So, if we wanted to know the result of a bitwise AND operation between `20` and `30` in JavaScript, we might write something like this:
 
