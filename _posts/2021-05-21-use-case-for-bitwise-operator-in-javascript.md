@@ -4,7 +4,7 @@ ogImage: >-
   https://images.unsplash.com/photo-1569338270981-4159a7818c13?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=100
 ---
 
-There's a certain number of JavaScript features or APIs that I've never really used and find highly intimidating. Bitwise operators are among them.
+There's a certain number of JavaScript features that I've never really used and find highly intimidating. Bitwise operators are among them.
 
 These operators exist for manipulating binary representations of data, and for the type of work I usually do, I've never met a scenario when I've needed to dive into nitty-gritty bit handling. As far as I imagined, they'd only be useful to NASA engineers writing their newest rover's operating system, or something else super cerebral.
 
