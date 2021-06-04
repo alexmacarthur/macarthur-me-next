@@ -1,4 +1,4 @@
-type ContentType = 'page' | 'post';
+type ContentType = "page" | "post";
 interface PostData {
   slug: string;
   path: string;

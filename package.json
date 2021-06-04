@@ -6,7 +6,7 @@
     "build": "npm run build:images && npm run build:repos && next build && next export && npm run build:sitemap",
     "start": "next start",
     "start:functions": "NODE_ENV=development netlify functions:serve",
-    "prettify": "prettier ./**/*.{tsx,js} --write",
+    "prettify": "prettier ./**/*.{tsx,js,ts} --write",
     "build:images": "node ./_scripts/build-images.js",
     "build:sitemap": "node ./_scripts/build-sitemap.js",
     "build:repos": "node ./_scripts/get-repos.js"
