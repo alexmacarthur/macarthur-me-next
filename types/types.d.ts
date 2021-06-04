@@ -30,3 +30,9 @@ interface PostListLayoutProps {
   currentPage: number;
   totalPages: number;
 }
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    "feedback-component": any;
+  }
+}
