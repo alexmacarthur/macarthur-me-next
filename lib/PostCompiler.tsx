@@ -114,7 +114,7 @@ export default class PostCompiler {
       title: data.title,
       subTitle: data.subTitle || "",
       ogImage: data.ogImage || "",
-      external: data.external || ""
-    }
+      external: data.external || "",
+    };
   }
 }

@@ -43,9 +43,9 @@ const selectRange = (angle: number): Array<any> => {
 type LogoProps = {
   asLink?: boolean;
   short?: boolean;
-}
+};
 
-const Logo = ({ asLink = false, short = false }: LogoProps ): ReactElement => {
+const Logo = ({ asLink = false, short = false }: LogoProps): ReactElement => {
   const router = useRouter();
   const logoText: string = short ? "AM" : "Alex MacArthur";
 
@@ -101,7 +101,7 @@ const Logo = ({ asLink = false, short = false }: LogoProps ): ReactElement => {
 
   const children = (
     <span className="block z-30 text-gray-900 left-0 top-0 gradient-text font-extrabold p-0">
-      { logoText }
+      {logoText}
     </span>
   );
 
