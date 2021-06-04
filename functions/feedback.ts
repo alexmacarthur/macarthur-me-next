@@ -31,7 +31,7 @@ const handler: Handler = async (event) => {
   await supabase
     .from<definitions["interactions"]>('interactions')
     .insert([
-      { slug, value }
+      { slug, value, environment: process.env.NODE_ENV }
     ]);
 
   const feedbackType = value ? 'POSITIVE' : 'NEGATIVE';
