@@ -121,6 +121,7 @@ export interface definitions {
     slug: string;
     created_at: string;
     value: boolean;
+    environment: string;
   };
 }
 
