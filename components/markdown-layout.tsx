@@ -12,6 +12,7 @@ import { fullUrlFromPath } from "../lib/utils";
 import { JamComments } from "@jam-comments/next";
 
 import "prismjs/themes/prism-okaidia.css";
+import Feedback from "./feedback";
 
 export default function PostLayout({
   pageData,
@@ -65,7 +66,13 @@ export default function PostLayout({
 
   return (
     <Layout ref={contentRef}>
-      <Meta isPost={true} title={title} subTitle={subTitle} image={ogImage} description={excerpt} />
+      <Meta
+        isPost={true}
+        title={title}
+        subTitle={subTitle}
+        image={ogImage}
+        description={excerpt}
+      />
       <Container narrow={true}>
         {!isPost && <ContainerContent />}
 
@@ -76,8 +83,9 @@ export default function PostLayout({
             </article>
 
             <div className="max-w-xl mx-auto">
+              <Feedback url={fullUrlFromPath(router.asPath)} />
+
               <Bio />
-              <SocialShare title={title} url={fullUrlFromPath(router.asPath)} />
 
               <div className="mt-16">
                 <JamComments

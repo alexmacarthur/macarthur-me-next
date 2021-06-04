@@ -6,6 +6,8 @@ import { gtag, pageView } from "../lib/ga";
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
+  useEffect(() => require("@ramseyinhouse/feedback-component"), []);
+
   useEffect(() => {
     const handleRouteChange = (url) => {
       pageView(url);

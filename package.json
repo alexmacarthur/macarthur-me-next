@@ -5,8 +5,8 @@
     "dev": "next",
     "build": "npm run build:images && npm run build:repos && next build && next export && npm run build:sitemap",
     "start": "next start",
-    "start:functions": "netlify functions:serve",
-    "prettify": "prettier ./**/*.{tsx,md,js} --write",
+    "start:functions": "NODE_ENV=development netlify functions:serve",
+    "prettify": "prettier ./**/*.{tsx,js} --write",
     "build:images": "node ./_scripts/build-images.js",
     "build:sitemap": "node ./_scripts/build-sitemap.js",
     "build:repos": "node ./_scripts/get-repos.js"
@@ -14,7 +14,11 @@
   "dependencies": {
     "@babel/preset-env": "^7.12.11",
     "@jam-comments/next": "^0.0.18",
+    "@netlify/functions": "^0.7.2",
     "@next/bundle-analyzer": "^10.0.5",
+    "@ramseyinhouse/feedback-component": "^1.0.0",
+    "@sendgrid/mail": "^7.4.4",
+    "@supabase/supabase-js": "^1.13.1",
     "@tailwindcss/jit": "^0.1.18",
     "@tailwindcss/typography": "^0.4.0",
     "autoprefixer": "^10.2.5",
