@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.12.11",
-    "@jam-comments/next": "^0.0.18",
+    "@jam-comments/next": "^0.0.19",
     "@netlify/functions": "^0.7.2",
     "@next/bundle-analyzer": "^10.0.5",
     "@ramseyinhouse/feedback-component": "^1.0.0",
