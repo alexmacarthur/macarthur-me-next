@@ -112,6 +112,7 @@ export default class PostCompiler {
       content: processMarkdown(content, slug),
       excerpt,
       title: data.title,
+      lastUpdated: data.lastUpdated || "",
       subTitle: data.subTitle || "",
       ogImage: data.ogImage || "",
       external: data.external || "",

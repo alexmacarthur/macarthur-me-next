@@ -6,9 +6,10 @@ type TitleProps = {
   date?: string;
   isPost?: boolean;
   subTitle?: string;
+  lastUpdated?: string;
 };
 
-const Title = ({ children, date, isPost, subTitle }: TitleProps) => {
+const Title = ({ children, date, isPost, subTitle, lastUpdated }: TitleProps) => {
   return (
     <div className="mt-1 lg:mt-6 mb-4 lg:mb-12">
       <div>
@@ -39,7 +40,14 @@ const Title = ({ children, date, isPost, subTitle }: TitleProps) => {
         </span>
       )}
 
-      {date && <DateFormatter dateString={date} />}
+      {date && <DateFormatter dateString={date} className="mr-4" />}
+
+      {lastUpdated &&
+        <span className="font-normal text-base text-gray-500">
+          Last Updated on {" "}
+          <DateFormatter dateString={lastUpdated} />
+        </span>
+      }
     </div>
   );
 };
