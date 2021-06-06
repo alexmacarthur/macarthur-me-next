@@ -1,17 +1,18 @@
 ---
 title: Let's Stop Making it Cool to Hate jQuery
-ogImage: "https://images.pexels.com/photos/249798/pexels-photo-249798.png?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb"
+lastUpdated: "2021-06-06"
+ogImage: "https://images.pexels.com/photos/5669602/pexels-photo-5669602.jpeg?auto=compress&cs=tinysrgb&dpr=3&w=1200"
 ---
 
-When I started web development, beginning a new project often felt like drowning and then being asked to write JavaScript that worked. At the time, all I needed to do was perform some DOM stuff: make an element disappear on a click, add some classes, animate a dropdown. For all of these tasks, jQuery provided functionality that was simple to implement, reliable across browsers, and most important at the time, easy for me to understand what the heck was going on.
+When I started in the web development industry, beginning a new project often felt like drowning and then being asked to write JavaScript that worked. At the time, all I needed to do was perform some DOM stuff: make an element disappear on a click, add some classes, animate a dropdown. For all of these tasks, jQuery provided functionality that was simple to implement, reliable across browsers, and most important at the time, easy for me to understand what the heck was going on.
 
-Since then, the native JavaScript API has improved, browsers have stepped up their game, and educational resources have become even more accessible. As a result, dependence on jQuery has expectedly decreased. But along with that, it's also become very cool to hate it with a passionate, fiery rage.
+Since then, native JavaScript APIs and features have matured, browsers have stepped up their game, and educational resources have become even more accessible. As a result, dependence on jQuery has expectedly decreased. But along with that, it's also become very cool to hate it with a passionate, fiery rage.
 
-I'll never say that you _can't_ hate jQuery, but you do need to have a legitimate reason you can articulate, because the case to give the library the reverence it deserves is pretty solid, and the case that we should quickly run from it because "😠😠😠JQUERY😠😠😠" is weak and based on some concerns that I think are largely exaggerated.
+I won't say that you _can't_ hate jQuery, but you do need to have a legitimate reason that you can articulate, because the case to give the library the reverence it deserves is pretty solid, and the case that we should quickly run from it because "it's jQuery" is weak and based on some concerns that I think are largely exaggerated.
 
 ### jQuery helped make the web -- and you -- what they are today.
 
-Because of how undisputed it is, we don't even need to spend much time discussing the technical problems jQuery helped solve when it was introduced -- the inconsistent browser support of JavaScript features, the lacking or convoluted JS API, and other challenges. The fact that jQuery made development a heck of a lot faster and easier isn't questioned. And for that, it deserves respect, as well as for the impact it had on the evolution and adoption of the language leading up until today.
+Because of how undisputed it is, we don't even need to spend much time discussing the technical problems jQuery helped solve when it was introduced -- the inconsistent browser support of JavaScript features, the lacking or convoluted JavaScript APIs, and other challenges. The fact that jQuery made development a heck of a lot faster and easier isn't questioned. And for that, it deserves respect, as well as for the impact it had on the evolution and adoption of the language leading up until today.
 
 On top of that, there's a good chance it also left a mark on who you are as a developer. Especially if you consider yourself to be self-taught, the authors of jQuery helped make entry into and competency within this field a little more seamless. In fact, if it weren't for the smoother learning curve jQuery provided, some developers might have thrown in the towel altogether.
 
