@@ -102,6 +102,10 @@ span {
   --gradient-angle: 0deg;
 }
 
+.light-text {
+  @apply font-normal text-base text-gray-500;
+}
+
 .gradient-text {
   padding-bottom: 1rem;
   transition: background .15s ease-in-out;

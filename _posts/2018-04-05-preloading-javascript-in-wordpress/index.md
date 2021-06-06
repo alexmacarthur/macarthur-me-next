@@ -1,6 +1,6 @@
 ---
 title: Preloading JavaScript Assets in WordPress
-last_updated: "2020-05-18"
+lastUpdated: "2020-05-18"
 ogImage: "https://images.pexels.com/photos/8775/traffic-car-vehicle-black.jpg"
 ---
 

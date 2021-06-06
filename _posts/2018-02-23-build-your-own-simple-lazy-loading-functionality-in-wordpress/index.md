@@ -1,6 +1,6 @@
 ---
 title: Build Your Own Simple Lazy Loading Functionality in WordPress
-last_updated: "2020-09-08"
+lastUpdated: "2020-09-08"
 ogImage: "https://images.pexels.com/photos/196655/pexels-photo-196655.jpeg"
 ---
 
