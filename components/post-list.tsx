@@ -21,10 +21,25 @@ const PostList = ({ posts }) => {
                 </Link>
               </h2>
 
+              {post.lastUpdated &&
+                <>
+                  <DateFormatter
+                    dateString={post.lastUpdated}
+                    className="inline-block mb-3"
+                  >
+                    Updated on
+                  </DateFormatter>
+
+                  <span className="light-text px-2">/</span>
+                </>
+              }
+
               <DateFormatter
                 dateString={post.date}
                 className="inline-block mb-3"
-              />
+              >
+                {post.lastUpdated && "Originally posted on" }
+              </DateFormatter>
 
               <small className="block text-gray-500 mb-2">{post.excerpt}</small>
 

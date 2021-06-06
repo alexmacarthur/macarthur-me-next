@@ -9,6 +9,7 @@ interface PostData {
   content: string;
   excerpt?: string;
   external?: string;
+  lastUpdated?: string;
 }
 
 interface MarkdownLayoutProps {
