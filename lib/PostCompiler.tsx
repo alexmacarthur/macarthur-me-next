@@ -86,8 +86,8 @@ export default class PostCompiler {
 
   sortByDate(posts: PostData[]): PostData[] {
     return posts.sort((p1, p2) => {
-      const date1 = new Date(p1.lastUpdated || p1.date);
-      const date2 = new Date(p2.lastUpdated || p2.date);
+      const date1 = new Date(p1.date);
+      const date2 = new Date(p2.date);
 
       if (date2.getTime() === date1.getTime()) {
         return 0;
