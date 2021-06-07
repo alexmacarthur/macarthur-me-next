@@ -35,7 +35,7 @@ const Feedback = ({ url }: { url: string }) => {
       <div className="flex flex-col md:flex-row justify-center items-center py-14 md:space-x-6">
         <span className="text-center md:text-left block prose">
           <feedback-component data-slug={slug}>
-            <span slot="cta">Was this post helpful?</span>
+            <span slot="cta">Was this post helpful or interesting?</span>
             <span slot="confirmation">Thanks for the feedback!</span>
           </feedback-component>
         </span>
