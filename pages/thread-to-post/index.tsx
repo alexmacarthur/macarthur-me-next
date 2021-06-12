@@ -38,7 +38,7 @@ const ThreadToBlogPost = () => {
       })
     });
 
-    router.push(`/thread-to-blog-post/${id}`);
+    router.push(`/thread-to-post/${id}`);
   }
 
   return (
