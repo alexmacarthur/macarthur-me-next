@@ -9,16 +9,13 @@ const Feedback = ({ url }: { url: string }) => {
         detail: { value },
       } = e;
 
-      fetch(
-        `${process.env.NEXT_PUBLIC_FUNCTIONS_DOMAIN}/.netlify/functions/feedback`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ slug, value }),
-        }
-      );
+      fetch(`/api/feedback`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slug, value }),
+      });
     };
 
     document.addEventListener("feedback:interaction", handleFeedback);
@@ -35,7 +32,7 @@ const Feedback = ({ url }: { url: string }) => {
       <div className="flex flex-col md:flex-row justify-center items-center py-14 md:space-x-6">
         <span className="text-center md:text-left block prose">
           <feedback-component data-slug={slug}>
-            <span slot="cta">Was this post helpful or interesting?</span>
+            <span slot="cta">Was this post helpful?</span>
             <span slot="confirmation">Thanks for the feedback!</span>
           </feedback-component>
         </span>

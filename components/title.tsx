@@ -3,18 +3,26 @@ import Button from "./button";
 
 type TitleProps = {
   children: React.ReactNode;
-  date?: string;
+  date?: string | Date;
   isPost?: boolean;
   subTitle?: string;
   lastUpdated?: string;
+  secondaryMeta?: Function;
 };
 
-const Title = ({ children, date, isPost, subTitle, lastUpdated }: TitleProps) => {
+const Title = ({
+  children,
+  date,
+  isPost,
+  subTitle,
+  lastUpdated,
+  secondaryMeta,
+}: TitleProps) => {
   return (
     <div className="mt-1 lg:mt-6 mb-4 lg:mb-12">
       <div>
         {isPost && (
-          <span className="inline-block mb-3 mr-4 text-base">
+          <span className="block mb-3 mr-4 text-base">
             <Button
               href="/posts"
               internal={true}
@@ -25,7 +33,7 @@ const Title = ({ children, date, isPost, subTitle, lastUpdated }: TitleProps) =>
               inheritColor={true}
             >
               Back to Posts
-          </Button>
+            </Button>
           </span>
         )}
 
@@ -40,20 +48,25 @@ const Title = ({ children, date, isPost, subTitle, lastUpdated }: TitleProps) =>
         )}
       </div>
 
-      {lastUpdated &&
-        <>
-          <DateFormatter dateString={lastUpdated}>
-            Updated on {" "}
-          </DateFormatter>
+      <div className="flex justify-between items-center">
+        <div>
+          {lastUpdated && (
+            <>
+              <DateFormatter date={lastUpdated}>Updated on </DateFormatter>
 
-          <span className="light-text px-2">/</span>
-        </>
-      }
+              <span className="light-text px-2">/</span>
+            </>
+          )}
 
-      {date && <DateFormatter dateString={date} className="mr-4">
-        {lastUpdated && "Originally posted on"}
-      </DateFormatter>
-      }
+          {date && (
+            <DateFormatter date={date} className="mr-4">
+              {lastUpdated && "Originally posted on"}
+            </DateFormatter>
+          )}
+        </div>
+
+        {secondaryMeta && secondaryMeta()}
+      </div>
     </div>
   );
 };

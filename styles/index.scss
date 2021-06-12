@@ -106,6 +106,38 @@ span {
   @apply font-normal text-base text-gray-500;
 }
 
+.hoverable-block {
+  &-container {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @screen md {
+      width: calc(100% + 4rem);
+    }
+  }
+
+  .post-content {
+    width: calc(100% - 2rem);
+
+    @screen md {
+      width: calc(100% - 4rem);
+    }
+  }
+
+  &:hover {
+    a {
+      opacity: 1;
+    }
+  }
+
+  &-container {
+    &:hover {
+      @apply bg-gray-100;
+    }
+  }
+}
+
 .gradient-text {
   padding-bottom: 1rem;
   transition: background .15s ease-in-out;
@@ -181,6 +213,10 @@ span {
 form {
   input, textarea {
     @apply border border-gray-300 rounded-sm w-full px-2 py-2 text-base;
+  }
+
+  label {
+    @apply mb-2 inline-block;
   }
 }
 

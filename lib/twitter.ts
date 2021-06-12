@@ -1,0 +1,196 @@
+import dotenv from "dotenv";
+import { formatISO, addDays } from "date-fns";
+import { createClient } from "@supabase/supabase-js";
+import { definitions } from "../types/supabase";
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
+dotenv.config();
+
+type Tweet = {
+  text: string;
+  id: string;
+  created_at?: string;
+  author_id?: string;
+  reply_settings?: string;
+  conversation_id?: string;
+  user?: {
+    id: string;
+    name: string;
+    username: string;
+  };
+};
+
+type Thread = {
+  name: string;
+  handle: string;
+  date: string;
+  tweets: Tweet[];
+};
+
+const getTweet = async (id: string): Promise<Tweet | null> => {
+  const params = new URLSearchParams({
+    expansions: "referenced_tweets.id.author_id",
+    "tweet.fields": "created_at",
+    "user.fields": "username",
+  }).toString();
+
+  const response = await fetch(
+    `https://api.twitter.com/2/tweets/${id}?${params}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+      },
+    }
+  );
+
+  if (response.status !== 200) {
+    return null;
+  }
+
+  const data = await response.json();
+
+  // Needed to get the name & username.
+  return {
+    ...data.data,
+    user: data.includes.users.find((u) => {
+      return u.id === data.data.author_id;
+    }),
+  };
+};
+
+/**
+ * Ideally, this would use the v2 search endpoint, but you need special approval to be able to
+ * query tweets from more than a week ago.
+ *
+ * https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
+ *
+ */
+const getAllTweetsSinceId = async ({
+  id,
+  endTime,
+  userId,
+  extraParams = {},
+}): Promise<Tweet[]> => {
+  const params = new URLSearchParams({
+    since_id: id,
+    end_time: endTime,
+    expansions: "referenced_tweets.id.author_id",
+    exclude: "retweets",
+    max_results: "100",
+    "tweet.fields": "conversation_id",
+    "user.fields": "username",
+    ...extraParams,
+  }).toString();
+
+  const response = await fetch(
+    `https://api.twitter.com/2/users/${userId}/tweets?${params}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+      },
+    }
+  );
+
+  const responseJson = await response.json();
+  const tweets = responseJson?.data ?? [];
+
+  const moreTweets = responseJson.meta.next_token
+    ? await getAllTweetsSinceId({
+        id,
+        endTime,
+        userId,
+        extraParams: { pagination_token: responseJson.meta.next_token },
+      })
+    : [];
+
+  return tweets.concat(moreTweets);
+};
+
+const findRepliesToTweet = (tweets, originalTweetId): Tweet[] => {
+  return tweets.filter((tweet) => {
+    return tweet.conversation_id === originalTweetId;
+  });
+};
+
+const logTweet = async ({
+  tweetId,
+  isValid,
+}: {
+  tweetId: string;
+  isValid: boolean;
+}) => {
+  return await supabase
+    .from<definitions["converted_twitter_threads"]>("converted_twitter_threads")
+    .insert([
+      {
+        conversation_id: tweetId,
+        is_valid: isValid,
+        environment: process.env.NODE_ENV,
+      },
+    ]);
+};
+
+const capitalizeString = (string: string): string => {
+  const words = string.split(" ");
+
+  return words
+    .map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+};
+
+const getThread = async (tweetId): Promise<Thread> => {
+  const originalTweet = await getTweet(tweetId);
+  await logTweet({ tweetId, isValid: !!originalTweet });
+
+  if (!originalTweet) {
+    return null;
+  }
+
+  const tweets = await getAllTweetsSinceId({
+    id: tweetId,
+    userId: originalTweet.author_id,
+    endTime: formatISO(addDays(new Date(originalTweet.created_at), 14)),
+  });
+
+  const filteredTweets = findRepliesToTweet(tweets, tweetId);
+  const orderedTweets = [originalTweet, ...filteredTweets.reverse()];
+
+  return {
+    name: capitalizeString(originalTweet.user.name),
+    handle: originalTweet.user.username,
+    date: originalTweet.created_at,
+    tweets: orderedTweets.map((t) => {
+      let { text, id } = t;
+
+      // Links!
+      text = text.replace(
+        /(https?:\/\/[^\s]+)/g,
+        '<a target="_blank" href="$1">$1</a>'
+      );
+
+      // Handles!
+      text = text.replace(
+        /(@[^\s^\.*]+)/g,
+        '<a target="_blank" href="https://twitter.com/$1">$1</a>'
+      );
+
+      // Hashtags!
+      text = text.replace(
+        /(#[^\s^\.*]+)/g,
+        '<a href="https://twitter.com/hashtag/$1">$1</a>'
+      );
+
+      return {
+        id,
+        text,
+      };
+    }),
+  };
+};
+
+export default getThread;
