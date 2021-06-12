@@ -1,16 +1,17 @@
-import { ReactChild, ReactChildren } from "react";
+import { ReactChild } from "react";
 
 export default function DateFormatter({
-  dateString,
+  date,
   className = "",
-  children = null
+  children = null,
 }: {
-  dateString: string;
+  date: string | Date;
   className?: string;
-  children?: ReactChild | ReactChild[]
+  children?: ReactChild | ReactChild[];
 }) {
-  const date = new Date(`${dateString}T00:00:00.000-05:00`);
-  const formattedDate = date.toLocaleString("en-US", {
+  const dateObject =
+    date instanceof Date ? date : new Date(`${date}T00:00:00.000-05:00`);
+  const formattedDate = dateObject.toLocaleString("en-US", {
     month: "long",
     day: "2-digit",
     year: "numeric",
@@ -18,10 +19,8 @@ export default function DateFormatter({
 
   return (
     <span className={`light-text ${className}`}>
-      { children } {" "}
-      <time dateTime={dateString}>
-        {formattedDate}
-      </time>
+      {children}{" "}
+      <time dateTime={dateObject.toISOString()}>{formattedDate}</time>
     </span>
   );
 }

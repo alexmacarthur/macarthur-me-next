@@ -43,5 +43,6 @@ const prettier = require("prettier");
     parser: "html",
   });
 
-  fs.writeFileSync(`${process.cwd()}/out/sitemap.xml`, formatted);
+  // need to fix this..
+  fs.writeFileSync(`${process.cwd()}/.next/sitemap.xml`, formatted);
 })();

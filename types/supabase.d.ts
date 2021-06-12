@@ -12,14 +12,14 @@ export interface paths {
       };
     };
   };
-  "/interactions": {
+  "/feedback_interactions": {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.interactions.id"];
+          id?: parameters["rowFilter.feedback_interactions.id"];
           /** The blog post slug. */
-          slug?: parameters["rowFilter.interactions.slug"];
-          created_at?: parameters["rowFilter.interactions.created_at"];
+          slug?: parameters["rowFilter.feedback_interactions.slug"];
+          created_at?: parameters["rowFilter.feedback_interactions.created_at"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -41,7 +41,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["interactions"][];
+          schema: definitions["feedback_interactions"][];
         };
         /** Partial Content */
         206: unknown;
@@ -50,8 +50,8 @@ export interface paths {
     post: {
       parameters: {
         body: {
-          /** interactions */
-          interactions?: definitions["interactions"];
+          /** feedback_interactions */
+          feedback_interactions?: definitions["feedback_interactions"];
         };
         query: {
           /** Filtering Columns */
@@ -70,10 +70,10 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.interactions.id"];
+          id?: parameters["rowFilter.feedback_interactions.id"];
           /** The blog post slug. */
-          slug?: parameters["rowFilter.interactions.slug"];
-          created_at?: parameters["rowFilter.interactions.created_at"];
+          slug?: parameters["rowFilter.feedback_interactions.slug"];
+          created_at?: parameters["rowFilter.feedback_interactions.created_at"];
         };
         header: {
           /** Preference */
@@ -88,14 +88,14 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.interactions.id"];
+          id?: parameters["rowFilter.feedback_interactions.id"];
           /** The blog post slug. */
-          slug?: parameters["rowFilter.interactions.slug"];
-          created_at?: parameters["rowFilter.interactions.created_at"];
+          slug?: parameters["rowFilter.feedback_interactions.slug"];
+          created_at?: parameters["rowFilter.feedback_interactions.created_at"];
         };
         body: {
-          /** interactions */
-          interactions?: definitions["interactions"];
+          /** feedback_interactions */
+          feedback_interactions?: definitions["feedback_interactions"];
         };
         header: {
           /** Preference */
@@ -111,8 +111,8 @@ export interface paths {
 }
 
 export interface definitions {
-  /** Tracks feedback interactions on my blog. */
-  interactions: {
+  /** Tracks feedback feedback_interactions on my blog. */
+  feedback_interactions: {
     /**
      * Note:
      * This is a Primary Key.<pk/>
@@ -122,6 +122,20 @@ export interface definitions {
     created_at: string;
     value: boolean;
     environment: string;
+  };
+
+  converted_twitter_threads: {
+    is_valid: boolean;
+    conversation_id: string;
+    created_at: string;
+    environment: string;
+  };
+
+  thread_to_post_form_submissions: {
+    conversation_id: string;
+    created_at: string;
+    environment: string;
+    form_value: string;
   };
 }
 
@@ -146,12 +160,12 @@ export interface parameters {
   offset: string;
   /** Limiting and Pagination */
   limit: string;
-  /** interactions */
-  "body.interactions": definitions["interactions"];
-  "rowFilter.interactions.id": string;
+  /** feedback_interactions */
+  "body.feedback_interactions": definitions["feedback_interactions"];
+  "rowFilter.feedback_interactions.id": string;
   /** The blog post slug. */
-  "rowFilter.interactions.slug": string;
-  "rowFilter.interactions.created_at": string;
+  "rowFilter.feedback_interactions.slug": string;
+  "rowFilter.feedback_interactions.created_at": string;
 }
 
 export interface operations {}
