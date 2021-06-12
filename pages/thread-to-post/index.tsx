@@ -78,7 +78,7 @@ const ThreadToBlogPost = () => {
                 Tweet URL or ID
               </label>
 
-              <span className="block light-text mb-6">Example: https://twitter.com/jack/status/1071575088695140353 or 1071575088695140353</span>
+              <span className="block light-text mb-6" style={{ wordBreak: 'break-all' }}>Example: https://twitter.com/jack/status/1071575088695140353 or 1071575088695140353</span>
 
               <input type="text"></input>
             </p>
