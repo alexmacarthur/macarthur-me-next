@@ -77,7 +77,7 @@ const getAllTweetsSinceId = async ({
   const params = new URLSearchParams({
     since_id: id,
     end_time: endTime,
-    expansions: "referenced_tweets.id.author_id",
+    expansions: "in_reply_to_user_id,referenced_tweets.id.author_id",
     exclude: "retweets",
     max_results: "100",
     "tweet.fields": "conversation_id",
@@ -109,9 +109,12 @@ const getAllTweetsSinceId = async ({
   return tweets.concat(moreTweets);
 };
 
-const findRepliesToTweet = (tweets, originalTweetId): Tweet[] => {
+const findRepliesToTweet = (tweets, originalTweetId, userId): Tweet[] => {
   return tweets.filter((tweet) => {
-    return tweet.conversation_id === originalTweetId;
+    const replyingToUserId = tweet.in_reply_to_user_id;
+    const isReplyingToUserThatIsNotSelf = replyingToUserId && replyingToUserId !== userId;
+
+    return tweet.conversation_id === originalTweetId && !isReplyingToUserThatIsNotSelf;
   });
 };
 
@@ -157,7 +160,7 @@ const getThread = async (tweetId): Promise<Thread> => {
     endTime: formatISO(addDays(new Date(originalTweet.created_at), 14)),
   });
 
-  const filteredTweets = findRepliesToTweet(tweets, tweetId);
+  const filteredTweets = findRepliesToTweet(tweets, tweetId, originalTweet.author_id);
   const orderedTweets = [originalTweet, ...filteredTweets.reverse()];
 
   return {

@@ -117,27 +117,12 @@ export async function getStaticProps({ params: { tweetId } }) {
    * - remove replies to other people replying to thread.
    */
 
-  // const thread = {
-  //   name: 'Alex MacArthur',
-  //   handle: 'jack',
-  //   date: 'Fri Jun 04 03:57:54 +0000 2021',
-  //   tweets: [
-  //     'Set up the @RamseyInHouse feedback web component on my blog tonight! Interactions hit a @Netlify lambda + are saved… https://t.co/3AQTzGM4xV',
-  //     "Here's the code for setting it up in a Next.js site (don't code review this.. it was quick 😅: \n" +
-  //     '\n' +
-  //     '- load source clien… https://t.co/xFj4gacuKJ',
-  //     "And follow me on @github while you're at it to keep up with more code things I'm doing:\n" +
-  //     '\n' +
-  //     'https://t.co/TGcqlBqXII'
-  //   ]
-  // };
-
   return {
     props: {
       tweetId,
       thread
     },
-    revalidate: 10
+    revalidate: 604800
   }
 }
 
