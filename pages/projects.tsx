@@ -26,7 +26,7 @@ const Projects = ({ repos, specialProjects }) => {
   return (
     <PageLayout title="Projects" subTitle="Code I Write on the Side">
       <div className="mb-12">
-        <h2 className="text-4xl font-semibold mb-6">Some Big Ones</h2>
+        <h2 className="text-4xl font-semibold mb-6">Some Special Ones</h2>
 
         <div className="mb-12">
           <p className="prose md:prose-lg max-w-none">
@@ -38,11 +38,13 @@ const Projects = ({ repos, specialProjects }) => {
         <div className="slice mb-20">
           <ul className="grid gap-8 grid-cols-1 md:grid-cols-2">
             {specialProjects.map((project) => {
+              const link = project.link || "";
+
               return (
-                <Card key={project.link} classes="flex flex-col" element="li">
+                <Card key={link} classes={`flex flex-col ${project.blockClasses || ""}`} element="li">
                   <div className="mb-6">
                     <h3 className="font-bold text-3xl mb-2">
-                      <a href={project.link} target="_blank">
+                      <a href={link} target="_blank">
                         {project.name}
                       </a>
                     </h3>
@@ -58,11 +60,13 @@ const Projects = ({ repos, specialProjects }) => {
                     </p>
                   </div>
 
-                  <div className="mt-auto">
-                    <Button href={project.link} target="_blank">
-                      {project.link.replace(/https:\/\//, "")}
-                    </Button>
-                  </div>
+                  {link &&
+                    <div className="mt-auto">
+                      <Button href={link} target="_blank" internal={link.startsWith("/")}>
+                        {link.replace(/https:\/\//, "")}
+                      </Button>
+                    </div>
+                  }
                 </Card>
               );
             })}
@@ -154,6 +158,18 @@ export async function getStaticProps() {
             "A stupid-simple comment service built for static site generators like Gatsby, Eleventy, and NextJS. It was built out of dissatisfaction with other solutions that require you to load a bloated, invasive third-party script in order to render comments client-side.",
           link: "https://jamcomments.com",
         },
+        {
+          name: "Thread to Post",
+          subheading: "Convert any Twitter thread into blog post.",
+          description: "This is a tool for the times when you came across a thread on Twitter that was longer than a CVS receipt, indicating it probably just should've been a blog post from the beginning.",
+          link: "/thread-to-post"
+        },
+        {
+          name: "Placeholder",
+          subheading: "It's nothing.",
+          description: "I just didn't want this gap to be open.",
+          blockClasses: "hidden md:flex"
+        }
       ],
     },
   };
