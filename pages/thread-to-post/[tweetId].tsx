@@ -100,7 +100,7 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
 
         <h6 className="text-center text-lg">
           <span className="inline-block mr-3 md:mr-4 mb-4 md:mb-0">Know of another thread that probs should've just been a blog post?</span>
-          <Button href="/thread-to-blog-post" internal={true}>Do it here.</Button>
+          <Button href="/thread-to-post" internal={true}>Do it here.</Button>
         </h6>
       </Container>
     </Layout>
