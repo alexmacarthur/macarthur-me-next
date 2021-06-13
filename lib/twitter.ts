@@ -61,6 +61,34 @@ const getTweet = async (id: string): Promise<Tweet | null> => {
   };
 };
 
+const getAllTweetsByConversationId = async ({ conversationId, extraParams = {} }): Promise<Tweet[]> => {
+  const params = new URLSearchParams({
+    query: `conversation_id:${conversationId}`,
+    max_results: '100',
+    expansions: "in_reply_to_user_id,referenced_tweets.id.author_id",
+    'tweet.fields': 'conversation_id',
+    ...extraParams
+  }).toString();
+
+  const response = await fetch(
+    `https://api.twitter.com/2/tweets/search/recent?${params}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+      },
+    }
+  );
+
+  const responseJson = await response.json();
+  const tweets = responseJson?.data ?? [];
+
+  const moreTweets = responseJson.meta.next_token
+    ? await getAllTweetsByConversationId({ conversationId, extraParams: { pagination_token: responseJson.meta.next_token } })
+    : [];
+
+  return tweets.concat(moreTweets);
+}
+
 /**
  * Ideally, this would use the v2 search endpoint, but you need special approval to be able to
  * query tweets from more than a week ago.
@@ -99,11 +127,11 @@ const getAllTweetsSinceId = async ({
 
   const moreTweets = responseJson.meta.next_token
     ? await getAllTweetsSinceId({
-        id,
-        endTime,
-        userId,
-        extraParams: { pagination_token: responseJson.meta.next_token },
-      })
+      id,
+      endTime,
+      userId,
+      extraParams: { pagination_token: responseJson.meta.next_token },
+    })
     : [];
 
   return tweets.concat(moreTweets);
@@ -114,7 +142,9 @@ const findRepliesToTweet = (tweets, originalTweetId, userId): Tweet[] => {
     const replyingToUserId = tweet.in_reply_to_user_id;
     const isReplyingToUserThatIsNotSelf = replyingToUserId && replyingToUserId !== userId;
 
-    return tweet.conversation_id === originalTweetId && !isReplyingToUserThatIsNotSelf;
+    return tweet.conversation_id === originalTweetId &&
+      !isReplyingToUserThatIsNotSelf &&
+      tweet.author_id === userId;
   });
 };
 
@@ -149,16 +179,27 @@ const capitalizeString = (string: string): string => {
 const getThread = async (tweetId): Promise<Thread> => {
   const originalTweet = await getTweet(tweetId);
   await logTweet({ tweetId, isValid: !!originalTweet });
+  let tweets = [];
 
   if (!originalTweet) {
     return null;
   }
 
-  const tweets = await getAllTweetsSinceId({
-    id: tweetId,
-    userId: originalTweet.author_id,
-    endTime: formatISO(addDays(new Date(originalTweet.created_at), 14)),
-  });
+  /**
+   * Ideally, we would always be able to use the 'recent search' approach. Unfortunately, it's limited
+   * to the past seven days. So, as a fallback, search through a user's tweets and piece things together
+   * more manually.
+   */
+  tweets = await getAllTweetsByConversationId({ conversationId: tweetId });
+
+  if (!tweets.length) {
+    tweets = await getAllTweetsSinceId({
+      id: tweetId,
+      userId: originalTweet.author_id,
+
+      endTime: formatISO(addDays(new Date(originalTweet.created_at), 14)),
+    });
+  }
 
   const filteredTweets = findRepliesToTweet(tweets, tweetId, originalTweet.author_id);
   const orderedTweets = [originalTweet, ...filteredTweets.reverse()];
