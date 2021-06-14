@@ -9,9 +9,15 @@ const supabase = createClient(
 
 dotenv.config();
 
+type MediaObject = {
+  type: string;
+  url: string;
+}
+
 type Tweet = {
   text: string;
   id: string;
+  media: MediaObject[];
   created_at?: string;
   author_id?: string;
   reply_settings?: string;
@@ -30,11 +36,29 @@ type Thread = {
   tweets: Tweet[];
 };
 
+const applyMediaToTweets = (responseData): Tweet[] => {
+  return (responseData?.data ?? []).map(t => {
+    t.media = (t?.attachments?.media_keys ?? []).map(media_key => {
+      const foundMedia = (responseData.includes?.media ?? []).find(m => {
+        return m.media_key === media_key;
+      });
+
+      return {
+        type: foundMedia.type,
+        url: foundMedia.url ?? ""
+      }
+    });
+
+    return t;
+  });
+}
+
 const getTweet = async (id: string): Promise<Tweet | null> => {
   const params = new URLSearchParams({
-    expansions: "referenced_tweets.id.author_id",
+    expansions: "referenced_tweets.id.author_id,attachments.media_keys",
     "tweet.fields": "created_at",
     "user.fields": "username",
+    "media.fields": "url"
   }).toString();
 
   const response = await fetch(
@@ -55,9 +79,10 @@ const getTweet = async (id: string): Promise<Tweet | null> => {
   // Needed to get the name & username.
   return {
     ...data.data,
+    media: data.includes?.media ?? [],
     user: data.includes.users.find((u) => {
       return u.id === data.data.author_id;
-    }),
+    })
   };
 };
 
@@ -65,8 +90,9 @@ const getAllTweetsByConversationId = async ({ conversationId, extraParams = {} }
   const params = new URLSearchParams({
     query: `conversation_id:${conversationId}`,
     max_results: '100',
-    expansions: "in_reply_to_user_id,referenced_tweets.id.author_id",
+    expansions: "in_reply_to_user_id,entities.mentions.username,attachments.media_keys",
     'tweet.fields': 'conversation_id',
+    'media.fields': 'url',
     ...extraParams
   }).toString();
 
@@ -80,7 +106,9 @@ const getAllTweetsByConversationId = async ({ conversationId, extraParams = {} }
   );
 
   const responseJson = await response.json();
-  const tweets = responseJson?.data ?? [];
+
+  // Add a `media` property onto each tweet.
+  const tweets: Tweet[] = applyMediaToTweets(responseJson);
 
   const moreTweets = responseJson.meta.next_token
     ? await getAllTweetsByConversationId({ conversationId, extraParams: { pagination_token: responseJson.meta.next_token } })
@@ -105,11 +133,12 @@ const getAllTweetsSinceId = async ({
   const params = new URLSearchParams({
     since_id: id,
     end_time: endTime,
-    expansions: "in_reply_to_user_id,referenced_tweets.id.author_id",
+    expansions: "in_reply_to_user_id,referenced_tweets.id.author_id,attachments.media_keys",
     exclude: "retweets",
     max_results: "100",
     "tweet.fields": "conversation_id",
     "user.fields": "username",
+    "media.fields": "url",
     ...extraParams,
   }).toString();
 
@@ -123,7 +152,7 @@ const getAllTweetsSinceId = async ({
   );
 
   const responseJson = await response.json();
-  const tweets = responseJson?.data ?? [];
+  const tweets: Tweet[] = applyMediaToTweets(responseJson?.data);
 
   const moreTweets = responseJson.meta.next_token
     ? await getAllTweetsSinceId({
@@ -209,7 +238,10 @@ const getThread = async (tweetId): Promise<Thread> => {
     handle: originalTweet.user.username,
     date: originalTweet.created_at,
     tweets: orderedTweets.map((t) => {
-      let { text, id } = t;
+      let { text, id, media } = t;
+
+      // @todo: GET each link in the text and see if it's an image.
+      // Do so by using fetchresponse.url and checking for "/photo/";
 
       // Links!
       text = text.replace(
@@ -232,6 +264,7 @@ const getThread = async (tweetId): Promise<Thread> => {
       return {
         id,
         text,
+        media: media.filter(m => m.type === 'photo')
       };
     }),
   };

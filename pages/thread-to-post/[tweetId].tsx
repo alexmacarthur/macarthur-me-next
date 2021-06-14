@@ -75,7 +75,7 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
           </Title>
 
           {tweets.map((tweet, index) => {
-            const { text, id } = tweet;
+            const { text, id, media } = tweet;
             const formattedTweet = text.replace(/(?:\r\n|\r|\n)/g, "<br/>");
 
             return (
@@ -88,10 +88,18 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
                     <ExternalIcon classes="w-5 h-5 hover:text-purple-400" />
                   </a>
 
-                  <div
-                    className="post-content relative ml-auto md:mx-auto prose max-w-none md:prose-lg py-2 md:py-3"
-                    dangerouslySetInnerHTML={{ __html: formattedTweet }}
-                  ></div>
+                  <div className="post-content relative ml-auto md:mx-auto prose max-w-none md:prose-lg py-2 md:py-3">
+                    <div dangerouslySetInnerHTML={{ __html: formattedTweet }}
+                    ></div>
+
+                    {media.map(m => {
+                      return (
+                        <div className="px-6">
+                          <img style={{maxHeight: '500px'}} className="mx-auto block" src={m.url} />
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
               </div>
             );
