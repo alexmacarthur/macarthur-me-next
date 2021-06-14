@@ -94,7 +94,7 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
 
                     {media.map(m => {
                       return (
-                        <div className="px-6">
+                        <div className="px-6" key={m.media_key}>
                           <img style={{maxHeight: '500px'}} className="mx-auto block" src={m.url} />
                         </div>
                       )
