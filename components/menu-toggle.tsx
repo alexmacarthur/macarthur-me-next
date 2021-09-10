@@ -2,7 +2,7 @@ const MenuToggle = () => {
   const bars = (new Array(3) as any).fill();
 
   return (
-    <ul className={`menu space-y-3`}>
+    <ul className={`menu space-y-3 w-12`}>
       {bars.map((_bar, index) => {
         return (
           <li

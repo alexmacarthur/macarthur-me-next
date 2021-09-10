@@ -64,7 +64,7 @@ const Nav = ({ isAbsolute = false }) => {
 
       <div className="nav-menu-wrapper fixed w-full left-0 top-0 h-0 lg:relative lg:h-auto lg:l-0">
         <label
-          className="cursor-pointer relative z-20 lg:hidden nav-menu-label absolute right-3"
+          className="cursor-pointer z-20 lg:hidden nav-menu-label absolute right-3"
           htmlFor="menuToggle"
           style={{
             top: "2.25rem",

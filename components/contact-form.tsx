@@ -8,6 +8,11 @@ const ContactForm = () => {
 
     const formData = new FormData(e.target);
 
+    // if (formData.get('website')) {
+    //   console.error('Nice try.');
+    //   return;
+    // }
+
     const response = await fetch("/api/email", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -54,6 +59,14 @@ const ContactForm = () => {
             Your email:
             <br />
             <input required type="email" name="email" />
+          </label>
+        </p>
+
+        <p className="mb-4 hidden">
+          <label className="block">
+            Your website:
+            <br />
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
           </label>
         </p>
 

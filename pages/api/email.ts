@@ -5,11 +5,17 @@ import { transport } from "./_utils/email";
 type Email = {
   email: string,
   message: string,
-  name: string
+  name: string,
+  website?: string | undefined
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { email, message, name }: Email = req.body;
+  const { email, message, name, website }: Email = req.body;
+
+  if (website) {
+    console.error("Invalid email send data.");
+    return res.status(200).json({ email, message, name });
+  }
 
   await transport({
     to: process.env.MY_EMAIL,
