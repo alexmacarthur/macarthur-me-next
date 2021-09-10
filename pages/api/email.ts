@@ -1,8 +1,6 @@
 require("dotenv").config();
 import type { NextApiRequest, NextApiResponse } from 'next'
-import sgMail from "@sendgrid/mail";
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+import { transport } from "./_utils/email";
 
 type Email = {
   email: string,
@@ -13,13 +11,13 @@ type Email = {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, message, name }: Email = req.body;
 
-  await sgMail.send({
+  await transport({
     to: process.env.MY_EMAIL,
     from: email,
-    subject: `Contact Form Submitted`,
+    subject: "Contact Form Submitted",
     text: `
-Name: ${name}\n\n
-Email Address: ${email}\n\n
+Name: ${name}\n
+Email Address: ${email}\n
 Message: ${message}
 `,
   });
