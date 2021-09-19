@@ -1,17 +1,17 @@
 // #!/usr/bin/env node
 
-const fs = require("fs");
-const rimraf = require("rimraf");
-const globby = require("globby");
-const prettier = require("prettier");
+import { writeFileSync } from "fs";
+import * as rimraf from "rimraf";
+import { globbySync } from "globby";
+import * as prettier from "prettier";
 
 (async () => {
   const pagesDirectory = `${process.cwd()}/.next/server/pages`;
-  const prettierConfig = await prettier.resolveConfig("./.prettierrc.js");
+  const prettierConfig = await prettier.default.resolveConfig("./.prettierrc.js");
 
-  rimraf.sync(`${process.cwd()}/public/sitemap.xml`);
+  rimraf.default.sync(`${process.cwd()}/public/sitemap.xml`);
 
-  const pages = globby.sync([
+  const pages = globbySync([
     `${pagesDirectory}/**/*.html`,
     `!${pagesDirectory}/**/404.html`,
   ]);
@@ -38,11 +38,11 @@ const prettier = require("prettier");
     `;
 
   // If you're not using Prettier, you can remove this.
-  const formatted = prettier.format(sitemap, {
+  const formatted = prettier.default.format(sitemap, {
     ...prettierConfig,
     parser: "html",
   });
 
   // need to fix this..
-  fs.writeFileSync(`${process.cwd()}/.next/sitemap.xml`, formatted);
+  writeFileSync(`${process.cwd()}/.next/sitemap.xml`, formatted);
 })();

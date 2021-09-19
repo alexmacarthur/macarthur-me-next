@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
-require("dotenv").config();
+import dotenv from 'dotenv';
 
-const fs = require("fs");
-const rimraf = require("rimraf");
-const { getOpenSourceRepos } = require("../lib/github");
+import fs from "fs";
+import * as rimraf from "rimraf";
+import { getOpenSourceRepos } from "../lib/github.mjs";
 
-rimraf.sync(`${process.cwd()}/lib/repo-data.json`);
+dotenv.config();
+
+rimraf.default.sync(`${process.cwd()}/lib/repo-data.json`);
 
 try {
   getOpenSourceRepos().then((repos) => {

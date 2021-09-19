@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const shell = require("shelljs");
-const globby = require("globby");
-const fs = require("fs");
-const sizeOf = require("image-size");
-const rimraf = require("rimraf");
+import shell from "shelljs";
+import { globbySync } from "globby";
+import fs from "fs";
+import sizeOf from "image-size";
+import rimraf from "rimraf";
 
-const files = globby.sync(["./_posts/**/*.{png,jpeg,jpg,svg}"]);
+const files = globbySync(["./_posts/**/*.{png,jpeg,jpg,svg}"]);
 
 rimraf.sync(`${process.cwd()}/public/post-images`);
 rimraf.sync(`${process.cwd()}/lib/image-data.json`);

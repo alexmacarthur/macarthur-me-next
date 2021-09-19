@@ -130,7 +130,7 @@ export default Projects;
  * - has a tag
  */
 export async function getStaticProps() {
-  const { getOpenSourceRepos } = require("../lib/github");
+  // const { getOpenSourceRepos } = require("../lib/github");
 
   // const repos =
   //   process.env.NODE_ENV === "development"

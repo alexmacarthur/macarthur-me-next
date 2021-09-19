@@ -58,13 +58,16 @@ module.exports = {
               padding: theme('padding.1'),
               fontFamily: "'Public Sans', sans-serif",
               background: theme('colors.gray.200'),
-              fontSize: 'inherit !important'
+              fontSize: '.9em !important'
             },
             'code::before': {
               content: 'none',
             },
             'code::after': {
               content: 'none',
+            },
+            'code:not([class])': {
+              fontSize: 'inherit !important'
             },
             pre: {
               fontSize: theme('fontSize.base')

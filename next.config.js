@@ -7,15 +7,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withPlugins(
   [
     [optimizedImages, {}],
-    // [withPreact, {}],
     [withBundleAnalyzer, {}]
   ], {
-  // basePath: "https://macarthur.me/",
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  webpack: (config) => {
     return config
-  },
-  future: {
-    webpack5: true,
   },
   async redirects() {
     return [
