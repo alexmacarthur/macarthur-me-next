@@ -9,7 +9,7 @@ A while ago, I wrote a premium WordPress plugin for creating typewriter effects 
 
 The go-to solution for this problem is to set up a custom update server. With this approach, your plugin checks for updates the same way any other plugin does, but instead of asking the Plugin Repository for those updates, it's configured to ask your server.
 
-Just a short while ago, setting this up was quite a chore, since it required you to create and maintain a separate application just to allow your users to easily get updates. But with the serverless landscape now so accessible, it's pretty simple to roll one of these on your own with neither much hassle nor cost.
+Just a short while ago, setting this up was quite a chore, since it required you to create and maintain a separate application just to allow your users to easily get updates. But with the serverless/lambda function landscape now so accessible, it's pretty simple to roll one of these on your own with neither much hassle nor cost.
 
 Let's explore just how simple that is by setting up own serverless plugin update function that can be used to manage an unlimited number of your premium plugin updates, as well as what it takes to configure a plugin to actually use this function.
 
