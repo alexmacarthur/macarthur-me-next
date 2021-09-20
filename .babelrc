@@ -5,7 +5,7 @@
       {
         "preset-env": {
           "useBuiltIns": false,
-          "targets": "Chrome >= 60, Safari >= 10.1, iOS >= 10.3, Firefox >= 54, Edge >= 15"
+          "targets": "defaults and supports es6-module and supports es6-module-dynamic-import, not opera > 0, not samsung > 0, not and_qq > 0"
         }
       }
     ]
