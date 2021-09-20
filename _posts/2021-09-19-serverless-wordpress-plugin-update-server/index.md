@@ -1,6 +1,6 @@
 ---
 title: Build Your Own WordPress Plugin Update Server with a Serverless Function
-ogImage: 'https://images.unsplash.com/photo-1620287341639-d141a3a15cfd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=100'
+ogImage: 'https://images.pexels.com/photos/5332291/pexels-photo-5332291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
 ---
 
 A while ago, I wrote a premium WordPress plugin for creating typewriter effects with [TypeIt](https://typeitjs.com/) via shortcode or Gutenblock. I was ill-prepared for the trickiness of managing plugin updates for such a plugin. Since a premium plugin is monetized, it can't live inside the WordPress Plugin Repository like free options can, and asking paying customers to manually upload the a ZIP file for each new release is a clunky, less-than-ideal option.
