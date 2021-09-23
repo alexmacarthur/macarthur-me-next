@@ -66,6 +66,10 @@ module.exports = withPlugins(
         destination: "https://www.ramseyinhouse.com/blog/as-an-engineer-write",
         permanent: true
       },
+      {
+        source: "/d4d",
+        destination: "https://codesandbox.io/s/dev-for-designers-bare-tvqu2"
+      }
     ]
   },
 });
