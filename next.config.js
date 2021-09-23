@@ -68,7 +68,8 @@ module.exports = withPlugins(
       },
       {
         source: "/d4d",
-        destination: "https://codesandbox.io/s/dev-for-designers-bare-tvqu2"
+        destination: "https://codesandbox.io/s/dev-for-designers-bare-tvqu2",
+        permanent: false
       }
     ]
   },
