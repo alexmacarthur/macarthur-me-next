@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.15.6",
-    "@jam-comments/next": "^0.0.22",
+    "@jam-comments/next": "^0.0.23",
     "@next/bundle-analyzer": "^11.1.2",
     "@ramseyinhouse/feedback-component": "^1.0.0",
     "@supabase/supabase-js": "^1.22.6",
