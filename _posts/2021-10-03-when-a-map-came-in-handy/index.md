@@ -26,7 +26,11 @@ Storing that value is easy enough to store on the `window` object (#dealwithit).
 
 It also crossed my mind to store `key:value` pairs of elements and their respective heights in that single window object. But that'd mean I'd need to find or require some unique identifier (like an ID attribute) for each target element in order to store their heights. And that's a library change I wasn't interested in.
 
-But then I recalled a new-ish native JavaScript object **that allows you to use _any_ value as a key -- including references to DOM nodes themselves**. And that's the [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) object. For example:
+But then I recalled a new-ish native JavaScript object that allows you to use _any_ value as a key -- the [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) object.
+
+## Using DOM Nodes as Keys
+
+Using a `Map`, which enjoys very strong [browser support](https://caniuse.com/mdn-javascript_builtins_map), DOM nodes themselves (since they're objects, after all), can serve as the keys to any given values you need to store. For example:
 
 ```html
 <span id="thing" class="thing">a thing.</thing>
