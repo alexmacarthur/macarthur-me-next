@@ -6,7 +6,7 @@ import fs from "fs";
 import sizeOf from "image-size";
 import rimraf from "rimraf";
 
-const files = globbySync(["./_posts/**/*.{png,jpeg,jpg,svg}"]);
+const files = globbySync(["./_posts/**/*.{png,jpeg,jpg,svg,gif}"]);
 
 rimraf.sync(`${process.cwd()}/public/post-images`);
 rimraf.sync(`${process.cwd()}/lib/image-data.json`);
