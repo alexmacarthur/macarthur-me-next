@@ -13,7 +13,7 @@ This was happening because each time an animation was triggered, I was grabbing 
 
 ```jsx
 // For each trigger, animate between zero and the `clientHeight` of the element.
-let frames: ["0px", `${element.clientHeight}px`].map((height) => {
+let frames = ["0px", `${element.clientHeight}px`].map((height) => {
   return { height, overflow: "hidden" };
 });
 ```
