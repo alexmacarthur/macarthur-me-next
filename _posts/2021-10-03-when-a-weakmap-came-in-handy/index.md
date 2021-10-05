@@ -81,7 +81,7 @@ console.log(myWeakMap.get(document.querySelector('.thing')); // 'some value'
 </script>
 ```
 
-My use of a WeakMap is intentional here. A standard Map would do the trick, but a WeakMap as a marginal advantage in my case: [the keys are not protected from the garbage collection process](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections#weakmap_object) (thanks to [CreativeTechGuyGames](https://www.reddit.com/user/CreativeTechGuyGames/) on Reddit for this tip!). As soon as all other references to an object cease to exist, that item in a WeakMap becomes a candiate for garabage collection, preventing a potential (albiet small) memory leak.
+My use of a WeakMap is intentional here. A standard Map would do the trick, but a WeakMap as a marginal advantage in my case: [the keys are not protected from the garbage collection process](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections#weakmap_object) (thanks to [CreativeTechGuyGames](https://www.reddit.com/user/CreativeTechGuyGames/) on Reddit for this tip!). As soon as all other references to an object cease to exist, that item in a WeakMap becomes a candiate for garabage collection, preventing a potential (albeit small) memory leak.
 
 With this tool at my disposal, rigging up an expanded height cache for each target element became relatively straightforward:
 
