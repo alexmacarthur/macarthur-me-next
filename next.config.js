@@ -32,6 +32,11 @@ module.exports = withPlugins(
         permanent: true
       },
       {
+        source: "/posts/when-a-map-came-in-handy",
+        destination: "/posts/when-a-weakmap-came-in-handy",
+        permanent: true
+      },
+      {
         source: "/bell",
         destination: "https://alexmacarthur.github.io/bell",
         permanent: true
