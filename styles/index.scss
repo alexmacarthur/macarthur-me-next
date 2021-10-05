@@ -185,7 +185,7 @@ span {
   a {
     transition: all .12s ease-in-out;
     color: inherit;
-    box-shadow: 0px -.45rem 0px 0px theme('colors.red.200') inset;
+    box-shadow: 0px -.3rem 0px 0px theme('colors.red.200') inset;
     padding-bottom: .075rem;
 
     &:hover {
@@ -205,6 +205,12 @@ span {
         padding: 0;
         box-shadow: none;
       }
+    }
+  }
+
+  h2 {
+    @screen md {
+      font-size: theme('fontSize.3xl') !important;
     }
   }
 }

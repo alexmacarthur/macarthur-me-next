@@ -104,7 +104,8 @@ export default class PostCompiler {
 
     const strippedContent = stripMarkdown(content)
       .replace(/\s\s+/g, " ")
-      .replace(/\r?\n|\r/g, "");
+      .replace(/\r?\n|\r/g, "")
+      .replace(/\S+\.(gif|png|jpe?g)/g, ""); // Remove images.
     const words = strippedContent.split(" ");
     const excerpt = words.slice(0, 50).join(" ") + "...";
 

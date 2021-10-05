@@ -27,9 +27,9 @@ module.exports = {
             },
             'h2, h3, h4, h5': {
               color: theme('colors.gray.500'),
-              fontSize: theme('fontSize.3xl'),
+              fontSize: theme('fontSize.2xl'),
               fontWeight: theme('fontWeight.extrabold'),
-              marginBottom: theme('margin.5'),
+              marginBottom: `${theme('margin.5')} !important`,
               lineHeight: theme('lineHeight.tight')
             },
             h3: {
@@ -87,7 +87,9 @@ module.exports = {
     }
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    require('@tailwindcss/typography')({
+      modifiers: []
+    }),
     require('precss')
   ]
 }
