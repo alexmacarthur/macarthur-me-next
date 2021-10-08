@@ -68,7 +68,7 @@ console.log(someObj[document.createElement('span')]);
 While that didn't flesh out, there was another option: **a set of new-ish native JavaScript objects that allow you to use objects for keys -- including references to DOM nodes themselves**. Those are the [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and [WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) objects. For example:
 
 ```html
-<span id="thing" class="thing">a thing.</thing>
+<span id="thing" class="thing">a thing.</span>
 
 <script>
 const myWeakMap = new WeakMap();
