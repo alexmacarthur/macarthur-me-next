@@ -139,9 +139,7 @@ export async function getStaticProps() {
   //     ? require("../lib/repo-data.json")
   //     : await getOpenSourceRepos();
 
-  const { repoData, totalStars } = require("../lib/repo-data.json");
-
-  console.log(totalStars);
+  const { repoData } = require("../lib/repo-data.json");
 
   return {
     props: {
