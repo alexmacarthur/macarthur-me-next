@@ -1,6 +1,7 @@
 import PageLayout from "../components/page-layout";
 import Card from "../components/card";
 import Button from "../components/button";
+import GoogleAnalyticsService from "../lib/GoogleAnalyticsService";
 
 const Star = (props) => {
   return (
@@ -36,12 +37,15 @@ const Dashboard = ({ ghStars }) => {
 export default Dashboard;
 
 export async function getStaticProps() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/github-total-stars`);
-  const { totalStars } = await response.json();
+  // const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/github-total-stars`);
+  // const { totalStars } = await response.json();
+
+  const gaService = GoogleAnalyticsService();
 
   return {
     props: {
-      ghStars: totalStars
+      // ghStars: totalStars
+      ghStars: 0
     },
     revalidate: 86400
   };
