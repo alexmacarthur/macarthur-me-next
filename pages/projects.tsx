@@ -126,20 +126,9 @@ const Projects = ({ repos, specialProjects }) => {
 
 export default Projects;
 
-/**
- * Criteria:
- * - has a commit within the last 24 months
- * - has a tag
- */
 export async function getStaticProps() {
-  // const { getOpenSourceRepos } = require("../lib/github");
-
-  // const repos =
-  //   process.env.NODE_ENV === "development"
-  //     ? require("../lib/repo-data.json")
-  //     : await getOpenSourceRepos();
-
-  const { repoData } = require("../lib/repo-data.json");
+  const response = await fetch(`${process.env.VERCEL_URL}/api/github-repo-data`);
+  const { repoData } = await response.json();
 
   return {
     props: {
@@ -159,20 +148,9 @@ export async function getStaticProps() {
           description:
             "A stupid-simple comment service built for static site generators like Gatsby, Eleventy, and NextJS. It was built out of dissatisfaction with other solutions that require you to load a bloated, invasive third-party script in order to render comments client-side.",
           link: "https://jamcomments.com",
-        },
-        // {
-        //   name: "Thread to Post",
-        //   subheading: "Convert any Twitter thread into blog post.",
-        //   description: "This is a tool for the times when you came across a thread on Twitter that was longer than a CVS receipt, indicating it probably just should've been a blog post from the beginning.",
-        //   link: "/thread-to-post"
-        // },
-        // {
-        //   name: "Placeholder",
-        //   subheading: "It's nothing.",
-        //   description: "I just didn't want this gap to be open.",
-        //   blockClasses: "hidden md:flex"
-        // }
+        }
       ],
     },
+    revalidate: 86400
   };
 }

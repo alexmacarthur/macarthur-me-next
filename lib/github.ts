@@ -17,7 +17,7 @@ export const getCommits = async (repoData, client) => {
     });
   });
 
-  let commitData = await Promise.allSettled(commitPromises);
+  let commitData = (await Promise.allSettled(commitPromises)) as unknown as any[];
   console.log("Got commit data...");
 
   return commitData
@@ -39,7 +39,7 @@ export const getTags = async (repoData, client) => {
     });
   });
 
-  let tagData = await Promise.allSettled(tagPromises);
+  let tagData = await Promise.allSettled(tagPromises) as unknown as any[];
 
   console.log("Got tag data...");
 

@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
-    "build": "npm run build:images && npm run build:repos && next build && npm run build:sitemap",
+    "build": "npm run build:images && next build && npm run build:sitemap",
     "start": "next start",
     "prettify": "prettier ./**/*.{tsx,js,ts} --write",
     "build:images": "node ./_scripts/build-images.mjs",
-    "build:sitemap": "node ./_scripts/build-sitemap.mjs",
-    "build:repos": "node ./_scripts/get-repos.mjs"
+    "build:sitemap": "node ./_scripts/build-sitemap.mjs"
   },
   "dependencies": {
     "@babel/preset-env": "^7.15.6",
