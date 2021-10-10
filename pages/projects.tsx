@@ -89,18 +89,20 @@ const Projects = ({ repos, specialProjects }) => {
 
           return (
             <Card classes="flex flex-col" element="li" key={repo.html_url}>
-              <div className="flex justify-between mb-4">
-                <h3 className="font-bold text-3xl pr-3">
+              <div className="flex justify-between mb-4 gap-2">
+                <h3 className="font-bold text-2xl">
                   <a {...linkProps}>{repo.name}</a>
                 </h3>
 
-                <a
-                  className="flex items-center space-x-1 stargazers"
-                  {...linkProps}
-                >
-                  <Star className="block h-6 w-6" />
-                  <span>{repo.stargazers_count}</span>
-                </a>
+                <div className="">
+                  <a
+                    className="stargazers inline-flex items-center gap-1 leading-10"
+                    {...linkProps}
+                  >
+                    <Star className="block h-6 w-6" />
+                    <span>{repo.stargazers_count}</span>
+                  </a>
+                </div>
               </div>
 
               <div className="mb-8">
@@ -137,11 +139,13 @@ export async function getStaticProps() {
   //     ? require("../lib/repo-data.json")
   //     : await getOpenSourceRepos();
 
-  const repos = require("../lib/repo-data.json");
+  const { repoData, totalStars } = require("../lib/repo-data.json");
+
+  console.log(totalStars);
 
   return {
     props: {
-      repos,
+      repos: repoData,
       specialProjects: [
         {
           name: "TypeIt",
@@ -158,18 +162,18 @@ export async function getStaticProps() {
             "A stupid-simple comment service built for static site generators like Gatsby, Eleventy, and NextJS. It was built out of dissatisfaction with other solutions that require you to load a bloated, invasive third-party script in order to render comments client-side.",
           link: "https://jamcomments.com",
         },
-        {
-          name: "Thread to Post",
-          subheading: "Convert any Twitter thread into blog post.",
-          description: "This is a tool for the times when you came across a thread on Twitter that was longer than a CVS receipt, indicating it probably just should've been a blog post from the beginning.",
-          link: "/thread-to-post"
-        },
-        {
-          name: "Placeholder",
-          subheading: "It's nothing.",
-          description: "I just didn't want this gap to be open.",
-          blockClasses: "hidden md:flex"
-        }
+        // {
+        //   name: "Thread to Post",
+        //   subheading: "Convert any Twitter thread into blog post.",
+        //   description: "This is a tool for the times when you came across a thread on Twitter that was longer than a CVS receipt, indicating it probably just should've been a blog post from the beginning.",
+        //   link: "/thread-to-post"
+        // },
+        // {
+        //   name: "Placeholder",
+        //   subheading: "It's nothing.",
+        //   description: "I just didn't want this gap to be open.",
+        //   blockClasses: "hidden md:flex"
+        // }
       ],
     },
   };
