@@ -127,7 +127,7 @@ const Projects = ({ repos, specialProjects }) => {
 export default Projects;
 
 export async function getStaticProps() {
-  const response = await fetch(`${process.env.VERCEL_URL}/api/github-repo-data`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/github-repo-data`);
   const { repoData } = await response.json();
 
   return {

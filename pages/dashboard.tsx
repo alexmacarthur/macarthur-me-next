@@ -36,7 +36,7 @@ const Dashboard = ({ ghStars }) => {
 export default Dashboard;
 
 export async function getStaticProps() {
-  const response = await fetch(`${process.env.VERCEL_URL}/api/github-total-stars`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/github-total-stars`);
   const { totalStars } = await response.json();
 
   return {
