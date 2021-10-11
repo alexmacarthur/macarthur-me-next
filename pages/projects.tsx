@@ -1,6 +1,7 @@
 import PageLayout from "../components/page-layout";
 import Card from "../components/card";
 import Button from "../components/button";
+import GitHubService from "../lib/GitHubService";
 
 const Star = (props) => {
   return (
@@ -127,12 +128,11 @@ const Projects = ({ repos, specialProjects }) => {
 export default Projects;
 
 export async function getStaticProps() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/github-repo-data`);
-  const { repoData } = await response.json();
+  const ghService = new GitHubService();
 
   return {
     props: {
-      repos: repoData,
+      repos: await ghService.getProjectReposData(),
       specialProjects: [
         {
           name: "TypeIt",

@@ -4,10 +4,9 @@ import { createClient } from "@supabase/supabase-js";
 import { definitions } from "../../types/supabase";
 import { transport } from "../api/_utils/email";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+import SupabaseService from '../../lib/SupabaseService';
+
+const supabase = (new SupabaseService()).getClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug, value } = req.body;
@@ -25,7 +24,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     subject: `You've Got ${feedbackType} Blog Feedback!`,
     text: `Here's the post: https://macarthur.me/posts/${slug}`,
   });
-
 
   res.status(200).json({ slug, value });
 }
