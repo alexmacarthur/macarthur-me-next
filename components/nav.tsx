@@ -18,6 +18,10 @@ const navItems = [
     link: "/about",
   },
   {
+    name: "Dashboard",
+    link: "/dashboard",
+  },
+  {
     name: "Contact",
     link: "/contact",
   },
@@ -84,7 +88,7 @@ const Nav = ({ isAbsolute = false }) => {
           lg:relative
           transition-all
           opacity-0
-          p-10
+          p-6
           flex
           flex-col
           justify-center
@@ -94,7 +98,6 @@ const Nav = ({ isAbsolute = false }) => {
           lg:z-10
           lg:p-0
           lg:visible
-          lg:relative
           lg:top-auto
           lg:opacity-100
           lg:bg-transparent
