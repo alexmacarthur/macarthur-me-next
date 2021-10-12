@@ -92,7 +92,7 @@ export async function getStaticProps() {
       value: npmService.getTotalDownloads()
     },
     {
-      title: "How Inches Tall I've Grown",
+      title: "How Many Inches Tall I've Grown",
       value: Promise.resolve(68)
     },
   ];
