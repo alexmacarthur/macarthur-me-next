@@ -3,6 +3,9 @@ import GoogleAnalyticsService from "../lib/GoogleAnalyticsService";
 import GitHubService from "../lib/GitHubService";
 import SupabaseService from "../lib/SupabaseService";
 import GoogleSearchService from "../lib/GoogleSearchService";
+import StravaService from "../lib/StravaService";
+import NpmService from "../lib/NpmService";
+import ExternalIcon from "../components/icon-external";
 
 const Dashboard = ({ stats }) => {
   return (
@@ -12,7 +15,17 @@ const Dashboard = ({ stats }) => {
         {stats.map(stat => {
           return (
             <li key={stat.title}>
-              <h2 dangerouslySetInnerHTML={{__html: stat.title}}></h2>
+              <div className="flex items-center">
+                <h2 dangerouslySetInnerHTML={{__html: stat.title}}></h2>
+
+                { stat.link &&
+                <>
+                  <a href={stat.link} target='_blank'>
+                    <ExternalIcon />
+                  </a>
+                </>
+                }
+              </div>
               <span className="text-4xl md:text-5xl font-black">{stat.value}</span>
             </li>
           )
@@ -27,6 +40,7 @@ export default Dashboard;
 export async function getStaticProps() {
   type State = {
     title: string,
+    link?: string,
     value: number | string | Promise<number | string>
   };
 
@@ -34,14 +48,17 @@ export async function getStaticProps() {
   const ghService = new GitHubService();
   const supService = new SupabaseService();
   const gsService = new GoogleSearchService();
+  const stravaService = new StravaService();
+  const npmService = new NpmService();
 
   const stats: State[] = [
     {
       title: 'Total GitHub Stars',
+      link: "https://github.com/alexmacarthur",
       value: ghService.getTotalsStars()
     },
     {
-      title: 'Total Page Views',
+      title: 'Total Website Views',
       value: gaService.getPageViewCount()
     },
     {
@@ -50,24 +67,28 @@ export async function getStaticProps() {
     },
     {
       title: 'Links in <em>JavaScript Weekly</em>',
+      link: "https://www.google.com/search?q=site%3Ajavascriptweekly.com+%22alex+macarthur%22",
       value: gsService.getJsWeeklyTotalResults()
     },
     {
-      title: 'Inches Grown',
-      value: Promise.resolve(68)
-    },
-    {
-      title: 'Articles Published in <em>CSS Tricks</em>',
+      title: 'Articles Published on <em>CSS Tricks</em>',
+      link: 'https://css-tricks.com/author/alexmacarthur',
       value: Promise.resolve(2)
     },
     {
-      title: 'Miles Run in the Last Year',
-      value: Promise.resolve('coming soon')
+      title: 'Total Miles Run',
+      link: 'https://www.strava.com/athletes/27922666',
+      value: stravaService.getTotalRunMiles()
     },
     {
-      title: 'npm Downloads',
-      value: Promise.resolve('coming soon')
-    }
+      title: 'Total npm Downloads',
+      link: 'https://www.npmjs.com/~alexmacarthur',
+      value: npmService.getTotalDownloads()
+    },
+    {
+      title: "How Inches Tall I've Grown",
+      value: Promise.resolve(68)
+    },
   ];
 
   await Promise.allSettled(stats.map(stat => stat.value));
@@ -80,6 +101,6 @@ export async function getStaticProps() {
     props: {
       stats
     },
-    revalidate: 86400
+    revalidate: 3600
   };
 }
