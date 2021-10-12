@@ -9,7 +9,13 @@ import ExternalIcon from "../components/icon-external";
 
 const Dashboard = ({ stats }) => {
   return (
-    <PageLayout title="Dashboard" subTitle="Some vanity metrics I like to keep an eye on.">
+    <PageLayout title="Dashboard" subTitle="The vanity metrics that mean the most to me.">
+
+      <div className="post-content mx-auto prose max-w-none md:prose-lg mb-12">
+        <p>
+          Most of these statistics are sourced from third-party APIs. The page is then rendered using Vercel's <a href="https://vercel.com/docs/concepts/next.js/incremental-static-regeneration" target="_blank">Incremental Static Regeneration</a>, which is revalidated upon request at most once every hour.
+        </p>
+      </div>
 
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {stats.map(stat => {
