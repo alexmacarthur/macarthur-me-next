@@ -55,10 +55,10 @@ class SupabaseService {
     oldAccessToken: string
   }) {
     // Delete the existing token.
-    await this.client.from('api_tokens')
+    await this.client
+      .from('api_tokens')
       .delete()
-      .match({ 'access_token': oldAccessToken })
-      .execute();
+      .match({ 'access_token': oldAccessToken });
 
     // Add the new token.
     return await this.client
@@ -69,8 +69,7 @@ class SupabaseService {
           refresh_token: refreshToken,
           service
         }
-      ])
-      .execute();
+      ]);
   }
 }
 

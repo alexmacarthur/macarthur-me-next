@@ -29,6 +29,11 @@ class StravaService {
           }
         });
         const data = await response.json();
+        const hasErrors = (data.errors || []).length;
+
+        if (hasErrors) {
+          throw "Something went wrong requesting Strava data.";
+        }
 
         hasSucceeded = true;
 
