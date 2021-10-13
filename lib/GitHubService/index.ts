@@ -16,6 +16,18 @@ class GitHubService {
     this.client = gitHub.client(process.env.GITHUB_ACCESS_TOKEN);
   }
 
+  async getUserData() {
+    const [, data] = await this.client.getAsync("/users/alexmacarthur");
+
+    return data;
+  }
+
+  async getFollowerCount() {
+    const data = await this.getUserData();
+
+    return data.followers;
+  }
+
   async getRepos(): Promise<any[]> {
     if(this.repos.length) {
       return this.repos;

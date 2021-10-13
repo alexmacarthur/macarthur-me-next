@@ -24,14 +24,13 @@ const Dashboard = ({ stats }) => {
               <div className="flex items-center">
                 <h2 dangerouslySetInnerHTML={{__html: stat.title}}></h2>
 
-                { stat.link &&
-                <>
+                {stat.link &&
                   <a href={stat.link} target='_blank'>
                     <ExternalIcon />
                   </a>
-                </>
                 }
               </div>
+              <span className="text-sm italic text-gray-500 block mb-3">{stat.subTitle}</span>
               <span className="text-4xl md:text-5xl font-black">{stat.value}</span>
             </li>
           )
@@ -47,6 +46,7 @@ export async function getStaticProps() {
   type State = {
     title: string,
     link?: string,
+    subTitle: string,
     value: number | string | Promise<number | string>
   };
 
@@ -57,43 +57,64 @@ export async function getStaticProps() {
   const stravaService = new StravaService();
   const npmService = new NpmService();
 
+  await ghService.getUserData();
+
   const stats: State[] = [
     {
       title: 'Total GitHub Stars',
       link: "https://github.com/alexmacarthur",
+      subTitle: "If you haven't starred any, get on that.",
       value: ghService.getTotalsStars()
     },
     {
+      title: 'GitHub Followers',
+      link: "https://github.com/alexmacarthur",
+      subTitle: "Do it yourself today, for free.",
+      value: ghService.getFollowerCount()
+    },
+    {
       title: 'Total Website Views',
+      subTitle: 'According to Google Analytics since November, 2015.',
       value: gaService.getPageViewCount()
     },
     {
       title: 'Positive Feedback (👍) on Blog Posts',
+      subTitle: 'Scroll to the bottom of any post and do it yourself.',
       value: supService.getPositiveFeedbackCount()
     },
     {
       title: 'Links in <em>JavaScript Weekly</em>',
       link: "https://www.google.com/search?q=site%3Ajavascriptweekly.com+%22alex+macarthur%22",
+      subTitle: 'Mostly just blog posts, but the occassional project too.',
       value: gsService.getJsWeeklyTotalResults()
     },
     {
       title: 'Articles Published on <em>CSS Tricks</em>',
       link: 'https://css-tricks.com/author/alexmacarthur',
+      subTitle: 'A fun privilege.',
       value: Promise.resolve(2)
     },
     {
       title: 'Total Miles Run',
       link: 'https://www.strava.com/athletes/27922666',
+      subTitle: 'As tracked by Strava since October, 2016.',
       value: stravaService.getTotalRunMiles()
     },
     {
       title: 'Total npm Downloads',
       link: 'https://www.npmjs.com/~alexmacarthur',
+      subTitle: 'Mainly random open source JavaScript packages.',
       value: npmService.getTotalDownloads()
     },
     {
       title: "How Many Inches Tall I've Grown",
+      subTitle: 'Expecting a growth spurt any day now.',
       value: Promise.resolve(68)
+    },
+    {
+      title: "Average Resting Heart Rate",
+      subTitle: "Yes, that's beats per minute.",
+      value: Promise.resolve(45)
     },
   ];
 
