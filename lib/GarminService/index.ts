@@ -70,6 +70,7 @@ class GarminService {
                     waitUntil: 'networkidle0'
                 });
             } catch(e) {
+                console.log(`Current URL: ${page.url()}`); 
                 console.log(e.message);
             }
         });
