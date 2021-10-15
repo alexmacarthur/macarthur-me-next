@@ -24,6 +24,7 @@ class GarminService {
     }
 
     async logIn() {
+        try {
         const browser = await puppeteer.launch({
             headless: true,
             args: ['--no-sandbox']
@@ -53,14 +54,27 @@ class GarminService {
         await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
         return { page, browser };
+
+        } catch(e) {
+             console.error(e.message);
+             return {
+               page: null, browser: null
+             }
+        }
     }
 
     async getHeartRateData(): Promise<any> {
         const { page, browser } = await this.logIn();
 
+        if(!page || !browser) {
+            console.error('Either a page or browser wasn't returned').
+            return;
+        }
+
         const data = await new Promise(async (resolve) => {
             try {
                 page.on('response', async (response) => {
+                    console.log(response.url());
                     if (response.url().includes("wellness-service/wellness/dailyHeartRate")) {
                         resolve(await response.json());
                     }
