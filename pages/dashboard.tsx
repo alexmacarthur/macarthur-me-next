@@ -69,7 +69,7 @@ export async function getStaticProps() {
       value: ghService.getTotalsStars()
     },
     {
-      title: 'Total GitHub Followers',
+      title: 'TotalGitHub Followers',
       link: "https://github.com/alexmacarthur",
       subTitle: "Do it yourself today, for free.",
       value: ghService.getFollowerCount()
@@ -130,12 +130,17 @@ export async function getStaticProps() {
   await Promise.allSettled(stats.map(stat => stat.value));
 
   for (let stat of stats) {
-    stat.value = (await stat.value).toLocaleString();
+    try {
+      const result = await stat.value;
+      stat.value = result ? result.toLocaleString() : null;
+    } catch(e) {
+      stat.value = null;
+    }
   }
 
   return {
     props: {
-      stats
+      stats: stats.filter(s => s.value !== null)
     },
     revalidate: 3600
   };
