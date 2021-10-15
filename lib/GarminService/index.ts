@@ -47,6 +47,8 @@ class GarminService {
             frame.click('#login-btn-signin'),
         ]);
 
+        console.log(`Login attempted with status code: ${response.status()}`);
+
         if (!response.ok()) {
             console.error(`Sign in failed with this status code: ${response.status()}`);
         }
