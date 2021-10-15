@@ -69,7 +69,7 @@ export async function getStaticProps() {
       value: ghService.getTotalsStars()
     },
     {
-      title: 'TotalGitHub Followers',
+      title: 'Total GitHub Followers',
       link: "https://github.com/alexmacarthur",
       subTitle: "Do it yourself today, for free.",
       value: ghService.getFollowerCount()
