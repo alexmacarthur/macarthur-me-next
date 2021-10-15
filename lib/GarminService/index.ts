@@ -68,7 +68,7 @@ class GarminService {
 
         if(!page || !browser) {
             console.error("Either a page or browser wasn't returned.").
-            return;
+            return {};
         }
 
         const data = await new Promise(async (resolve) => {
