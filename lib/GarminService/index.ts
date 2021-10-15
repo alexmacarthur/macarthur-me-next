@@ -35,15 +35,14 @@ class GarminService {
         const chromeUserAgent = headlessUserAgent.replace('HeadlessChrome', 'Chrome');
         await page.setUserAgent(chromeUserAgent);
         await page.setExtraHTTPHeaders({ 'accept-language': 'en-US,en;q=0.8' });
-        await page.goto('https://connect.garmin.com/signin', { waitUntil: 'networkidle0' });
+        await page.goto('https://connect.garmin.com/signin', { waitUntil: 'networkidle2' });
         const elementHandle = await page.$('#gauth-widget-frame-gauth-widget');
         const frame = await elementHandle.contentFrame();
-        await frame.click('#login-remember');
         await frame.type('#username', process.env.GARMIN_USERNAME);
         await frame.type('#password', process.env.GARMIN_PASSWORD);
 
         const [response] = await Promise.all([
-            //frame.waitForNavigation({ waitUntil: 'networkidle0' }),
+            frame.waitForNavigation({ waitUntil: 'networkidle2' }),
             frame.click('#login-btn-signin'),
         ]);
 
