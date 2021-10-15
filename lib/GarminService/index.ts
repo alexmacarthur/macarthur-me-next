@@ -43,7 +43,7 @@ class GarminService {
         await frame.type('#password', process.env.GARMIN_PASSWORD);
 
         const [response] = await Promise.all([
-            frame.waitForNavigation({ waitUntil: 'networkidle0' }),
+            //frame.waitForNavigation({ waitUntil: 'networkidle0' }),
             frame.click('#login-btn-signin'),
         ]);
 
