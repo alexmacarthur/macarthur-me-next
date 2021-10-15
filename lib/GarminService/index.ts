@@ -67,7 +67,7 @@ class GarminService {
         const { page, browser } = await this.logIn();
 
         if(!page || !browser) {
-            console.error("Either a page or browser wasn't returned.").
+            console.error("Either a page or browser wasn't returned.");
             return {};
         }
 
