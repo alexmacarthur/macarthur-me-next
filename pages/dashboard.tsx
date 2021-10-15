@@ -4,8 +4,10 @@ import GitHubService from "../lib/GitHubService";
 import SupabaseService from "../lib/SupabaseService";
 import GoogleSearchService from "../lib/GoogleSearchService";
 import StravaService from "../lib/StravaService";
+import GarminService from "../lib/GarminService";
 import NpmService from "../lib/NpmService";
 import ExternalIcon from "../components/icon-external";
+import WordPressService from "../lib/WordPressService";
 
 const Dashboard = ({ stats }) => {
   return (
@@ -22,7 +24,7 @@ const Dashboard = ({ stats }) => {
           return (
             <li key={stat.title}>
               <div className="flex items-center">
-                <h2 dangerouslySetInnerHTML={{__html: stat.title}}></h2>
+                <h2 dangerouslySetInnerHTML={{ __html: stat.title }}></h2>
 
                 {stat.link &&
                   <a href={stat.link} target='_blank'>
@@ -56,18 +58,18 @@ export async function getStaticProps() {
   const gsService = new GoogleSearchService();
   const stravaService = new StravaService();
   const npmService = new NpmService();
-
-  await ghService.getUserData();
+  const garminService = new GarminService();
+  const wpService= new WordPressService();
 
   const stats: State[] = [
     {
       title: 'Total GitHub Stars',
       link: "https://github.com/alexmacarthur",
-      subTitle: "If you haven't starred any, get on that.",
+      subTitle: "If you haven't starred my repos, get on that.",
       value: ghService.getTotalsStars()
     },
     {
-      title: 'GitHub Followers',
+      title: 'Total GitHub Followers',
       link: "https://github.com/alexmacarthur",
       subTitle: "Do it yourself today, for free.",
       value: ghService.getFollowerCount()
@@ -107,20 +109,27 @@ export async function getStaticProps() {
       value: npmService.getTotalDownloads()
     },
     {
+      title: 'Average Resting Heart Rate',
+      link: "https://github.com/alexmacarthur",
+      subTitle: "Average over the past seven days.",
+      value: garminService.getRestingHeartRateForWeek()
+    },
+    {
+      title: 'Total WordPress Plugin Downloads',
+      link: "https://github.com/alexmacarthur",
+      subTitle: "Not a huge focus anymore, but still worth bragging about.",
+      value: wpService.getPluginDownloadCount()
+    },
+    {
       title: "How Many Inches Tall I've Grown",
       subTitle: 'Expecting a growth spurt any day now.',
       value: Promise.resolve(68)
-    },
-    {
-      title: "Average Resting Heart Rate",
-      subTitle: "Yes, that's beats per minute.",
-      value: Promise.resolve(45)
-    },
+    }
   ];
 
   await Promise.allSettled(stats.map(stat => stat.value));
 
-  for(let stat of stats) {
+  for (let stat of stats) {
     stat.value = (await stat.value).toLocaleString();
   }
 
