@@ -66,7 +66,12 @@ const ContactForm = () => {
           <label className="block">
             Your website:
             <br />
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+            />
           </label>
         </p>
 

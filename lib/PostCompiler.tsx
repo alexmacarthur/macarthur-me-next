@@ -20,19 +20,17 @@ export default class PostCompiler {
       return this.posts;
     }
 
-    const files: PostData[] = this.readFiles().map(
-      (dirent): PostData => {
-        const { name } = dirent;
-        const slug = this.getSlug(name);
+    const files: PostData[] = this.readFiles().map((dirent): PostData => {
+      const { name } = dirent;
+      const slug = this.getSlug(name);
 
-        return {
-          slug,
-          path: name,
-          date: this.getDate(name),
-          ...this.getContent(name, slug),
-        };
-      }
-    );
+      return {
+        slug,
+        path: name,
+        date: this.getDate(name),
+        ...this.getContent(name, slug),
+      };
+    });
 
     const directories: PostData[] = this.readDirectories().map(
       (dirent): PostData => {

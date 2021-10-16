@@ -12,7 +12,7 @@ dotenv.config();
 type MediaObject = {
   type: string;
   url: string;
-}
+};
 
 type Tweet = {
   text: string;
@@ -37,28 +37,28 @@ type Thread = {
 };
 
 const applyMediaToTweets = (responseData): Tweet[] => {
-  return (responseData?.data ?? []).map(t => {
-    t.media = (t?.attachments?.media_keys ?? []).map(media_key => {
-      const foundMedia = (responseData.includes?.media ?? []).find(m => {
+  return (responseData?.data ?? []).map((t) => {
+    t.media = (t?.attachments?.media_keys ?? []).map((media_key) => {
+      const foundMedia = (responseData.includes?.media ?? []).find((m) => {
         return m.media_key === media_key;
       });
 
       return {
         type: foundMedia.type,
-        url: foundMedia.url ?? ""
-      }
+        url: foundMedia.url ?? "",
+      };
     });
 
     return t;
   });
-}
+};
 
 const getTweet = async (id: string): Promise<Tweet | null> => {
   const params = new URLSearchParams({
     expansions: "referenced_tweets.id.author_id,attachments.media_keys",
     "tweet.fields": "created_at",
     "user.fields": "username",
-    "media.fields": "url"
+    "media.fields": "url",
   }).toString();
 
   const response = await fetch(
@@ -82,18 +82,22 @@ const getTweet = async (id: string): Promise<Tweet | null> => {
     media: data.includes?.media ?? [],
     user: data.includes.users.find((u) => {
       return u.id === data.data.author_id;
-    })
+    }),
   };
 };
 
-const getAllTweetsByConversationId = async ({ conversationId, extraParams = {} }): Promise<Tweet[]> => {
+const getAllTweetsByConversationId = async ({
+  conversationId,
+  extraParams = {},
+}): Promise<Tweet[]> => {
   const params = new URLSearchParams({
     query: `conversation_id:${conversationId}`,
-    max_results: '100',
-    expansions: "in_reply_to_user_id,entities.mentions.username,attachments.media_keys",
-    'tweet.fields': 'conversation_id',
-    'media.fields': 'url',
-    ...extraParams
+    max_results: "100",
+    expansions:
+      "in_reply_to_user_id,entities.mentions.username,attachments.media_keys",
+    "tweet.fields": "conversation_id",
+    "media.fields": "url",
+    ...extraParams,
   }).toString();
 
   const response = await fetch(
@@ -111,11 +115,14 @@ const getAllTweetsByConversationId = async ({ conversationId, extraParams = {} }
   const tweets: Tweet[] = applyMediaToTweets(responseJson);
 
   const moreTweets = responseJson.meta.next_token
-    ? await getAllTweetsByConversationId({ conversationId, extraParams: { pagination_token: responseJson.meta.next_token } })
+    ? await getAllTweetsByConversationId({
+        conversationId,
+        extraParams: { pagination_token: responseJson.meta.next_token },
+      })
     : [];
 
   return tweets.concat(moreTweets);
-}
+};
 
 /**
  * Ideally, this would use the v2 search endpoint, but you need special approval to be able to
@@ -133,7 +140,8 @@ const getAllTweetsSinceId = async ({
   const params = new URLSearchParams({
     since_id: id,
     end_time: endTime,
-    expansions: "in_reply_to_user_id,referenced_tweets.id.author_id,attachments.media_keys",
+    expansions:
+      "in_reply_to_user_id,referenced_tweets.id.author_id,attachments.media_keys",
     exclude: "retweets",
     max_results: "100",
     "tweet.fields": "conversation_id",
@@ -156,11 +164,11 @@ const getAllTweetsSinceId = async ({
 
   const moreTweets = responseJson.meta.next_token
     ? await getAllTweetsSinceId({
-      id,
-      endTime,
-      userId,
-      extraParams: { pagination_token: responseJson.meta.next_token },
-    })
+        id,
+        endTime,
+        userId,
+        extraParams: { pagination_token: responseJson.meta.next_token },
+      })
     : [];
 
   return tweets.concat(moreTweets);
@@ -169,11 +177,14 @@ const getAllTweetsSinceId = async ({
 const findRepliesToTweet = (tweets, originalTweetId, userId): Tweet[] => {
   return tweets.filter((tweet) => {
     const replyingToUserId = tweet.in_reply_to_user_id;
-    const isReplyingToUserThatIsNotSelf = replyingToUserId && replyingToUserId !== userId;
+    const isReplyingToUserThatIsNotSelf =
+      replyingToUserId && replyingToUserId !== userId;
 
-    return tweet.conversation_id === originalTweetId &&
+    return (
+      tweet.conversation_id === originalTweetId &&
       !isReplyingToUserThatIsNotSelf &&
-      tweet.author_id === userId;
+      tweet.author_id === userId
+    );
   });
 };
 
@@ -230,7 +241,11 @@ const getThread = async (tweetId): Promise<Thread> => {
     });
   }
 
-  const filteredTweets = findRepliesToTweet(tweets, tweetId, originalTweet.author_id);
+  const filteredTweets = findRepliesToTweet(
+    tweets,
+    tweetId,
+    originalTweet.author_id
+  );
   const orderedTweets = [originalTweet, ...filteredTweets.reverse()];
 
   return {
@@ -264,7 +279,7 @@ const getThread = async (tweetId): Promise<Thread> => {
       return {
         id,
         text,
-        media: media.filter(m => m.type === 'photo')
+        media: media.filter((m) => m.type === "photo"),
       };
     }),
   };

@@ -42,7 +42,11 @@ const Projects = ({ repos, specialProjects }) => {
               const link = project.link || "";
 
               return (
-                <Card key={link} classes={`flex flex-col ${project.blockClasses || ""}`} element="li">
+                <Card
+                  key={link}
+                  classes={`flex flex-col ${project.blockClasses || ""}`}
+                  element="li"
+                >
                   <div className="mb-6">
                     <h3 className="font-bold text-3xl mb-2">
                       <a href={link} target="_blank">
@@ -61,13 +65,17 @@ const Projects = ({ repos, specialProjects }) => {
                     </p>
                   </div>
 
-                  {link &&
+                  {link && (
                     <div className="mt-auto">
-                      <Button href={link} target="_blank" internal={link.startsWith("/")}>
+                      <Button
+                        href={link}
+                        target="_blank"
+                        internal={link.startsWith("/")}
+                      >
                         {link.replace(/https:\/\//, "")}
                       </Button>
                     </div>
-                  }
+                  )}
                 </Card>
               );
             })}
@@ -148,9 +156,9 @@ export async function getStaticProps() {
           description:
             "A stupid-simple comment service built for static site generators like Gatsby, Eleventy, and NextJS. It was built out of dissatisfaction with other solutions that require you to load a bloated, invasive third-party script in order to render comments client-side.",
           link: "https://jamcomments.com",
-        }
+        },
       ],
     },
-    revalidate: 86400
+    revalidate: 86400,
   };
 }
