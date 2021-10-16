@@ -154,7 +154,7 @@ export async function getStaticProps() {
   for (let stat of stats) {
     try {
       const result = await stat.value;
-      stat.value = result ? result.toLocaleString() : null;
+      stat.value = result ? String(result).toLocaleString() : null;
     } catch (e) {
       stat.value = null;
     }
