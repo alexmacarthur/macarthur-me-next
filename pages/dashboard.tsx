@@ -154,8 +154,9 @@ export async function getStaticProps() {
   for (let stat of stats) {
     try {
       const result = await stat.value;
-      stat.value = result ? String(result).toLocaleString() : null;
+      stat.value = result ? result.toLocaleString() : null;
     } catch (e) {
+      console.error(`DASHBOARD FETCH FAIL - ${stat.title}`);
       stat.value = null;
     }
   }
