@@ -157,18 +157,21 @@ export async function getStaticProps() {
   await Promise.allSettled(stats.map((stat) => stat.value));
 
   for (let stat of stats) {
+    let result;
+
     try {
-      const result = await stat.value;
-      stat.value = result ? result.toLocaleString() : null;
+      result = await stat.value;
+
+      stat.value = result.toLocaleString();
     } catch (e) {
-      console.error(`DASHBOARD FETCH FAIL - ${stat.title}`);
+      console.error(`DASHBOARD - Could not get stat value: ${stat.title}, ${result}`);
       stat.value = null;
     }
   }
 
   return {
     props: {
-      stats: stats.filter((s) => s.value !== null),
+      stats: stats.filter((s) => !!s.value),
     },
     revalidate: 3600,
   };
