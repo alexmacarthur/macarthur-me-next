@@ -2,18 +2,21 @@
 title: About
 ---
 
-**I'm a web developer for [Dave Ramsey](https://ramseysolutions.com) in Nashville, TN.**
+**I'm a web application developer for [Dave Ramsey](https://ramseysolutions.com) in Nashville, TN.**
 
-My family and I moved here in 2015 from Minnesota, where "soda" is just shorthand for the stuff you mix with vinegar to create a volcano for a junior high science fair. I love what I do, and it's a privilege to do it for a mission that matters.
+My family and I moved here in 2015 from Minnesota, where "soda" is just short for the stuff you mix with vinegar to make a volcano for a junior high science fair. I love what I do, and it's a privilege to do it for a mission that matters.
 
-**I can help you build your next website or digital tool.**
+**I can't seem to get sick of tinkering with software.**
 
-I specialize in building web applications, as well as providing consultation to help you improve or troubleshoot something you already have. Things like this:
+I love dabbling in new technologies, often turning them into [personal projects](/projects). On the whole, this tinkering stays within the Ruby, PHP, and JavaScript spaces.
 
-- Building a custom, performant website for your small business.
-- Constructing an application to solve unique internal challenges.
-- Optimizing the front-end performance of your slow website.
-- Creating a simple API to consume your data in a particular way.
-- Helping you figure out why Google seemingly hates your website.
+**I can help build or optimize your website or application.**
 
-That list isn't exhaustive. If you need some help, [let's connect](/contact) to get the process started.
+Whether it's the front, back, or middle of the stack, I'm open to collaborating on your digital needs in whatever way I can. Some of examples of what that might look like: 
+
+- Building performant, SEO-friendly website for your small business.
+- Consulting on front-end performance issues you've been experiencing. 
+- Making a REST or GraphQL API to meet a bespoke business need.
+- Designing & implementing a caching strategy for your application.
+
+That list isn't exhaustive. If you need some help, [let's connect](/contact) to get the process started. If web forms are scary, you can also find me on [Twitter](https://twitter.com/amacarthur), [LinkedIn](https://www.linkedin.com/in/alexmacarthur/), or [email](mailto:alex@macarthur.me).

@@ -147,6 +147,11 @@ export async function getStaticProps() {
       subTitle: "Expecting a growth spurt any day now.",
       value: Promise.resolve(68),
     },
+    {
+      title: "Enneagram #",
+      subTitle: "The fact that I have a personal dashboard should prove this.",
+      value: Promise.resolve(3),
+    },
   ];
 
   await Promise.allSettled(stats.map((stat) => stat.value));
