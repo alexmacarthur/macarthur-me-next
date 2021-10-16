@@ -8,6 +8,7 @@ import GarminService from "../lib/GarminService";
 import NpmService from "../lib/NpmService";
 import ExternalIcon from "../components/icon-external";
 import WordPressService from "../lib/WordPressService";
+import TwitterService from "../lib/TwitterService";
 
 const Dashboard = ({ stats }) => {
   return (
@@ -74,6 +75,7 @@ export async function getStaticProps() {
   const npmService = new NpmService();
   const garminService = new GarminService();
   const wpService = new WordPressService();
+  const twitterService = new TwitterService();
 
   const stats: State[] = [
     {
@@ -87,6 +89,12 @@ export async function getStaticProps() {
       link: "https://github.com/alexmacarthur",
       subTitle: "Do it yourself today, for free.",
       value: ghService.getFollowerCount(),
+    },
+    {
+      title: "Total Twitter Followers",
+      link: "https://twitter.com/amacarthur",
+      subTitle: "Go ahead, follow me.",
+      value: twitterService.getFollowerCount(),
     },
     {
       title: "Total Website Views",
@@ -124,7 +132,7 @@ export async function getStaticProps() {
     },
     {
       title: "Average Resting Heart Rate",
-      link: "https://github.com/alexmacarthur",
+      link: "https://connect.garmin.com/modern/profile/9d70c989-def3-466a-a025-32f4c289f2ac",
       subTitle: "Average over the past seven days.",
       value: garminService.getRestingHeartRateForWeek(),
     },
