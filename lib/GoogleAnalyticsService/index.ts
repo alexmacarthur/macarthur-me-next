@@ -49,8 +49,8 @@ class GoogleAnalyticsService {
         return null;
       }
   
-      const total = result.data?.totalsForAllResults
-  
+      const total = result.data?.totalsForAllResults?.['ga:pageviews'];
+
       return total ? Number(total).toLocaleString() : null;
     } catch(e) {
       this.log(e.message);
