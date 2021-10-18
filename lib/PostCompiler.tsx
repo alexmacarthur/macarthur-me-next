@@ -60,11 +60,11 @@ export default class PostCompiler {
   async attachGaViews(posts): Promise<PostData[]> {
     for(const post of posts) {
 
-      // Hack to get around GA rate limiting. Allows a maximum of two requests per second.
+      // Hack to get around GA rate limiting.
       await new Promise((resolve) => {
         setTimeout(async () => {
           resolve(null);
-        }, process.env.NODE_ENV === 'production' ? 150 : 0);
+        }, process.env.NODE_ENV === 'production' ? 250 : 0);
       });
 
       post.views = await this.ga.getPostViews(post.slug);
