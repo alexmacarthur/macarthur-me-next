@@ -57,7 +57,7 @@ export default function PostLayout({
         isPost={isPost}
         subTitle={subTitle}
         lastUpdated={lastUpdated}
-        views={views}
+        views={isPost ? views : ''}
       >
         {title}
       </Title>
