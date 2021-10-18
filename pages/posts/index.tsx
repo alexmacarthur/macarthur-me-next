@@ -23,6 +23,7 @@ export async function getStaticProps() {
       nextPage: 2,
       currentPage: 1,
       totalPages: await getTotalPostPages()
-    }
+    },
+    revalidate: 3600
   }
 }

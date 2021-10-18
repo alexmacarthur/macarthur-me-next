@@ -64,7 +64,7 @@ export default class PostCompiler {
       await new Promise((resolve) => {
         setTimeout(async () => {
           resolve(null);
-        }, process.env.NODE_ENV === 'production' ? 500 : 0);
+        }, process.env.NODE_ENV === 'production' ? 150 : 0);
       });
 
       post.views = await this.ga.getPostViews(post.slug);

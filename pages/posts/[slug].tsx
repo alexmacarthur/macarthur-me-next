@@ -30,6 +30,7 @@ export async function getStaticProps({ params }) {
       comments,
       post
     },
+    revalidate: 3600
   };
 }
 
