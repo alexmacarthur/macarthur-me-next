@@ -40,7 +40,7 @@ const PostList = ({ posts }) => {
                   {post.lastUpdated && "Originally posted on"}
                 </DateFormatter>
 
-                {post.views && 
+                {external && post.views &&
                   <ViewCount count={post.views} />
                 }
               </div>
