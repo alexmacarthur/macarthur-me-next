@@ -2,20 +2,23 @@ import fs from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { processMarkdown, stripMarkdown } from "./markdown";
+import GoogleAnalyticsService from "./GoogleAnalyticsService";
 
 export default class PostCompiler {
   posts: PostData[];
   directory: string;
   slugPattern: RegExp;
   datePattern: RegExp = new RegExp(/\d{4}-\d{2}-\d{2}-/);
+  ga: GoogleAnalyticsService
 
   constructor(directory: string, slugPattern: RegExp) {
     this.posts = [];
     this.directory = directory;
     this.slugPattern = slugPattern;
+    this.ga = new GoogleAnalyticsService();
   }
 
-  getPosts() {
+  async getPosts() {
     if (this.posts.length > 0) {
       return this.posts;
     }
@@ -47,14 +50,32 @@ export default class PostCompiler {
       }
     );
 
-    this.posts = this.sortByDate([...directories, ...files]);
+    const posts = this.sortByDate([...directories, ...files]);
+
+    this.posts = await this.attachGaViews(posts);
 
     return this.posts;
   }
 
-  getContentBySlug(slug: string): PostData {
+  async attachGaViews(posts): Promise<PostData[]> {
+    for(const post of posts) {
+
+      // Hack to get around GA rate limiting. Allows a maximum of two requests per second.
+      await new Promise((resolve) => {
+        setTimeout(async () => {
+          resolve(null);
+        }, process.env.NODE_ENV === 'production' ? 500 : 0);
+      });
+
+      post.views = await this.ga.getPostViews(post.slug);
+    }
+
+    return posts;
+  }
+
+  async getContentBySlug(slug: string): Promise<PostData> {
     return (
-      this.getPosts().find((post) => {
+      (await this.getPosts()).find((post) => {
         return post.slug === slug;
       }) || null
     );
@@ -115,6 +136,7 @@ export default class PostCompiler {
       subTitle: data.subTitle || "",
       ogImage: data.ogImage || "",
       external: data.external || "",
+      externalDomain: data.external ? (new URL(data.external)).host.replace(/^www\./, "") : ""
     };
   }
 }

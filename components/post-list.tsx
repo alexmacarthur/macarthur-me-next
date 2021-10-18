@@ -1,12 +1,13 @@
 import Link from "next/link";
 import DateFormatter from "./date-formatter";
 import Button from "./button";
+import ViewCount from "./view-count";
 
 const PostList = ({ posts }) => {
   return (
     <ul className="space-y-10">
       {posts.map((post) => {
-        const { external } = post;
+        const { external, externalDomain } = post;
         const linkProps = {
           href: external ? external : `/posts/${post.slug}`,
           target: external ? "_blank" : "_self",
@@ -21,22 +22,28 @@ const PostList = ({ posts }) => {
                 </Link>
               </h2>
 
-              {post.lastUpdated && (
-                <>
-                  <DateFormatter
-                    date={post.lastUpdated}
-                    className="inline-block mb-3"
-                  >
-                    Updated on
-                  </DateFormatter>
+              <div className="flex items-center mb-3 gap-3 text-base">
+                {post.lastUpdated && (
+                  <>
+                    <DateFormatter
+                      date={post.lastUpdated}
+                      className="inline-block"
+                    >
+                      Updated on
+                    </DateFormatter>
 
-                  <span className="light-text px-2">/</span>
-                </>
-              )}
+                    <small>/</small>
+                  </>
+                )}
 
-              <DateFormatter date={post.date} className="inline-block mb-3">
-                {post.lastUpdated && "Originally posted on"}
-              </DateFormatter>
+                <DateFormatter date={post.date} className="inline-block">
+                  {post.lastUpdated && "Originally posted on"}
+                </DateFormatter>
+
+                {post.views && 
+                  <ViewCount count={post.views} />
+                }
+              </div>
 
               <small className="block text-gray-500 mb-2">{post.excerpt}</small>
 
@@ -46,7 +53,7 @@ const PostList = ({ posts }) => {
                 internal={!external}
                 {...linkProps}
               >
-                Read It
+                Read It {externalDomain && <>({externalDomain})</> }
               </Button>
             </article>
           </li>

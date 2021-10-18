@@ -18,7 +18,7 @@ export default function DateFormatter({
   });
 
   return (
-    <span className={`light-text ${className}`}>
+    <span className={`text-gray-500 text-sm ${className}`}>
       {children}{" "}
       <time dateTime={dateObject.toISOString()}>{formattedDate}</time>
     </span>

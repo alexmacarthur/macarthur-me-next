@@ -1,5 +1,6 @@
 import DateFormatter from "./date-formatter";
 import Button from "./button";
+import ViewCount from "./view-count";
 
 type TitleProps = {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ type TitleProps = {
   subTitle?: string;
   lastUpdated?: string;
   secondaryMeta?: Function;
+  views?: string;
 };
 
 const Title = ({
@@ -17,6 +19,7 @@ const Title = ({
   subTitle,
   lastUpdated,
   secondaryMeta,
+  views
 }: TitleProps) => {
   return (
     <div className="mt-1 lg:mt-6 mb-4 lg:mb-12">
@@ -49,20 +52,24 @@ const Title = ({
       </div>
 
       <div className="flex justify-between items-center">
-        <div>
+        <div className="flex items-center gap-3">
           {lastUpdated && (
             <>
               <DateFormatter date={lastUpdated}>Updated on </DateFormatter>
 
-              <span className="light-text px-2">/</span>
+              <span className="light-text">/</span>
             </>
           )}
 
           {date && (
-            <DateFormatter date={date} className="mr-4">
+            <DateFormatter date={date}>
               {lastUpdated && "Originally posted on"}
             </DateFormatter>
           )}
+
+          {views && 
+            <ViewCount count={views} />
+          }
         </div>
 
         {secondaryMeta && secondaryMeta()}

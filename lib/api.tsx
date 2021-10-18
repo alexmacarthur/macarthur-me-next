@@ -13,36 +13,37 @@ const pageCompiler = new PostCompiler(pagesDirectory, pageSlugPattern);
 
 const PER_PAGE = 10;
 
-export function getContentBySlug(slug: string, contentType: ContentType) {
+export async function getContentBySlug(slug: string, contentType: ContentType) {
   const compiler = contentType === "post" ? postCompiler : pageCompiler;
 
   return compiler.getContentBySlug(slug);
 }
 
-export function getAllPosts(): PostData[] {
+export async function getAllPosts(): Promise<PostData[]> {
   return postCompiler.getPosts();
 }
 
-export function getPostChunks(): [] {
-  const posts = getAllPosts();
+export async function getPostChunks(): Promise<[]> {
+  const posts = await getAllPosts();
+
   return chunk(posts, PER_PAGE);
 }
 
-export function getPageOfPosts(page: number): [] {
-  const postChunks = getPostChunks();
+export async function getPageOfPosts(page: number): Promise<[]> {
+  const postChunks = await getPostChunks();
 
   return postChunks[page - 1];
 }
 
-export function getTotalPostPages(): number {
-  return getPostChunks().length;
+export async function getTotalPostPages(): Promise<number> {
+  return (await getPostChunks()).length;
 }
 
-export function getPostPageCount(): number {
-  return getPostChunks().length;
+export async function getPostPageCount(): Promise<number> {
+  return (await getPostChunks()).length;
 }
 
-export function getAllPages(): PostData[] {
+export async function getAllPages(): Promise<PostData[]> {
   return pageCompiler.getPosts();
 }
 

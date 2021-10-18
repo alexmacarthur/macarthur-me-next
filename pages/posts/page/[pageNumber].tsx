@@ -17,7 +17,7 @@ export default Posts;
 
 export async function getStaticProps({ params }) {
   const pageNumber = Number(params.pageNumber);
-  const numberOfPages = getPostPageCount();
+  const numberOfPages = await getPostPageCount();
   const previousPage = pageNumber - 1;
   const nextPage = pageNumber + 1;
 
@@ -27,13 +27,14 @@ export async function getStaticProps({ params }) {
       previousPage: previousPage <= 0 ? null : previousPage,
       nextPage: nextPage > numberOfPages ? null : nextPage,
       currentPage: params.pageNumber,
-      totalPages: getTotalPostPages()
+      totalPages: await getTotalPostPages()
     }
   }
 }
 
 export async function getStaticPaths() {
-  const emptyArray = new Array(getPostPageCount());
+  const count = await getPostPageCount();
+  const emptyArray = new Array(count);
 
   return {
     paths: (emptyArray.fill(null)).map((_value, index) => {

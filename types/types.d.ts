@@ -10,6 +10,7 @@ interface PostData {
   excerpt?: string;
   external?: string;
   lastUpdated?: string;
+  views?: string | null;
 }
 
 interface MarkdownLayoutProps {

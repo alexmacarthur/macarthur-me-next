@@ -6,7 +6,7 @@ export default function Page({ page }) {
 }
 
 export async function getStaticProps({ params }) {
-  const page = getContentBySlug(params.page, "page");
+  const page = await getContentBySlug(params.page, "page");
   const content = page.content || "";
 
   return {
@@ -20,7 +20,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const pages = getAllPages();
+  const pages = await getAllPages();
 
   return {
     paths: pages.map((page) => {

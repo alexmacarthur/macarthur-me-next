@@ -18,11 +18,11 @@ export default Posts;
 export async function getStaticProps() {
   return {
     props: {
-      posts: getPageOfPosts(1),
+      posts: await getPageOfPosts(1),
       previousPage: null,
       nextPage: 2,
       currentPage: 1,
-      totalPages: getTotalPostPages()
+      totalPages: await getTotalPostPages()
     }
   }
 }

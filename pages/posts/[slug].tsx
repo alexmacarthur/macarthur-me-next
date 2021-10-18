@@ -14,7 +14,7 @@ export default function Post({ post, comments, jamCommentsDomain, jamCommentsApi
 }
 
 export async function getStaticProps({ params }) {
-  const post = getContentBySlug(params.slug, 'post');
+  const post = await getContentBySlug(params.slug, 'post');
   const { fetchByPath } = require("@jam-comments/next");
 
   const comments = await fetchByPath({
@@ -34,7 +34,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
 
   return {
     paths: posts.map((post) => {
