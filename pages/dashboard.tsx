@@ -148,8 +148,8 @@ export async function getStaticProps() {
       value: Promise.resolve(68),
     },
     {
-      title: "Enneagram #",
-      subTitle: "The fact that I have a personal dashboard should prove this.",
+      title: "Enneagram Number",
+      subTitle: "Probs obvious given that I have a personal dashboard.",
       value: Promise.resolve(3),
     },
   ];
