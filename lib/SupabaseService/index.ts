@@ -78,7 +78,7 @@ class SupabaseService {
     return await this.client
       .from('dashboard_data')
       .insert([
-        { name, value }
+        { name, value: String(value) }
       ]);
   }
 
