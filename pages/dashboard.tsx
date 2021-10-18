@@ -162,16 +162,22 @@ export async function getStaticProps() {
     try {
       result = await stat.value;
 
-      stat.value = result.toLocaleString();
+      if (!result) {
+        console.log(`DASHBOARD - Stat value was empty: ${stat.title}, ${result}`);
+      }
+
+      stat.value = Number(result).toLocaleString();
     } catch (e) {
-      console.error(`DASHBOARD - Could not get stat value: ${stat.title}, ${result}`);
+      console.log(`DASHBOARD - Could not get stat value: ${stat.title}, ${result}`);
       stat.value = null;
     }
   }
 
   return {
     props: {
-      stats: stats.filter((s) => !!s.value),
+      stats: stats.filter((s) => {
+        return !!s.value;
+      }),
     },
     revalidate: 3600,
   };

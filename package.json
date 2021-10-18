@@ -31,17 +31,17 @@
     "isomorphic-fetch": "^3.0.0",
     "lodash.chunk": "^4.2.0",
     "markdown-it": "^12.2.0",
-    "markdown-it-anchor": "^8.3.1",
+    "markdown-it-anchor": "^8.4.1",
     "markdown-it-prism": "^2.2.1",
     "next": "^11.1.2",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-images": "^2.6.2",
     "next-plugin-preact": "^3.0.6",
-    "nodemailer": "^6.6.5",
-    "npm": "^8.0.0",
+    "nodemailer": "^6.7.0",
+    "npm": "^8.1.0",
     "octonode": "^0.10.2",
     "postcss": "^8.3.9",
-    "preact": "^10.5.14",
+    "preact": "^10.5.15",
     "preact-render-to-string": "^5.1.19",
     "prismjs": "^1.25.0",
     "puppeteer": "^10.4.0",
@@ -50,7 +50,7 @@
     "react-ssr-prepass": "npm:preact-ssr-prepass@^1.2.0",
     "remark": "^14.0.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.42.1",
+    "sass": "^1.43.2",
     "shelljs": "^0.8.4",
     "strip-markdown": "^5.0.0"
   },
@@ -63,16 +63,16 @@
     }
   },
   "devDependencies": {
-    "@types/react": "^17.0.27",
+    "@types/react": "^17.0.30",
     "dotenv": "^10.0.0",
     "husky": "^7.0.2",
-    "lint-staged": "^11.2.2",
+    "lint-staged": "^11.2.3",
     "postcss-import": "^14.0.2",
     "postcss-preset-env": "^6.7.0",
     "precss": "^4.0.0",
     "prettier": "^2.4.1",
-    "tailwindcss": "^2.2.16",
-    "typescript": "^4.4.3"
+    "tailwindcss": "^2.2.17",
+    "typescript": "^4.4.4"
   },
   "license": "GPL-2.0"
 }

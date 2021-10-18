@@ -43,6 +43,45 @@ class SupabaseService {
     return data.length ? data[0] : null;
   }
 
+  async getDashboardValue(name: string): Promise<null | {
+    value: any, 
+    hasExpired: boolean
+  }> {
+    const { data } = await this.client
+      .from('dashboard_data')
+      .select()
+      .eq('name', name)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    if (!data.length) {
+      return null;
+    }
+
+    const record = data[0];
+    const ageOfRecord = ((new Date()).getTime() - (new Date(record.created_at)).getTime()) / 1000;
+
+    return {
+      value: record.value,
+      hasExpired: ageOfRecord > 3600
+    }
+  }
+
+  async updateDashboardValue(name: string, value: any) {
+    // Delete the existing item.
+    await this.client
+      .from('dashboard_data')
+      .delete()
+      .match({ 'name': name });
+
+    // Add the new item.
+    return await this.client
+      .from('dashboard_data')
+      .insert([
+        { name, value }
+      ]);
+  }
+
   async updateToken({
     service,
     accessToken,

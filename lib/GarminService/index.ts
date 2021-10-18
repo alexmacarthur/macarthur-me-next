@@ -1,6 +1,13 @@
 import puppeteer from "puppeteer";
+import SupabaseService from "../SupabaseService";
 
 class GarminService {
+    db: SupabaseService;
+
+    constructor() {
+        this.db = new SupabaseService();
+    }
+
     log(message) {
         console.log(`GARMIN SERVICE LOG - ${message}`);
     }
@@ -15,11 +22,21 @@ class GarminService {
         ].join('-');
     }
 
-    async getRestingHeartRateForWeek() {
+    async getRestingHeartRateForWeek(): Promise<number> {
+
+        const savedValue = await this.db.getDashboardValue('resting_heart_rate_for_week');
+
+        if(savedValue && !savedValue.hasExpired) {
+            this.log('Using value cached in DB');
+            return savedValue.value;
+        }
+
         try {
             const { lastSevenDaysAvgRestingHeartRate } = await this.getHeartRateData();
 
             this.log(`Found resting heart rate: ${lastSevenDaysAvgRestingHeartRate}`);
+
+            await this.db.updateDashboardValue('resting_heart_rate_for_week', lastSevenDaysAvgRestingHeartRate);
 
             return lastSevenDaysAvgRestingHeartRate;
         } catch (e) {
@@ -73,15 +90,13 @@ class GarminService {
         }
 
         const data = await (new Promise(async (resolve, reject) => {
-            const listenForData = async (response) => {
-                if (response.url().includes("wellness-service/wellness/dailyHeartRate")) {
-                    resolve(await response.json());
-                    await page.close();
-                    page.off('request', listenForData);
-                }
-            }
-
             try {
+                const listenForData = async (response) => {
+                    if (response.url().includes("wellness-service/wellness/dailyHeartRate")) {
+                        return resolve(await response.json());
+                    }
+                }
+                
                 page.on('response', listenForData);
 
                 await page.goto(`https://connect.garmin.com/modern/daily-summary/${this.getDateString()}/heartRate`, {
@@ -92,6 +107,7 @@ class GarminService {
             }
         }));
 
+        await page.close();
         await browser.close();
 
         return data;
