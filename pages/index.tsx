@@ -14,15 +14,12 @@ export default function Index() {
         <main className="h-screen w-screen flex items-center justify-center p-4 md:p-6">
           <div className="text-white">
             <div className="max-w-5xl mb-4">
-              <h1 className="font-semibold leading-none text-5xl md:text-7xl text-gray-900">
+              <h1 className="font-semibold leading-none text-4xl md:text-7xl text-gray-900">
                 <Logo>
-                  I'm Alex MacArthur, a web developer in <span className="font-black inline-block">Nashville-ish, TN.</span>
+                  I'm Alex MacArthur, a web developer in <span className="font-black whitespace-nowrap">Nashville-ish, TN.</span>
                 </Logo>
               </h1>
             </div>
-            {/* <span className="md:pl-0 text-xl md:text-2xl leading-tight md:leading-10 inline-block text-gray-500 font-light mb-4">
-              is a web developer in Nashville-ish, TN.
-            </span> */}
             <SocialLinks />
           </div>
         </main>
