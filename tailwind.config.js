@@ -38,6 +38,9 @@ module.exports = {
             h4: {
               fontSize: theme('fontSize.xl')
             },
+            h5: {
+              fontSize: theme('fontSize.lg')
+            },
             'ul, ol': {
               paddingLeft: theme('padding.4')
             },

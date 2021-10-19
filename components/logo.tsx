@@ -43,11 +43,12 @@ const selectRange = (angle: number): Array<any> => {
 type LogoProps = {
   asLink?: boolean;
   short?: boolean;
+  children?: any;
 };
 
-const Logo = ({ asLink = false, short = false }: LogoProps): ReactElement => {
+const Logo = ({ asLink = false, short = false, children = null }: LogoProps): ReactElement => {
   const router = useRouter();
-  const logoText: string = short ? "AM" : "Alex MacArthur";
+  const defaultLogoText: string = short ? "AM" : "Alex MacArthur";
 
   useEffect(() => {
     let rafId: number = 0;
@@ -60,9 +61,9 @@ const Logo = ({ asLink = false, short = false }: LogoProps): ReactElement => {
         ? destinationAngle + 360
         : destinationAngle;
 
-    const duration = 750;
+    const duration = 1250;
     const totalDegreesToTurn = destinationAngle - startingAngle;
-    const easing = BezierEasing(0.65, 0.3, 0.3, 1);
+    const easing = BezierEasing(0.5, 0, 0, 1);
 
     const gradientEffect = async () => {
       const turnGradient = (timestamp) => {
@@ -99,9 +100,9 @@ const Logo = ({ asLink = false, short = false }: LogoProps): ReactElement => {
     };
   }, []);
 
-  const children = (
+  const styledChildren = (
     <span className="block z-30 text-gray-900 left-0 top-0 gradient-text font-extrabold p-0">
-      {logoText}
+      {children || defaultLogoText}
     </span>
   );
 
@@ -115,10 +116,10 @@ const Logo = ({ asLink = false, short = false }: LogoProps): ReactElement => {
         router.push("/");
       }}
     >
-      {children}
+      {styledChildren}
     </a>
   ) : (
-    children
+    styledChildren
   );
 
   return <span className="relative block">{constructedLogo}</span>;

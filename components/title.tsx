@@ -22,7 +22,7 @@ const Title = ({
   views
 }: TitleProps) => {
   return (
-    <div className="mt-1 lg:mt-6 mb-4 lg:mb-12">
+    <div className="mt-1 lg:mt-6 mb-4 lg:mb-9">
       <div>
         {isPost && (
           <span className="block mb-3 mr-4 text-base">
