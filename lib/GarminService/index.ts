@@ -23,13 +23,12 @@ class GarminService {
     }
 
     async getRestingHeartRateForWeek(): Promise<number> {
-
         const savedValue = await this.db.getDashboardValue('resting_heart_rate_for_week');
 
-        if(savedValue && !savedValue.hasExpired) {
-            this.log('Using value cached in DB');
-            return savedValue.value;
-        }
+        // if(savedValue && !savedValue.hasExpired) {
+        //     this.log('Using value cached in DB');
+        //     return savedValue.value;
+        // }
 
         try {
             const { lastSevenDaysAvgRestingHeartRate } = await this.getHeartRateData();
@@ -45,13 +44,23 @@ class GarminService {
         }
     }
 
-    async logIn() {
+    async logIn(preLoginCallback: Function = () => {}) {
         try {
             const browser = await puppeteer.launch({
                 headless: true,
                 args: ['--no-sandbox']
             });
             const [page] = await browser.pages();
+            await page.setRequestInterception(true);
+
+            // Block every request except XHR.
+            // page.on('request', (request) => {
+            //     if (request.resourceType() !== 'xhr') request.continue();
+            //     else request.abort();
+            // });
+
+            // preLoginCallback(browser, page);
+
             const headlessUserAgent = await page.evaluate(() => navigator.userAgent);
             const chromeUserAgent = headlessUserAgent.replace('HeadlessChrome', 'Chrome');
             await page.setUserAgent(chromeUserAgent);
@@ -63,13 +72,13 @@ class GarminService {
             await frame.type('#password', process.env.GARMIN_PASSWORD);
 
             const [response] = await Promise.all([
-                frame.waitForNavigation({ waitUntil: 'networkidle2' }),
+                frame.waitForNavigation({ waitUntil: 'networkidle0' }),
                 frame.click('#login-btn-signin'),
             ]);
 
             this.log(`Signed into Garmin with this status code: ${response.status()}`);
 
-            await page.waitForNavigation({ waitUntil: 'networkidle2' });
+            await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
             return { page, browser };
         } catch (e) {
@@ -82,34 +91,29 @@ class GarminService {
     }
 
     async getHeartRateData(): Promise<any> {
-        const { page, browser } = await this.logIn();
-
-        if (!page || !browser) {
-            this.log("Either a page or browser wasn't returned.");
-            return {};
-        }
-
-        const data = await (new Promise(async (resolve, reject) => {
-            try {
-                const listenForData = async (response) => {
-                    if (response.url().includes("wellness-service/wellness/dailyHeartRate")) {
-                        return resolve(await response.json());
+        let {data, page, browser} = await (new Promise(async (resolve, reject) => {
+            this.logIn(
+                async (_browser, page) => {
+                    try {
+                        page.on('response', async (response) => {
+                            if (response.url().includes("wellness-service/wellness/dailyHeartRate")) {
+                                console.log(await response.json());
+                                return resolve({
+                                    data: await response.json(), 
+                                    page, 
+                                    browser
+                                });
+                            }
+                        });
+                    } catch (e) {
+                        reject(e.message);
                     }
-                }
-                
-                page.on('response', listenForData);
-
-                await page.goto(`https://connect.garmin.com/modern/daily-summary/${this.getDateString()}/heartRate`, {
-                    waitUntil: 'networkidle2'
                 });
-            } catch (e) {
-                reject(e.message);
-            }
         }));
 
-        await page.close();
-        await browser.close();
-
+        page && await page.close();
+        browser && await browser.close();
+        
         return data;
     }
 }

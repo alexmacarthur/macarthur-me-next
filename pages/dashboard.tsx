@@ -134,7 +134,8 @@ export async function getStaticProps() {
       title: "Average Resting Heart Rate",
       link: "https://connect.garmin.com/modern/profile/9d70c989-def3-466a-a025-32f4c289f2ac",
       subTitle: "Average over the past seven days.",
-      value: garminService.getRestingHeartRateForWeek(),
+      // value: garminService.getRestingHeartRateForWeek(),
+      value: Promise.resolve(44)
     },
     {
       title: "Total WordPress Plugin Downloads",
