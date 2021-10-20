@@ -3,8 +3,13 @@ import Nav from "../components/nav";
 import Logo from "../components/logo";
 import SocialLinks from "../components/social-links";
 import Link from 'next/link';
+import { getTopPosts } from "../lib/api";
+import ViewCount from "../components/view-count";
+import Container from "../components/container";
+import DateFormatter from "../components/date-formatter";
+import Button from "../components/button";
 
-export default function Index() {
+export default function Index({ topPosts }) {
   return (
     <>
       <Meta />
@@ -33,8 +38,45 @@ export default function Index() {
           <div className="mt-6 md:mt-8 lg:mt-10 mb-16">
             <SocialLinks />
           </div>
+
+          <Container>
+            <h2 className="text-2xl font-bold mb-6">Most-Viewed Posts</h2>
+
+            <ul className="grid grid-cols-3 gap-6">
+              {topPosts.map(post => {
+                const { title, views, date, path } = post;
+
+                return (
+                  <li>
+                    <h3>{title}</h3>
+                    {/* <ViewCount count={views}/> */}
+                    <DateFormatter date={date} />
+
+                    <div>
+                      <Button
+                        naked={true}
+                        small={true}
+                        href={path}
+                        internal={true}
+                      >
+                        Read It
+                      </Button>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </Container>
         </div>
       </main>
     </>
   );
+}
+
+export async function getStaticProps({ params }) {
+  return {
+    props: {
+      topPosts: await getTopPosts()
+    }
+  }
 }
