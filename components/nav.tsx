@@ -14,10 +14,6 @@ const navItems = [
     link: "/projects",
   },
   {
-    name: "About",
-    link: "/about",
-  },
-  {
     name: "Dashboard",
     link: "/dashboard",
   },
@@ -27,7 +23,7 @@ const navItems = [
   },
 ];
 
-const Nav = ({ isAbsolute = false }) => {
+const Nav = () => {
   const router = useRouter();
   const [shouldHideLogo, setShouldHideLogo] = useState(() => {
     return router.route === "/";
@@ -45,11 +41,9 @@ const Nav = ({ isAbsolute = false }) => {
     };
   }, []);
 
-  const positionClass = isAbsolute ? "absolute" : "relative";
-
   return (
     <nav
-      className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav ${positionClass}`}
+      className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav relative`}
     >
       <input
         type="checkbox"

@@ -101,7 +101,7 @@ const Logo = ({ asLink = false, short = false, children = null }: LogoProps): Re
   }, []);
 
   const styledChildren = (
-    <span className="block z-30 text-gray-900 left-0 top-0 gradient-text font-extrabold p-0">
+    <span className="block z-30 text-gray-900 left-0 top-0 gradient-text font-extrabold p-0 pb-2">
       {children || defaultLogoText}
     </span>
   );

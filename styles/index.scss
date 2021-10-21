@@ -29,7 +29,7 @@ svg {
 .icon {
   path {
     @apply transition-all;
-    fill: theme('colors.gray.700');
+    fill: theme('colors.gray.800');
   }
 
   &:hover {
@@ -171,27 +171,26 @@ span {
   padding-bottom: 1rem;
   transition: background .15s ease-in-out;
   background: linear-gradient(var(--gradient-angle), theme('colors.gray.500') 50%, theme('colors.gray.800') 50%);
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
+
+  a {
+    @apply bg-purple-400;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+
+    &:hover {
+      @apply bg-purple-500;
+    }
+  }
 }
 
 .post-content {
   p > div {
     display: block;
     overflow: auto;
-  }
-
-  /* Special hover effect */
-  a {
-    transition: all .12s ease-in-out;
-    color: inherit;
-    box-shadow: 0px -.3rem 0px 0px theme('colors.red.200') inset;
-    padding-bottom: .075rem;
-
-    &:hover {
-      padding-bottom: .3rem;
-      box-shadow: 0px -3px 0px 0px theme('colors.red.400') inset;
-    }
   }
 
   // Do not make heading anchor links fancy.
