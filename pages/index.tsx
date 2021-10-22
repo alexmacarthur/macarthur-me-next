@@ -5,7 +5,6 @@ import SocialLinks from "../components/social-links";
 import Link from 'next/link';
 import { getTopPosts } from "../lib/api";
 import ViewCount from "../components/view-count";
-import Container from "../components/container";
 import DateFormatter from "../components/date-formatter";
 import Button from "../components/button";
 
@@ -35,48 +34,72 @@ export default function Index({ topPosts }) {
               </Logo>
             </h1>
           </div>
-          <div className="mt-6 md:mt-8 lg:mt-10 mb-16">
+          <div className="mt-6 md:mt-8 lg:mt-10 mb-20">
             <SocialLinks />
           </div>
 
-          <Container>
-            <h2 className="text-2xl font-bold mb-6">Most-Viewed Posts</h2>
+          <div className="max-w-5xl mb-16">
 
-            <ul className="grid grid-cols-3 gap-6">
-              {topPosts.map(post => {
-                const { title, views, date, path } = post;
+            <div className="mb-20">
+              <h2 className="text-2xl font-bold mb-6">Most-Viewed Blog Posts</h2>
 
-                return (
-                  <li>
-                    <h3>{title}</h3>
-                    {/* <ViewCount count={views}/> */}
-                    <DateFormatter date={date} />
+              <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {topPosts.map(post => {
+                  const { title, views, date, slug } = post;
+                  const postPath = `/posts/${slug}`;
 
-                    <div>
-                      <Button
-                        naked={true}
-                        small={true}
-                        href={path}
-                        internal={true}
-                      >
-                        Read It
-                      </Button>
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
-          </Container>
+                  return (
+                    <li className="border-4 rounded-md border-gray-800 hover:border-purple-500">
+                      <Link href={postPath}>
+                        <a className="flex flex-col h-full p-4 md:p-8">
+                          <div className="mb-8">
+                            <h3 className="text-xl font-semibold mb-2">{title}</h3>
+                            <DateFormatter date={date} />
+                          </div>
+
+                          <div className="mt-auto flex justify-between items-center">
+                            <Button
+                              naked={true}
+                              small={true}
+                              href={postPath}
+                              internal={true}
+                            >
+                              Read It
+                            </Button>
+
+                            <ViewCount count={views} />
+                          </div>
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+              
+              <div className="flex justify-end mt-4">
+                <Button
+                  naked={true}
+                  small={true}
+                  href="/posts"
+                  internal={true}
+                  inheritColor={true}
+                >
+                  View All
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </>
   );
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps() {
   return {
     props: {
       topPosts: await getTopPosts()
-    }
+    }, 
+    revalidate: 86400 // once per day
   }
 }

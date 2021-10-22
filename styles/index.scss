@@ -180,6 +180,7 @@ span {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
+    padding: 1px;
 
     &:hover {
       @apply bg-purple-500;
