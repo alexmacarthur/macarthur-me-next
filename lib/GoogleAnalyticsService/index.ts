@@ -30,7 +30,13 @@ class GoogleAnalyticsService {
 
   async getPostViews(slug: string): Promise<null | string> {
     if(process.env.NODE_ENV !== 'production') {
-      return Number(99999).toLocaleString();
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      return getRandomInt(10000, 100000).toLocaleString();
     }
 
     try {

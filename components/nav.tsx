@@ -60,7 +60,7 @@ const Nav = () => {
         <Logo asLink={true} short={true} />
       </span>
 
-      <div className="nav-menu-wrapper fixed w-full left-0 top-0 h-0 lg:relative lg:h-auto lg:l-0">
+      <div className="nav-menu-wrapper w-full left-0 top-0 h-0 lg:relative lg:h-auto lg:l-0">
         <label
           className="cursor-pointer z-20 lg:hidden nav-menu-label absolute right-3"
           htmlFor="menuToggle"
@@ -78,6 +78,7 @@ const Nav = () => {
           nav-menu-items
           bg-gray-700
           top-0
+          left-0
           absolute
           lg:relative
           transition-all
