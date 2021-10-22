@@ -1,12 +1,11 @@
 require("dotenv").config();
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from "@supabase/supabase-js";
 import { definitions } from "../../types/supabase";
-import { transport } from "../api/_utils/email";
-
 import SupabaseService from '../../lib/SupabaseService';
+import EmailService from '../../lib/EmailService';
 
 const supabase = (new SupabaseService()).getClient();
+const emailService = new EmailService();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug, value } = req.body;
@@ -18,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const feedbackType = value ? "POSITIVE" : "NEGATIVE";
 
-  await transport({
+  await emailService.transport({
     to: process.env.MY_EMAIL,
     from: process.env.MY_EMAIL,
     subject: `You've Got ${feedbackType} Blog Feedback!`,

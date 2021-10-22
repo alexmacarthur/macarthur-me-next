@@ -1,6 +1,6 @@
 require("dotenv").config();
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { transport } from "./_utils/email";
+import EmailService from '../../lib/EmailService';
 
 type Email = {
   email: string,
@@ -8,6 +8,8 @@ type Email = {
   name: string,
   website?: string | undefined
 }
+
+const emailService = new EmailService();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, message, name, website }: Email = req.body;
@@ -17,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({ email, message, name });
   }
 
-  await transport({
+  await emailService.transport({
     to: process.env.MY_EMAIL,
     from: email,
     subject: "Contact Form Submitted",

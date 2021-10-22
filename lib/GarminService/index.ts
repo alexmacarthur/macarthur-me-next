@@ -1,15 +1,27 @@
 import puppeteer from "puppeteer";
 import SupabaseService from "../SupabaseService";
+import EmailService from "../EmailService";
 
 class GarminService {
     db: SupabaseService;
+    emailService: EmailService
 
     constructor() {
         this.db = new SupabaseService();
+        this.emailService = new EmailService();
     }
 
     log(message) {
         console.log(`GARMIN SERVICE LOG - ${message}`);
+    }
+
+    async emailFailure(message: string) {
+        return this.emailService.transport({
+            to: process.env.MY_EMAIL,
+            from: process.env.MY_EMAIL,
+            subject: "Garmin Fetch Failed",
+            text: message
+        });
     }
 
     getDateString() {
@@ -17,7 +29,7 @@ class GarminService {
 
         return [
             today.getFullYear(),
-            today.getMonth(),
+            String(today.getMonth() + 1).padStart(2, "0"),
             today.getDate()
         ].join('-');
     }
@@ -25,10 +37,10 @@ class GarminService {
     async getRestingHeartRateForWeek(): Promise<number> {
         const savedValue = await this.db.getDashboardValue('resting_heart_rate_for_week');
 
-        // if(savedValue && !savedValue.hasExpired) {
-        //     this.log('Using value cached in DB');
-        //     return savedValue.value;
-        // }
+        if(savedValue && !savedValue.hasExpired) {
+            this.log('Using value cached in DB');
+            return savedValue.value;
+        }
 
         try {
             const { lastSevenDaysAvgRestingHeartRate } = await this.getHeartRateData();
@@ -40,32 +52,24 @@ class GarminService {
             return lastSevenDaysAvgRestingHeartRate;
         } catch (e) {
             this.log(`Could not get heart rate: ${e.message}`);
-            return 45;
+            await this.emailFailure(e.message);
+            return 44;
         }
     }
 
-    async logIn(preLoginCallback: Function = () => {}) {
+    async logIn() {
         try {
             const browser = await puppeteer.launch({
                 headless: true,
                 args: ['--no-sandbox']
             });
             const [page] = await browser.pages();
-            await page.setRequestInterception(true);
-
-            // Block every request except XHR.
-            // page.on('request', (request) => {
-            //     if (request.resourceType() !== 'xhr') request.continue();
-            //     else request.abort();
-            // });
-
-            // preLoginCallback(browser, page);
 
             const headlessUserAgent = await page.evaluate(() => navigator.userAgent);
             const chromeUserAgent = headlessUserAgent.replace('HeadlessChrome', 'Chrome');
             await page.setUserAgent(chromeUserAgent);
             await page.setExtraHTTPHeaders({ 'accept-language': 'en-US,en;q=0.8' });
-            await page.goto('https://connect.garmin.com/signin', { waitUntil: 'networkidle2' });
+            await page.goto('https://connect.garmin.com/signin', { waitUntil: 'networkidle0' });
             const elementHandle = await page.$('#gauth-widget-frame-gauth-widget');
             const frame = await elementHandle.contentFrame();
             await frame.type('#username', process.env.GARMIN_USERNAME);
@@ -83,6 +87,7 @@ class GarminService {
             return { page, browser };
         } catch (e) {
             this.log(e.message);
+            await this.emailFailure(e.message);
 
             return {
                 page: null, browser: null
@@ -91,25 +96,35 @@ class GarminService {
     }
 
     async getHeartRateData(): Promise<any> {
-        let {data, page, browser} = await (new Promise(async (resolve, reject) => {
-            this.logIn(
-                async (_browser, page) => {
-                    try {
-                        page.on('response', async (response) => {
-                            if (response.url().includes("wellness-service/wellness/dailyHeartRate")) {
-                                console.log(await response.json());
-                                return resolve({
-                                    data: await response.json(), 
-                                    page, 
-                                    browser
-                                });
-                            }
-                        });
-                    } catch (e) {
-                        reject(e.message);
+        let { page, browser } = await this.logIn();
+
+        const data = await new Promise(async (resolve) => {
+            try {
+                this.log('Listening for response...');
+
+                page.on('response', async (response) => {
+                    if (response.url().includes("wellness-service/wellness/dailyHeartRate")) {
+                        return resolve(await response.json());
                     }
                 });
-        }));
+
+                await page.setRequestInterception(true);
+
+                page.on('request', (request) => {
+                    if (request.url().includes('connect.garmin.com')) {
+                        request.continue();
+                    } else {
+                        request.abort();
+                    }
+                });
+
+                page.goto(`https://connect.garmin.com/modern/daily-summary/${this.getDateString()}/heartRate`, {
+                    waitUntil: 'networkidle2'
+                });
+            } catch (e) {
+                this.log(e.message);
+            }
+        });
 
         page && await page.close();
         browser && await browser.close();
