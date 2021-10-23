@@ -6,6 +6,10 @@ import MenuToggle from "./menu-toggle";
 
 const navItems = [
   {
+    name: "About",
+    link: "/about",
+  },
+  {
     name: "Posts",
     link: "/posts",
   },
@@ -23,7 +27,7 @@ const navItems = [
   },
 ];
 
-const Nav = () => {
+const Nav = ({isAbsolute = false}) => {
   const router = useRouter();
   const [shouldHideLogo, setShouldHideLogo] = useState(() => {
     return router.route === "/";
@@ -32,7 +36,7 @@ const Nav = () => {
   useEffect(() => {
     const handleRouteChange = (url) => {
       setShouldHideLogo(url === "/");
-    };
+  };
 
     router.events.on("routeChangeComplete", handleRouteChange);
 
@@ -41,9 +45,11 @@ const Nav = () => {
     };
   }, []);
 
+  const positionClass = isAbsolute ? "absolute" : "relative";
+
   return (
     <nav
-      className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav relative`}
+      className={`z-10 py-10 px-4 md:px-8 w-full font-bold flex items-center justify-between nav ${positionClass}`}
     >
       <input
         type="checkbox"
@@ -108,11 +114,12 @@ const Nav = () => {
             flex-col
             lg:flex-row
             space-y-4
-            lg:space-x-4
+            lg:space-x-6
             lg:space-y-0
             lg:translate-x-0
             justify-end transform
-            -translate-x-full"
+            -translate-x-full
+            "
           >
             {navItems.map((item) => {
               return (
@@ -120,7 +127,9 @@ const Nav = () => {
                   className="text-6xl lg:text-xl font-bold lg:font-light text-white lg:text-gray-500 hover:text-white lg:hover:text-gray-900 lg:font-200"
                   key={item.link}
                 >
-                  <Link href={item.link}>{item.name}</Link>
+                  <Link href={item.link}>
+                    <a className="py-2 border-b-4 border-transparent hover:border-gray-200">{item.name}</a>
+                  </Link>
                 </li>
               );
             })}

@@ -35,7 +35,7 @@ const SocialLinks = () => {
               href={url}
               target="_blank"
               rel="noopener nofollow"
-              className="block w-10 md:w-12 lg:w-16 h-10 md:h-12 lg:h-16"
+              className="block w-10 h-10"
             >
               <Icon />
             </a>
