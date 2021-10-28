@@ -9,6 +9,7 @@
     "build:images": "node ./_scripts/build-images.mjs",
     "build:sitemap": "node ./_scripts/build-sitemap.mjs"
   },
+  "browserslist": "defaults and supports es6-module and supports es6-module-dynamic-import, not opera > 0, not samsung > 0, not and_qq > 0",
   "dependencies": {
     "@babel/preset-env": "^7.15.8",
     "@jam-comments/next": "^0.0.23",
@@ -33,7 +34,7 @@
     "markdown-it": "^12.2.0",
     "markdown-it-anchor": "^8.4.1",
     "markdown-it-prism": "^2.2.1",
-    "next": "^11.1.2",
+    "next": "^12.0.1",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-images": "^2.6.2",
     "next-plugin-preact": "^3.0.6",
