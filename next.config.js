@@ -3,13 +3,11 @@ const optimizedImages = require('next-optimized-images');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
-const withPreact = require('next-plugin-preact');
 
 module.exports = withPlugins(
   [
     [optimizedImages, {}],
-    [withBundleAnalyzer, {}],
-    [withPreact, {}]
+    [withBundleAnalyzer, {}]
   ], {
   webpack: (config) => {
     return config
