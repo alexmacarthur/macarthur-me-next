@@ -1,14 +1,16 @@
-import puppeteer from "puppeteer";
 import SupabaseService from "../SupabaseService";
 import EmailService from "../EmailService";
+import PuppeteerService from "../PuppeteerService";
 
 class GarminService {
     db: SupabaseService;
-    emailService: EmailService
+    emailService: EmailService;
+    puppeteerService: PuppeteerService;
 
-    constructor() {
+    constructor(puppeteerService = new PuppeteerService()) {
         this.db = new SupabaseService();
         this.emailService = new EmailService();
+        this.puppeteerService = puppeteerService;
     }
 
     log(message) {
@@ -59,10 +61,8 @@ class GarminService {
 
     async logIn() {
         try {
-            const browser = await puppeteer.launch({
-                headless: true,
-                args: ['--no-sandbox']
-            });
+            const browser = await this.puppeteerService.getBrowser();
+            
             const [page] = await browser.pages();
 
             const headlessUserAgent = await page.evaluate(() => navigator.userAgent);
