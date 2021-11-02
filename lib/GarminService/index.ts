@@ -40,7 +40,7 @@ class GarminService {
     async getRestingHeartRateForWeek(): Promise<number> {
         const savedValue = await this.db.getDashboardValue('resting_heart_rate_for_week');
 
-        if(savedValue && !savedValue.hasExpired) {
+        if(savedValue && !savedValue.hasExpired && String(savedValue.value) !== 'null') {
             this.log('Using value cached in DB');
             return savedValue.value;
         }
@@ -62,7 +62,7 @@ class GarminService {
 
     async logIn() {
         try {
-            const browser = await this.puppeteerService.getBrowser() as Browser;
+            const browser = await this.puppeteerService.getBrowser() as unknown as Browser;
             const [page] = await browser.pages();
             const headlessUserAgent = await page.evaluate(() => navigator.userAgent);
             const chromeUserAgent = headlessUserAgent.replace('HeadlessChrome', 'Chrome');
@@ -125,8 +125,12 @@ class GarminService {
             }
         });
 
-        page && await page.close();
-        browser && await browser.close();
+        try {
+            page && await page.close();
+            browser && await browser.close();
+        } catch(e) {
+            this.log(e.message);
+        }
         
         return data;
     }

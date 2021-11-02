@@ -1,6 +1,5 @@
 import chrome from 'chrome-aws-lambda';
-import puppeteer from 'puppeteer';
-import puppeteerCore from 'puppeteer-core';
+import puppeteer from 'puppeteer-core';
 
 interface Chrome {
     headless?: boolean
@@ -12,10 +11,6 @@ interface Chrome {
 class Puppeteer {
     isRunningLocally(): boolean {
         return !process.env.AWS_LAMBDA_FUNCTION_NAME;
-    }
-
-    getPuppeteer() {
-        return this.isRunningLocally() ? puppeteer : puppeteerCore;
     }
 
     getChrome(): Chrome {
@@ -31,11 +26,11 @@ class Puppeteer {
     }
 
     async getBrowser() {
-        const puppeteer = this.getPuppeteer();
         const chromeInstance = this.getChrome();
         const launchParameters: Chrome = {
             headless: true,
-            args: ['--no-sandbox']
+            args: ['--no-sandbox'],
+            executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
         };
 
         if(!this.isRunningLocally()) {

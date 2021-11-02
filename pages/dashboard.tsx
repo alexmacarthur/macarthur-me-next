@@ -78,58 +78,58 @@ export async function getStaticProps() {
   const twitterService = new TwitterService();
 
   const stats: State[] = [
-    // {
-    //   title: "Total GitHub Stars",
-    //   link: "https://github.com/alexmacarthur",
-    //   subTitle: "If you haven't starred my repos, get on that.",
-    //   value: ghService.getTotalsStars(),
-    // },
-    // {
-    //   title: "Total GitHub Followers",
-    //   link: "https://github.com/alexmacarthur",
-    //   subTitle: "Do it yourself today, for free.",
-    //   value: ghService.getFollowerCount(),
-    // },
-    // {
-    //   title: "Total Twitter Followers",
-    //   link: "https://twitter.com/amacarthur",
-    //   subTitle: "Go ahead, follow me.",
-    //   value: twitterService.getFollowerCount(),
-    // },
-    // {
-    //   title: "Total Website Views",
-    //   subTitle: "According to Google Analytics since November, 2015.",
-    //   value: gaService.getPageViewCount(),
-    // },
-    // {
-    //   title: "Positive Feedback (👍) on Blog Posts",
-    //   subTitle: "Scroll to the bottom of any post and do it yourself.",
-    //   value: supService.getPositiveFeedbackCount(),
-    // },
-    // {
-    //   title: "Links in <em>JavaScript Weekly</em>",
-    //   link: "https://www.google.com/search?q=site%3Ajavascriptweekly.com+%22alex+macarthur%22",
-    //   subTitle: "Mostly just blog posts, but the occassional project too.",
-    //   value: gsService.getJsWeeklyTotalResults(),
-    // },
-    // {
-    //   title: "Articles Published on <em>CSS Tricks</em>",
-    //   link: "https://css-tricks.com/author/alexmacarthur",
-    //   subTitle: "A fun privilege.",
-    //   value: Promise.resolve(2),
-    // },
-    // {
-    //   title: "Total Miles Run",
-    //   link: "https://www.strava.com/athletes/27922666",
-    //   subTitle: "As tracked by Strava since October, 2016.",
-    //   value: stravaService.getTotalRunMiles(),
-    // },
-    // {
-    //   title: "Total npm Downloads",
-    //   link: "https://www.npmjs.com/~alexmacarthur",
-    //   subTitle: "Mainly random open source JavaScript packages.",
-    //   value: npmService.getTotalDownloads(),
-    // },
+    {
+      title: "Total GitHub Stars",
+      link: "https://github.com/alexmacarthur",
+      subTitle: "If you haven't starred my repos, get on that.",
+      value: ghService.getTotalsStars(),
+    },
+    {
+      title: "Total GitHub Followers",
+      link: "https://github.com/alexmacarthur",
+      subTitle: "Do it yourself today, for free.",
+      value: ghService.getFollowerCount(),
+    },
+    {
+      title: "Total Twitter Followers",
+      link: "https://twitter.com/amacarthur",
+      subTitle: "Go ahead, follow me.",
+      value: twitterService.getFollowerCount(),
+    },
+    {
+      title: "Total Website Views",
+      subTitle: "According to Google Analytics since November, 2015.",
+      value: gaService.getPageViewCount(),
+    },
+    {
+      title: "Positive Feedback (👍) on Blog Posts",
+      subTitle: "Scroll to the bottom of any post and do it yourself.",
+      value: supService.getPositiveFeedbackCount(),
+    },
+    {
+      title: "Links in <em>JavaScript Weekly</em>",
+      link: "https://www.google.com/search?q=site%3Ajavascriptweekly.com+%22alex+macarthur%22",
+      subTitle: "Mostly just blog posts, but the occassional project too.",
+      value: gsService.getJsWeeklyTotalResults(),
+    },
+    {
+      title: "Articles Published on <em>CSS Tricks</em>",
+      link: "https://css-tricks.com/author/alexmacarthur",
+      subTitle: "A fun privilege.",
+      value: Promise.resolve(2),
+    },
+    {
+      title: "Total Miles Run",
+      link: "https://www.strava.com/athletes/27922666",
+      subTitle: "As tracked by Strava since October, 2016.",
+      value: stravaService.getTotalRunMiles(),
+    },
+    {
+      title: "Total npm Downloads",
+      link: "https://www.npmjs.com/~alexmacarthur",
+      subTitle: "Mainly random open source JavaScript packages.",
+      value: npmService.getTotalDownloads(),
+    },
     {
       title: "Average Resting Heart Rate",
       link: "https://connect.garmin.com/modern/profile/9d70c989-def3-466a-a025-32f4c289f2ac",
@@ -137,22 +137,22 @@ export async function getStaticProps() {
       value: garminService.getRestingHeartRateForWeek(),
       // value: Promise.resolve(44)
     },
-    // {
-    //   title: "Total WordPress Plugin Downloads",
-    //   link: "https://github.com/alexmacarthur",
-    //   subTitle: "Not a huge focus anymore, but still worth bragging about.",
-    //   value: wpService.getPluginDownloadCount(),
-    // },
-    // {
-    //   title: "How Many Inches Tall I've Grown",
-    //   subTitle: "Expecting a growth spurt any day now.",
-    //   value: Promise.resolve(68),
-    // },
-    // {
-    //   title: "Enneagram Number",
-    //   subTitle: "Probs obvious given that I have a personal dashboard.",
-    //   value: Promise.resolve(3),
-    // },
+    {
+      title: "Total WordPress Plugin Downloads",
+      link: "https://github.com/alexmacarthur",
+      subTitle: "Not a huge focus anymore, but still worth bragging about.",
+      value: wpService.getPluginDownloadCount(),
+    },
+    {
+      title: "How Many Inches Tall I've Grown",
+      subTitle: "Expecting a growth spurt any day now.",
+      value: Promise.resolve(68),
+    },
+    {
+      title: "Enneagram Number",
+      subTitle: "Probs obvious given that I have a personal dashboard.",
+      value: Promise.resolve(3),
+    },
   ];
 
   await Promise.allSettled(stats.map((stat) => stat.value));
