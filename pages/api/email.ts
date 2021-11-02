@@ -6,16 +6,21 @@ type Email = {
   email: string,
   message: string,
   name: string,
-  website?: string | undefined
+  password?: string | undefined
 }
 
 const emailService = new EmailService();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { email, message, name, website }: Email = req.body;
+  const { email, message, name, password }: Email = req.body;
 
-  if (website) {
-    console.error("Invalid email send data.");
+  if (password) {
+    await emailService.transport({
+      to: process.env.MY_EMAIL,
+      subject: "MacArthur.me :: Invalid Contact Form Submission",
+      text: `From: ${email}`,
+    });
+
     return res.status(200).json({ email, message, name });
   }
 

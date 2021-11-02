@@ -253,6 +253,12 @@ form {
   label {
     @apply mb-2 inline-block;
   }
+
+  .password-wrapper {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
 }
 
 @import "./jam-comments.scss";

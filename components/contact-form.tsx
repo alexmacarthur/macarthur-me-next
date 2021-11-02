@@ -1,17 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+
+const getTimeInMilliseconds = (): number => (new Date()).getTime();
 
 const ContactForm = () => {
   const [validationMessage, setValidationMessage] = useState("");
+  const [canSubmit, setCanSubmit] = useState(true);
+  const formRef = useRef(null);
+  const timerRef = useRef(null);
+
+  const getInputs = (): HTMLInputElement[] => {
+    return formRef.current?.querySelectorAll('input, textarea') || [];
+  }
+
+  const removeSetStartTime = () => {
+    getInputs().forEach(input => {
+      input.removeEventListener('focus', setStartTime);
+    });
+  }
+
+  const setStartTime = () => {
+    if(timerRef.current) return;
+
+    timerRef.current = getTimeInMilliseconds();
+    removeSetStartTime();
+  }
+
+  useEffect(() => {
+    if (!formRef.current) return;
+
+    getInputs().forEach(input => {
+      input.addEventListener('focus', setStartTime);
+    });
+
+    return removeSetStartTime;
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const differenceInSeconds: number = (getTimeInMilliseconds() - timerRef.current) / 1000;
 
+    if (differenceInSeconds < 3) {
+      setValidationMessage("Whoa, chill out!");
+      return;
+    }
+
+    setCanSubmit(false);
     const formData = new FormData(e.target);
-
-    // if (formData.get('website')) {
-    //   console.error('Nice try.');
-    //   return;
-    // }
 
     const response = await fetch("/api/email", {
       method: "POST",
@@ -23,6 +57,7 @@ const ContactForm = () => {
 
     e.target.reset();
     setValidationMessage("Message successfully sent!");
+    setCanSubmit(true);
   };
 
   return (
@@ -41,11 +76,25 @@ const ContactForm = () => {
         name="contact"
         method="post"
         action="/api/email"
+        ref={formRef}
         onSubmit={handleSubmit}
         style={{
           flex: "1",
         }}
       >
+        <p className="mb-4 password-wrapper">
+          <label className="block">
+            Password:
+            <br />
+            <input
+              type="text"
+              name="password"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </label>
+        </p>
+
         <p className="mb-4">
           <label className="block">
             Your name:
@@ -62,19 +111,6 @@ const ContactForm = () => {
           </label>
         </p>
 
-        <p className="mb-4 hidden">
-          <label className="block">
-            Your website:
-            <br />
-            <input
-              type="text"
-              name="website"
-              tabIndex={-1}
-              autoComplete="off"
-            />
-          </label>
-        </p>
-
         <p className="mb-4">
           <label className="block">
             Message:
@@ -84,7 +120,7 @@ const ContactForm = () => {
         </p>
 
         <p className="mt-6">
-          <button type="submit" className="button">
+          <button type="submit" className="button" disabled={!canSubmit}>
             Send
           </button>
         </p>
