@@ -1,6 +1,7 @@
 import SupabaseService from "../SupabaseService";
 import EmailService from "../EmailService";
 import PuppeteerService from "../PuppeteerService";
+import { Browser } from "puppeteer";
 
 class GarminService {
     db: SupabaseService;
@@ -61,10 +62,8 @@ class GarminService {
 
     async logIn() {
         try {
-            const browser = await this.puppeteerService.getBrowser();
-            
+            const browser = await this.puppeteerService.getBrowser() as Browser;
             const [page] = await browser.pages();
-
             const headlessUserAgent = await page.evaluate(() => navigator.userAgent);
             const chromeUserAgent = headlessUserAgent.replace('HeadlessChrome', 'Chrome');
             await page.setUserAgent(chromeUserAgent);
