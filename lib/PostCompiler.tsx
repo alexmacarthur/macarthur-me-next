@@ -50,9 +50,9 @@ export default class PostCompiler {
       }
     );
 
-    const posts = this.sortByDate([...directories, ...files]);
+    const posts = await this.attachGaViews([...directories, ...files]);
 
-    this.posts = await this.attachGaViews(posts);
+    this.posts = this.sortByDate(posts);
 
     return this.posts;
   }

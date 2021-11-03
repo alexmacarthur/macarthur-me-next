@@ -4,7 +4,6 @@ import GitHubService from "../lib/GitHubService";
 import SupabaseService from "../lib/SupabaseService";
 import GoogleSearchService from "../lib/GoogleSearchService";
 import StravaService from "../lib/StravaService";
-// import GarminService from "../lib/GarminService";
 import NpmService from "../lib/NpmService";
 import ExternalIcon from "../components/icon-external";
 import WordPressService from "../lib/WordPressService";
@@ -73,7 +72,6 @@ export async function getStaticProps() {
   const gsService = new GoogleSearchService();
   const stravaService = new StravaService();
   const npmService = new NpmService();
-  // const garminService = new GarminService();
   const wpService = new WordPressService();
   const twitterService = new TwitterService();
 
@@ -129,13 +127,6 @@ export async function getStaticProps() {
       link: "https://www.npmjs.com/~alexmacarthur",
       subTitle: "Mainly random open source JavaScript packages.",
       value: npmService.getTotalDownloads(),
-    },
-    {
-      title: "Average Resting Heart Rate",
-      link: "https://connect.garmin.com/modern/profile/9d70c989-def3-466a-a025-32f4c289f2ac",
-      subTitle: "Average over the past seven days.",
-      // value: garminService.getRestingHeartRateForWeek(),
-      value: Promise.resolve(44)
     },
     {
       title: "Total WordPress Plugin Downloads",
