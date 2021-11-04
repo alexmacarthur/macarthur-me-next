@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
-    "build": "npm run build:images && next build && npm run build:sitemap",
+    "build": "npm run build:images && next build && npm run build:sitemap && npm run db:reset",
+    "db:reset": "node ./_scripts/db-reset.mjs",
     "start": "next start",
     "prettify": "prettier ./**/*.{tsx,js,ts} --write",
     "build:images": "node ./_scripts/build-images.mjs",
@@ -34,6 +35,7 @@
     "markdown-it-prism": "^2.2.1",
     "next": "^12.0.2",
     "next-compose-plugins": "^2.2.1",
+    "node-json-db": "^1.4.1",
     "nodemailer": "^6.7.0",
     "npm": "^8.1.2",
     "octonode": "^0.10.2",

@@ -39,4 +39,4 @@ yarn-error.log*
 
 sitemap.xml
 
-.netlify
+json_db

@@ -3,24 +3,29 @@ import { join } from "path";
 import matter from "gray-matter";
 import { processMarkdown, stripMarkdown } from "./markdown";
 import GoogleAnalyticsService from "./GoogleAnalyticsService";
+import JsonDbService from "./JsonDbService";
 
 export default class PostCompiler {
-  posts: PostData[];
+  db;
   directory: string;
   slugPattern: RegExp;
   datePattern: RegExp = new RegExp(/\d{4}-\d{2}-\d{2}-/);
   ga: GoogleAnalyticsService
 
-  constructor(directory: string, slugPattern: RegExp) {
-    this.posts = [];
+  constructor(directory: string, slugPattern: RegExp, db = new JsonDbService()) {
+    this.db = db;
     this.directory = directory;
     this.slugPattern = slugPattern;
     this.ga = new GoogleAnalyticsService();
   }
 
   async getPosts() {
-    if (this.posts.length > 0) {
-      return this.posts;
+    const cachedPosts = this.db.get('/posts');
+
+    if (cachedPosts) {
+      console.log('Found cached posts...');
+
+      return cachedPosts;
     }
 
     const files: PostData[] = this.readFiles().map((dirent): PostData => {
@@ -50,11 +55,13 @@ export default class PostCompiler {
       }
     );
 
-    const posts = await this.attachGaViews([...directories, ...files]);
+    let posts = await this.attachGaViews([...directories, ...files]);
+    posts = this.sortByDate(posts);
 
-    this.posts = this.sortByDate(posts);
+    console.log('Saving posts to cache...');
+    this.db.push('/posts', posts);
 
-    return this.posts;
+    return posts;
   }
 
   async attachGaViews(posts): Promise<PostData[]> {
