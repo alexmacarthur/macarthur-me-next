@@ -12,13 +12,13 @@ const client = createClient(
 
 (async () => {
     const { data } = await client
-        .from('blog_post_cache')
+        .from('site_content_cache')
         .select();
 
     await client
-        .from('blog_post_cache')
+        .from('site_content_cache')
         .delete()
         .in('id', data.map(post => post.id));
 })();
 
-console.log("JSON database reset.");
+console.log("Deleted site content cached in Supabase.");

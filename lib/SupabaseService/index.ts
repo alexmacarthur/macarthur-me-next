@@ -22,23 +22,25 @@ class SupabaseService {
     return this.client;
   }
 
-  async updatePosts(posts: PostData[]) {
+  async updateContent(contentType: ContentType, posts: PostData[]) {
     const data = posts.map(post => {
       return {
         slug: post.slug, 
-        post_json: post
+        post_json: post,
+        content_type: contentType
       }
     });
 
     return await this.client
-      .from('blog_post_cache')
+      .from('site_content_cache')
       .insert(data);
   }
 
-  async getPosts() {
+  async getContent(contentType: ContentType) {
     const { data } = await this.client
-      .from('blog_post_cache')
-      .select();
+      .from('site_content_cache')
+      .select()
+      .eq('content_type', contentType);
 
     if(!data.length) {
       return [];
@@ -54,7 +56,7 @@ class SupabaseService {
       console.log('Cache is old. Deleting.');
 
       await this.client
-        .from('blog_post_cache')
+        .from('site_content_cache')
         .delete()
         .in('id', data.map(post => post.id));
 
@@ -69,7 +71,7 @@ class SupabaseService {
       .from('feedback_interactions')
       .select('id', { count: 'exact', head: true })
       .eq('environment', 'production')
-      .eq('value', true)
+      .eq('value', true);
 
     return count;
   }

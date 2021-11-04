@@ -7,27 +7,29 @@ import SupabaseService from "./SupabaseService";
 
 export default class PostCompiler {
   db;
+  contentType;
   directory: string;
   slugPattern: RegExp;
   datePattern: RegExp = new RegExp(/\d{4}-\d{2}-\d{2}-/);
   ga: GoogleAnalyticsService;
 
   constructor(
-    directory: string,
+    contentType: ContentType,
     slugPattern: RegExp,
     db = new SupabaseService
   ) {
     this.db = db;
-    this.directory = directory;
+    this.contentType = contentType;
+    this.directory = join(process.cwd(), `_${contentType}s`);
     this.slugPattern = slugPattern;
     this.ga = new GoogleAnalyticsService();
   }
 
   async getPosts() {
-    const cachedPosts = await this.db.getPosts();
+    const cachedPosts = await this.db.getContent(this.contentType);
 
     if (cachedPosts.length) {
-      console.log("Found cached posts...");
+      console.log(`Found cached ${this.contentType}s...`);
 
       return cachedPosts;
     }
@@ -62,9 +64,9 @@ export default class PostCompiler {
     let posts = await this.attachGaViews([...directories, ...files]);
     posts = this.sortByDate(posts);
 
-    console.log("Saving posts to cache...");
+    console.log(`Saving ${this.contentType}s to cache...`);
 
-    await this.db.updatePosts(posts);
+    await this.db.updateContent(this.contentType, posts);
 
     return posts;
   }

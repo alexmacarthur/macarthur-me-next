@@ -3,13 +3,11 @@ import chunk from "lodash.chunk";
 import PostCompiler from "./PostCompiler";
 import imageData from "../lib/image-data.json";
 
-const postsDirectory = join(process.cwd(), "_posts");
-const pagesDirectory = join(process.cwd(), "_pages");
 const postSlugPattern = new RegExp(/(?:\d{4}-\d{2}-\d{2}-)(.+)(\.mdx?)?/);
 const pageSlugPattern = new RegExp(/(.+)(?:\.mdx?)/);
 
-const postCompiler = new PostCompiler(postsDirectory, postSlugPattern);
-const pageCompiler = new PostCompiler(pagesDirectory, pageSlugPattern);
+const postCompiler = new PostCompiler("post", postSlugPattern);
+const pageCompiler = new PostCompiler("page", pageSlugPattern);
 
 const PER_PAGE = 10;
 
