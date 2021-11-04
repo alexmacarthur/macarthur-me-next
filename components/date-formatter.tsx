@@ -9,18 +9,22 @@ export default function DateFormatter({
   className?: string;
   children?: ReactChild | ReactChild[];
 }) {
-  const dateObject =
-    date instanceof Date ? date : new Date(`${date}T00:00:00.000-05:00`);
-  const formattedDate = dateObject.toLocaleString("en-US", {
-    month: "long",
-    day: "2-digit",
-    year: "numeric",
-  });
+  try {
+    const dateObject =
+      date instanceof Date ? date : new Date(`${date}T00:00:00.000-05:00`);
+    const formattedDate = dateObject.toLocaleString("en-US", {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
+    });
 
-  return (
-    <span className={`text-gray-500 text-sm ${className}`}>
-      {children}{" "}
-      <time dateTime={dateObject.toISOString()}>{formattedDate}</time>
-    </span>
-  );
+    return (
+      <span className={`text-gray-500 text-sm ${className}`}>
+        {children}{" "}
+        <time dateTime={dateObject.toISOString()}>{formattedDate}</time>
+      </span>
+    );
+  } catch(e) {
+    return null;
+  }
 }
