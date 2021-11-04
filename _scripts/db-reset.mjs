@@ -1,9 +1,24 @@
 #!/usr/bin/env node
+import dotenv from "dotenv";
 
-import fs from "fs";
+import { createClient } from "@supabase/supabase-js";
 
-const dir = `${process.cwd()}/json_db`;
-fs.rmSync(dir, { recursive: true, force: true });
-fs.mkdirSync(dir);
+dotenv.config();
+
+const client = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+);
+
+(async () => {
+    const { data } = await client
+        .from('blog_post_cache')
+        .select();
+
+    await client
+        .from('blog_post_cache')
+        .delete()
+        .in('id', data.map(post => post.id));
+})();
 
 console.log("JSON database reset.");

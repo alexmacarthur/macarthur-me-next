@@ -22,6 +22,48 @@ class SupabaseService {
     return this.client;
   }
 
+  async updatePosts(posts: PostData[]) {
+    const data = posts.map(post => {
+      return {
+        slug: post.slug, 
+        post_json: post
+      }
+    });
+
+    return await this.client
+      .from('blog_post_cache')
+      .insert(data);
+  }
+
+  async getPosts() {
+    const { data } = await this.client
+      .from('blog_post_cache')
+      .select();
+
+    if(!data.length) {
+      return [];
+    }
+      
+    // If the cached post data is older than an hour, 
+    // delete it so that a new batch can be generated.
+    const fifteenMinutesAgo = new Date();
+    fifteenMinutesAgo.setTime(fifteenMinutesAgo.getTime() - (15 * 60 * 1000));
+    const postTime = new Date(data[0].created_at);
+
+    if(postTime.getTime() < fifteenMinutesAgo.getTime()) {
+      console.log('Cache is old. Deleting.');
+
+      await this.client
+        .from('blog_post_cache')
+        .delete()
+        .in('id', data.map(post => post.id));
+
+      return [];
+    }
+
+    return data.map(post => post.post_json);
+  }
+
   async getPositiveFeedbackCount(): Promise<number> {
     const { count } = await this.client
       .from('feedback_interactions')
@@ -41,45 +83,6 @@ class SupabaseService {
       .limit(1);
 
     return data.length ? data[0] : null;
-  }
-
-  async getDashboardValue(name: string): Promise<null | {
-    value: any, 
-    hasExpired: boolean
-  }> {
-    const { data } = await this.client
-      .from('dashboard_data')
-      .select()
-      .eq('name', name)
-      .order('created_at', { ascending: false })
-      .limit(1);
-
-    if (!data.length) {
-      return null;
-    }
-
-    const record = data[0];
-    const ageOfRecord = ((new Date()).getTime() - (new Date(record.created_at)).getTime()) / 1000;
-
-    return {
-      value: record.value,
-      hasExpired: ageOfRecord > 3600
-    }
-  }
-
-  async updateDashboardValue(name: string, value: any) {
-    // Delete the existing item.
-    await this.client
-      .from('dashboard_data')
-      .delete()
-      .match({ 'name': name });
-
-    // Add the new item.
-    return await this.client
-      .from('dashboard_data')
-      .insert([
-        { name, value: String(value) }
-      ]);
   }
 
   async updateToken({

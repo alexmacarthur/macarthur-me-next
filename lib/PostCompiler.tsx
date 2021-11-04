@@ -3,7 +3,7 @@ import { join } from "path";
 import matter from "gray-matter";
 import { processMarkdown, stripMarkdown } from "./markdown";
 import GoogleAnalyticsService from "./GoogleAnalyticsService";
-import JsonDbService from "./JsonDbService";
+import SupabaseService from "./SupabaseService";
 
 export default class PostCompiler {
   db;
@@ -15,7 +15,7 @@ export default class PostCompiler {
   constructor(
     directory: string,
     slugPattern: RegExp,
-    db = new JsonDbService()
+    db = new SupabaseService
   ) {
     this.db = db;
     this.directory = directory;
@@ -24,9 +24,9 @@ export default class PostCompiler {
   }
 
   async getPosts() {
-    const cachedPosts = this.db.get("/posts");
+    const cachedPosts = await this.db.getPosts();
 
-    if (cachedPosts) {
+    if (cachedPosts.length) {
       console.log("Found cached posts...");
 
       return cachedPosts;
@@ -63,7 +63,8 @@ export default class PostCompiler {
     posts = this.sortByDate(posts);
 
     console.log("Saving posts to cache...");
-    this.db.push("/posts", posts);
+
+    await this.db.updatePosts(posts);
 
     return posts;
   }
