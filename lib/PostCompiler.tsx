@@ -10,9 +10,13 @@ export default class PostCompiler {
   directory: string;
   slugPattern: RegExp;
   datePattern: RegExp = new RegExp(/\d{4}-\d{2}-\d{2}-/);
-  ga: GoogleAnalyticsService
+  ga: GoogleAnalyticsService;
 
-  constructor(directory: string, slugPattern: RegExp, db = new JsonDbService()) {
+  constructor(
+    directory: string,
+    slugPattern: RegExp,
+    db = new JsonDbService()
+  ) {
     this.db = db;
     this.directory = directory;
     this.slugPattern = slugPattern;
@@ -20,10 +24,10 @@ export default class PostCompiler {
   }
 
   async getPosts() {
-    const cachedPosts = this.db.get('/posts');
+    const cachedPosts = this.db.get("/posts");
 
     if (cachedPosts) {
-      console.log('Found cached posts...');
+      console.log("Found cached posts...");
 
       return cachedPosts;
     }
@@ -58,20 +62,22 @@ export default class PostCompiler {
     let posts = await this.attachGaViews([...directories, ...files]);
     posts = this.sortByDate(posts);
 
-    console.log('Saving posts to cache...');
-    this.db.push('/posts', posts);
+    console.log("Saving posts to cache...");
+    this.db.push("/posts", posts);
 
     return posts;
   }
 
   async attachGaViews(posts): Promise<PostData[]> {
-    for(const post of posts) {
-
+    for (const post of posts) {
       // Hack to get around GA rate limiting.
       await new Promise((resolve) => {
-        setTimeout(async () => {
-          resolve(null);
-        }, process.env.NODE_ENV === 'production' ? 250 : 0);
+        setTimeout(
+          async () => {
+            resolve(null);
+          },
+          process.env.NODE_ENV === "production" ? 250 : 0
+        );
       });
 
       post.views = await this.ga.getPostViews(post.slug);
@@ -143,7 +149,9 @@ export default class PostCompiler {
       subTitle: data.subTitle || "",
       ogImage: data.ogImage || "",
       external: data.external || "",
-      externalDomain: data.external ? (new URL(data.external)).host.replace(/^www\./, "") : ""
+      externalDomain: data.external
+        ? new URL(data.external).host.replace(/^www\./, "")
+        : "",
     };
   }
 }

@@ -6,7 +6,7 @@
     "build": "npm run build:images && next build && npm run build:sitemap && npm run db:reset",
     "db:reset": "node ./_scripts/db-reset.mjs",
     "start": "next start",
-    "prettify": "prettier ./**/*.{tsx,js,ts} --write",
+    "prettify": "prettier ./**/*.{tsx,js,ts,mjs} --write",
     "build:images": "node ./_scripts/build-images.mjs",
     "build:sitemap": "node ./_scripts/build-sitemap.mjs"
   },
@@ -51,7 +51,7 @@
     "strip-markdown": "^5.0.0"
   },
   "lint-staged": {
-    ".{tsx,js,md}": "prettier --write"
+    ".{tsx,js,md,mjs}": "prettier --write"
   },
   "husky": {
     "hooks": {

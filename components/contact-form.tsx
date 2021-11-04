@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-const getTimeInMilliseconds = (): number => (new Date()).getTime();
+const getTimeInMilliseconds = (): number => new Date().getTime();
 
 const ContactForm = () => {
   const [validationMessage, setValidationMessage] = useState("");
@@ -9,27 +9,27 @@ const ContactForm = () => {
   const timerRef = useRef(null);
 
   const getInputs = (): HTMLInputElement[] => {
-    return formRef.current?.querySelectorAll('input, textarea') || [];
-  }
+    return formRef.current?.querySelectorAll("input, textarea") || [];
+  };
 
   const removeSetStartTime = () => {
-    getInputs().forEach(input => {
-      input.removeEventListener('focus', setStartTime);
+    getInputs().forEach((input) => {
+      input.removeEventListener("focus", setStartTime);
     });
-  }
+  };
 
   const setStartTime = () => {
-    if(timerRef.current) return;
+    if (timerRef.current) return;
 
     timerRef.current = getTimeInMilliseconds();
     removeSetStartTime();
-  }
+  };
 
   useEffect(() => {
     if (!formRef.current) return;
 
-    getInputs().forEach(input => {
-      input.addEventListener('focus', setStartTime);
+    getInputs().forEach((input) => {
+      input.addEventListener("focus", setStartTime);
     });
 
     return removeSetStartTime;
@@ -37,7 +37,8 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const differenceInSeconds: number = (getTimeInMilliseconds() - timerRef.current) / 1000;
+    const differenceInSeconds: number =
+      (getTimeInMilliseconds() - timerRef.current) / 1000;
 
     if (differenceInSeconds < 3) {
       setValidationMessage("Whoa, chill out!");

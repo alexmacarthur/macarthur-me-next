@@ -19,7 +19,7 @@ const Title = ({
   subTitle,
   lastUpdated,
   secondaryMeta,
-  views
+  views,
 }: TitleProps) => {
   return (
     <div className="mt-1 lg:mt-6 mb-4 lg:mb-9">
@@ -67,9 +67,7 @@ const Title = ({
             </DateFormatter>
           )}
 
-          {views && 
-            <ViewCount count={views} />
-          }
+          {views && <ViewCount count={views} />}
         </div>
 
         {secondaryMeta && secondaryMeta()}

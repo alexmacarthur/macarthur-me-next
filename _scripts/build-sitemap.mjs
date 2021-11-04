@@ -7,7 +7,9 @@ import * as prettier from "prettier";
 
 (async () => {
   const pagesDirectory = `${process.cwd()}/.next/server/pages`;
-  const prettierConfig = await prettier.default.resolveConfig("./.prettierrc.js");
+  const prettierConfig = await prettier.default.resolveConfig(
+    "./.prettierrc.js"
+  );
 
   rimraf.default.sync(`${process.cwd()}/public/sitemap.xml`);
 

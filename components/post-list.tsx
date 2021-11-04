@@ -40,9 +40,7 @@ const PostList = ({ posts }) => {
                   {post.lastUpdated && "Originally posted on"}
                 </DateFormatter>
 
-                {!external && post.views &&
-                  <ViewCount count={post.views} />
-                }
+                {!external && post.views && <ViewCount count={post.views} />}
               </div>
 
               <small className="block text-gray-500 mb-2">{post.excerpt}</small>
@@ -53,7 +51,7 @@ const PostList = ({ posts }) => {
                 internal={!external}
                 {...linkProps}
               >
-                Read It {externalDomain && <>({externalDomain})</> }
+                Read It {externalDomain && <>({externalDomain})</>}
               </Button>
             </article>
           </li>

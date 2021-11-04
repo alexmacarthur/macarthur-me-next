@@ -22,7 +22,8 @@ export default function PostLayout({
 }: MarkdownLayoutProps) {
   const contentRef = useRef(null);
   const router = useRouter();
-  const { title, subTitle, date, ogImage, excerpt, lastUpdated, views } = pageData;
+  const { title, subTitle, date, ogImage, excerpt, lastUpdated, views } =
+    pageData;
 
   if (!router.isFallback && !pageData?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -57,7 +58,7 @@ export default function PostLayout({
         isPost={isPost}
         subTitle={subTitle}
         lastUpdated={lastUpdated}
-        views={isPost ? views : ''}
+        views={isPost ? views : ""}
       >
         {title}
       </Title>

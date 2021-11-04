@@ -46,7 +46,11 @@ type LogoProps = {
   children?: any;
 };
 
-const Logo = ({ asLink = false, short = false, children = null }: LogoProps): ReactElement => {
+const Logo = ({
+  asLink = false,
+  short = false,
+  children = null,
+}: LogoProps): ReactElement => {
   const router = useRouter();
   const defaultLogoText: string = short ? "AM" : "Alex MacArthur";
 

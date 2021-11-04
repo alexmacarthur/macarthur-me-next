@@ -27,7 +27,7 @@ const navItems = [
   },
 ];
 
-const Nav = ({isAbsolute = false}) => {
+const Nav = ({ isAbsolute = false }) => {
   const router = useRouter();
   const [shouldHideLogo, setShouldHideLogo] = useState(() => {
     return router.route === "/";
@@ -36,7 +36,7 @@ const Nav = ({isAbsolute = false}) => {
   useEffect(() => {
     const handleRouteChange = (url) => {
       setShouldHideLogo(url === "/");
-  };
+    };
 
     router.events.on("routeChangeComplete", handleRouteChange);
 
@@ -128,7 +128,9 @@ const Nav = ({isAbsolute = false}) => {
                   key={item.link}
                 >
                   <Link href={item.link}>
-                    <a className="py-2 border-b-4 border-transparent hover:border-gray-200">{item.name}</a>
+                    <a className="py-2 border-b-4 border-transparent hover:border-gray-200">
+                      {item.name}
+                    </a>
                   </Link>
                 </li>
               );

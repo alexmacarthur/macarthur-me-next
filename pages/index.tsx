@@ -2,7 +2,7 @@ import Meta from "../components/meta";
 import Nav from "../components/nav";
 import Logo from "../components/logo";
 import SocialLinks from "../components/social-links";
-import Link from 'next/link';
+import Link from "next/link";
 import { getAllPosts, getTopPosts } from "../lib/api";
 import ViewCount from "../components/view-count";
 import DateFormatter from "../components/date-formatter";
@@ -19,11 +19,12 @@ export default function Index({ featuredPosts }) {
         <div className="text-white">
           <div className="max-w-5xl mb-4 flex flex-col justify-center pt-12 lg:pt-20 pb-8 lg:pb-10">
             <h1 className="font-semibold text-4xl md:text-6xl lg:text-8xl">
-              <Logo>
-                I'm Alex MacArthur.
-              </Logo>
+              <Logo>I'm Alex MacArthur.</Logo>
             </h1>
-            <span className="text-base">A web developer who's prone to solving problems with JavaScript, PHP, and Ruby.</span>
+            <span className="text-base">
+              A web developer who's prone to solving problems with JavaScript,
+              PHP, and Ruby.
+            </span>
             <div className="mt-4 mb-20">
               <SocialLinks />
             </div>
@@ -33,7 +34,7 @@ export default function Index({ featuredPosts }) {
             <h2 className="text-2xl font-bold mb-6">Featured Blog Posts</h2>
 
             <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredPosts.map(post => {
+              {featuredPosts.map((post) => {
                 const { title, views, date, slug } = post;
                 const postPath = `/posts/${slug}`;
 
@@ -42,7 +43,9 @@ export default function Index({ featuredPosts }) {
                     <Link href={postPath}>
                       <a className="flex flex-col h-full p-4 md:p-8">
                         <div className="mb-8">
-                          <h3 className="text-xl font-semibold mb-2">{title}</h3>
+                          <h3 className="text-xl font-semibold mb-2">
+                            {title}
+                          </h3>
                           <DateFormatter date={date} />
                         </div>
 
@@ -61,7 +64,7 @@ export default function Index({ featuredPosts }) {
                       </a>
                     </Link>
                   </li>
-                )
+                );
               })}
             </ul>
 
@@ -87,18 +90,18 @@ export async function getStaticProps() {
   const posts = await getAllPosts();
 
   const featuredPosts = [
-    'when-dom-updates-appear-to-be-asynchronous',
-    'use-web-workers-for-your-event-listeners',
-    'when-a-weakmap-came-in-handy'
-  ].map(slug => {
-    return posts.find(post => post.slug === slug);
+    "when-dom-updates-appear-to-be-asynchronous",
+    "use-web-workers-for-your-event-listeners",
+    "when-a-weakmap-came-in-handy",
+  ].map((slug) => {
+    return posts.find((post) => post.slug === slug);
   });
 
   return {
     props: {
       topPosts: await getTopPosts(),
-      featuredPosts
+      featuredPosts,
     },
-    revalidate: 86400 // once per day
-  }
+    revalidate: 86400, // once per day
+  };
 }

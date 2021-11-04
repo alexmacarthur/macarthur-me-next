@@ -155,12 +155,16 @@ export async function getStaticProps() {
       result = await stat.value;
 
       if (!result) {
-        console.log(`DASHBOARD - Stat value was empty: ${stat.title}, ${result}`);
+        console.log(
+          `DASHBOARD - Stat value was empty: ${stat.title}, ${result}`
+        );
       }
 
       stat.value = Number(result).toLocaleString();
     } catch (e) {
-      console.log(`DASHBOARD - Could not get stat value: ${stat.title}, ${result}`);
+      console.log(
+        `DASHBOARD - Could not get stat value: ${stat.title}, ${result}`
+      );
       stat.value = null;
     }
   }
