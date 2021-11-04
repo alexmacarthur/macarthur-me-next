@@ -26,13 +26,13 @@ export default class PostCompiler {
   }
 
   async getPosts(): Promise<PostData[]> {
-    const cachedPosts = await this.db.getContent(this.contentType);
+   // const cachedPosts = await this.db.getContent(this.contentType);
 
-    if (cachedPosts.length) {
-      console.log(`Found cached ${this.contentType}s...`);
+    //if (cachedPosts.length) {
+   //   console.log(`Found cached ${this.contentType}s...`);
 
-      return this.sortByDate(cachedPosts);
-    }
+ //     return this.sortByDate(cachedPosts);
+//   }
 
     const files: PostData[] = this.readFiles().map((dirent): PostData => {
       const { name } = dirent;
@@ -63,8 +63,8 @@ export default class PostCompiler {
 
     let posts = await this.attachGaViews([...directories, ...files]);
 
-    console.log(`Saving ${this.contentType}s to cache...`);
-    await this.db.updateContent(this.contentType, posts);
+    //console.log(`Saving ${this.contentType}s to cache...`);
+   // await this.db.updateContent(this.contentType, posts);
 
     return this.sortByDate(posts);
   }
