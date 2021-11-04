@@ -25,7 +25,7 @@ export default class PostCompiler {
     this.ga = new GoogleAnalyticsService();
   }
 
-  async getPosts() {
+  async getPosts(): Promise<PostData[]> {
     const cachedPosts = await this.db.getContent(this.contentType);
 
     if (cachedPosts.length) {
