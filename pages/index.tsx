@@ -12,7 +12,6 @@ export default function Index({ featuredPosts }) {
   return (
     <>
       <Meta />
-
       <Nav />
 
       <main className="w-screen flex justify-center p-4 md:p-6">
@@ -39,30 +38,30 @@ export default function Index({ featuredPosts }) {
                 const postPath = `/posts/${slug}`;
 
                 return (
-                  <li className="border-4 rounded-md border-gray-800 hover:border-purple-500">
-                    <Link href={postPath}>
-                      <a className="flex flex-col h-full p-4 md:p-8">
-                        <div className="mb-8">
-                          <h3 className="text-xl font-semibold mb-2">
+                  <li className="border-4 rounded-md border-gray-800 hover:border-purple-500 flex flex-col h-full p-4 md:p-8">
+                    <div className="mb-8">
+                      <h3 className="text-xl font-semibold mb-2">
+                        <Link href={postPath}>
+                          <a>
                             {title}
-                          </h3>
-                          <DateFormatter date={date} />
-                        </div>
+                          </a>
+                        </Link>
+                      </h3>
+                      <DateFormatter date={date} />
+                    </div>
 
-                        <div className="mt-auto flex justify-between items-center">
-                          <Button
-                            naked={true}
-                            small={true}
-                            href={postPath}
-                            internal={true}
-                          >
-                            Read It
-                          </Button>
+                    <div className="mt-auto flex justify-between items-center">
+                      <Button
+                        naked={true}
+                        small={true}
+                        href={postPath}
+                        internal={true}
+                      >
+                        Read It
+                      </Button>
 
-                          <ViewCount count={views} />
-                        </div>
-                      </a>
-                    </Link>
+                      <ViewCount count={views} />
+                    </div>
                   </li>
                 );
               })}

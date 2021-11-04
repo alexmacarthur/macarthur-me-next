@@ -54,8 +54,10 @@ export function getImageDataForSlug(slug: string): { [key: string]: any } {
 export async function getTopPosts(limit = 3) {
   const sortedPosts = (await getAllPosts()).sort((a, b) => {
     const numberize = (num: string) => Number(num.replace(/,/g, ""));
+    const aViews = a.views || '0';
+    const bViews = b.views || '0';
 
-    return numberize(a.views) > numberize(b.views) ? -1 : 1;
+    return numberize(aViews) > numberize(bViews) ? -1 : 1;
   });
 
   return sortedPosts.slice(0, limit);
