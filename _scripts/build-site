@@ -4,4 +4,3 @@ npm run db:reset # Just in case anything's in there from a previous run.
 npm run build:images
 next build 
 npm run build:sitemap 
-npm run db:reset
