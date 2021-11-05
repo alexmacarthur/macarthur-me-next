@@ -10,3 +10,7 @@ export const randomInRange = (min, max): number => {
 export const fullUrlFromPath = (path) => {
   return `${SITE_URL}${path}`;
 };
+
+export const uniqueBy = (arr: any[], key: string): any[] => {
+  return [...new Map(arr.map(item => [item[key], item])).values()]
+}

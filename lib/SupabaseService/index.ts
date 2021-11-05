@@ -31,7 +31,7 @@ class SupabaseService {
       }
     });
 
-    await this.deleteContent();
+    await this.deleteContent(contentType);
 
     return await this.client
       .from('site_content_cache')
@@ -57,7 +57,7 @@ class SupabaseService {
     if(postTime.getTime() < fifteenMinutesAgo.getTime()) {
       console.log('Cache is old. Deleting.');
 
-      await this.deleteContent();
+      await this.deleteContent(contentType);
 
       return [];
     }
@@ -65,11 +65,11 @@ class SupabaseService {
     return data.map(post => post.post_json);
   }
 
-  deleteContent(): Promise<any> {
+  deleteContent(contentType: ContentType): Promise<any> {
     return this.client
       .from('site_content_cache')
       .delete()
-      .in('content_type', ['post', 'page']);
+      .match({ 'content_type': contentType });
   }
 
   async getPositiveFeedbackCount(): Promise<number> {

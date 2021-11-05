@@ -2,6 +2,7 @@ import fs from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { processMarkdown, stripMarkdown } from "./markdown";
+import { uniqueBy } from "../lib/utils";
 import GoogleAnalyticsService from "./GoogleAnalyticsService";
 import SupabaseService from "./SupabaseService";
 
@@ -31,7 +32,7 @@ export default class PostCompiler {
     if (cachedPosts.length) {
       console.log(`Found cached ${this.contentType}s...`);
 
-      return this.sortByDate(cachedPosts);
+      return uniqueBy(this.sortByDate(cachedPosts), 'slug');
     }
 
     const files: PostData[] = this.readFiles().map((dirent): PostData => {
@@ -66,7 +67,7 @@ export default class PostCompiler {
     console.log(`Saving ${this.contentType}s to cache...`);
     await this.db.updateContent(this.contentType, posts);
 
-    return this.sortByDate(posts);
+    return uniqueBy(this.sortByDate(posts), 'slug');
   }
 
   async attachGaViews(posts): Promise<PostData[]> {
