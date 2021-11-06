@@ -13,6 +13,7 @@ const emailService = new EmailService();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, message, name, password }: Email = req.body;
+  const completedTime = req.headers["x-completion-time"] || "?";
 
   if (password) {
     return res.status(200).json({ email, message, name });
@@ -21,11 +22,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   await emailService.transport({
     to: process.env.MY_EMAIL,
     from: email,
+    replyTo: email,
     subject: "Contact Form Submitted",
     text: `
 Name: ${name}\n
 Email Address: ${email}\n
-Message: ${message}
+Message: ${message}\n
+Completed In: ${completedTime}s
 `,
   });
 

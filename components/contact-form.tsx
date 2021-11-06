@@ -35,14 +35,20 @@ const ContactForm = () => {
     return removeSetStartTime;
   }, []);
 
+  const onSubmitSuccess = () => {
+    formRef.current.reset();
+    setValidationMessage("Message successfully sent!");
+    setCanSubmit(true);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const differenceInSeconds: number =
       (getTimeInMilliseconds() - timerRef.current) / 1000;
 
     if (differenceInSeconds < 3) {
-      setValidationMessage("Whoa, chill out!");
-      return;
+      onSubmitSuccess();
+    return;
     }
 
     setCanSubmit(false);
@@ -50,15 +56,16 @@ const ContactForm = () => {
 
     const response = await fetch("/api/email", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: { 
+        "Content-Type": "application/x-www-form-urlencoded",
+        "x-completion-time": String(differenceInSeconds)
+      },
       body: new URLSearchParams(formData as any).toString(),
     });
 
     await response.json();
 
-    e.target.reset();
-    setValidationMessage("Message successfully sent!");
-    setCanSubmit(true);
+    onSubmitSuccess();
   };
 
   return (
