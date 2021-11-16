@@ -1,13 +1,18 @@
 .jc-Shell {
   .jc-Message {
     p {
-      color: inherit;
+      @apply text-base text-white;
     }
   }
 
   .jc-CommentBox {
     &-button {
       @include button;
+      @apply rounded-md;
+    }
+
+    &-label {
+      @apply mb-0;
     }
 
     &-buttonWrapper {
@@ -35,7 +40,7 @@
     }
 
     h3, label {
-      @apply text-xl;
+      @apply text-xl
     }
   }
 }
