@@ -29,7 +29,7 @@ export default class PostCompiler {
   async getPosts(): Promise<PostData[]> {
     const cachedPosts = await this.db.getContent(this.contentType);
 
-    if (cachedPosts.length) {
+    if (cachedPosts.length && process.env.NODE_ENV !== 'development') {
       console.log(`Found cached ${this.contentType}s...`);
 
       return uniqueBy(this.sortByDate(cachedPosts), 'slug');

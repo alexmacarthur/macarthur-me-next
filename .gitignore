@@ -40,3 +40,6 @@ yarn-error.log*
 sitemap.xml
 
 json_db
+
+public/post-images
+lib/image-data.json
