@@ -13,7 +13,7 @@
   "browserslist": "defaults and supports es6-module and supports es6-module-dynamic-import, not opera > 0, not samsung > 0, not and_qq > 0",
   "dependencies": {
     "@babel/preset-env": "^7.16.0",
-    "@jam-comments/next": "^0.0.31",
+    "@jam-comments/next": "^0.0.32",
     "@next/bundle-analyzer": "^12.0.2",
     "@ramseyinhouse/feedback-component": "^1.0.0",
     "@supabase/supabase-js": "^1.25.2",
