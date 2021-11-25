@@ -1,5 +1,5 @@
 ---
-title: Conditionally Rendering Different ERB Templates in Ruby on Rails
+title: Conditionally Rendering ERB Templates from Different Directories with Ruby on Rails
 ogImage: https://images.pexels.com/photos/1831113/pexels-photo-1831113.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1200
 ---
 
@@ -7,15 +7,15 @@ A while back, I was working in a Ruby on Rails project in which we wanted to tes
 
 For each feature, there'd be a default "experience", but when a certain condition was met, we'd render an alternative, which might've contained slightly different markup, styles, or something else. To pull it off, we needed a way to maintain these different variants, as well as a means of reliably serving them whenever a particular experience was activated. 
 
-This scenario led me down the path of exploring what it'd take to make this "conditional template rendering" happen using the two most popular approaches to handling ERB templates Rails — the [Action View module](https://doc.bccnsoft.com/docs/rails-guides-4.2.1-en/action_view_overview.html), and the [View Component gem](https://viewcomponent.org/). This post is mostly just a recap of how I prototyped it all out using both.
+This scenario led me down the path of exploring conditional template rendering with the two most popular approaches to handling ERB templates Rails — the [Action View module](https://doc.bccnsoft.com/docs/rails-guides-4.2.1-en/action_view_overview.html), and the [View Component gem](https://viewcomponent.org/). Under more typical circumstances, we'd be able to leverage the "variants" feature offered by both solutions. But this was complicated by the fact that we wanted our variant templates to live in a different directory from our defaults (they wouldn't be siblings). This post is mostly just a recap of how I prototyped this somewhat unusual need with both of these tools.
 
 ## Conditional Rendering w/ Action View
 
-Out of the two approaches I explored, Action View definitely requires the least amount of lift, being that I could largely rely on out-of-the-box functionality provided by Rails.
+Out of the two approaches I explored, Action View definitely requires the least amount of lift, being that I could largely rely on out-of-the-box functional`ity provided by Rails.
 
 ### Template File Structure
 
-First, a quick overview of the template organization scheme I landed on. I wanted the default feature template to live in the standard `views` directory), and then for each variant, a template by the same name would reside in a directory housed under `views/experiences`. For example, consider an application with a `ProductController` and a single `index` action: 
+First, a quick overview of the template organization scheme with which I started. The default feature template would live in the standard `views` directory), and then for each variant, a template by the same name would reside in a directory housed under `views/experiences`. For example, consider an application with a `ProductController` and a single `index` action: 
 
 ```ruby
 class ProductController < ApplicationController
@@ -35,7 +35,7 @@ When navigating to that route in the browser, some sort of "default" experience 
 
 ![""](./default-experience.jpg)
 
-Now, imagine that we wanted to introduce "minimalist" and "maximalist" experiences for our application. The "default" templates would live where where they normally do, and then each experience would have a dedicated directory (named according to that experience) that housed the alternative templates **using the same folder structure** (in this case, under the `product` namespace).
+Now, imagine that "minimalist" and "maximalist" experiences were introduced for the application. Each of these experiences would have a dedicated directory (named according to that experience) that housed the alternative templates **using the same folder structure** (in this case, under the `product` namespace).
 
 ```bash
 |-- app/
@@ -54,7 +54,7 @@ Now, imagine that we wanted to introduce "minimalist" and "maximalist" experienc
 				|-- index.html.erb
 ```
 
-This felt relatively maintainable. When a new experience is introduced, I'd simply duplicate the relevant template files and tweak away.
+While arguably a little more complicated than dealing strictly with sibling template variants, this still feel pretty maintinable. When a new experience is introduced, I'd simply duplicate the relevant template files and tweak away.
 
 ### Overriding Where Templates Are Searched
 
@@ -125,7 +125,7 @@ Easy conditional template rendering... by just leveraging what Rails gives us an
 
 If you're not that familiar with GitHub's [view_component](https://github.com/github/view_component) gem, check it out. It toutes some pretty sick advantages — performance, testability, and encapsulation, to mention a few. 
 
-Unfortunately, conditionally rendering different templates with ViewComponents is a little more complicated than with Action View. As far as my digging through the code & documentation went, there's neither (yet) a public API for controlling where `.erb` templates are searched, nor a blessed means of dictating which template should be rendered for a given component. Regardless, it's possible to pull off. Here's the approach I took:
+Unfortunately, conditionally rendering different templates with ViewComponents is a little more complicated than with Action View. As far as my digging through the code & documentation went, there's neither (yet) a public API for controlling where `.erb` templates are searched, nor a blessed means of dictating which template should be rendered for a given component. Regardless, it's possible to pull off for my specific use case. Here's the approach I took:
 
 ### An Example Component
 
