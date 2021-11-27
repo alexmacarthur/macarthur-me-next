@@ -10,6 +10,18 @@ module.exports = withPlugins(
   webpack: (config) => {
     return config
   },
+  async rewrites() {
+    return [
+      {
+        source: '/js/metrics.js',
+        destination: 'https://analytics.macarthur.me/js/plausible.js'
+      },
+      {
+        source: '/api/event',
+        destination: 'https://analytics.macarthur.me/api/event'
+      }
+    ];
+  },
   async redirects() {
     return [
       {
