@@ -27,14 +27,6 @@ export default class PostCompiler {
   }
 
   async getPosts(): Promise<PostData[]> {
-    const cachedPosts = await this.db.getContent(this.contentType);
-
-    if (cachedPosts.length && process.env.NODE_ENV !== 'development') {
-      console.log(`Found cached ${this.contentType}s...`);
-
-      return uniqueBy(this.sortByDate(cachedPosts), 'slug');
-    }
-
     const files: PostData[] = this.readFiles().map((dirent): PostData => {
       const { name } = dirent;
       const slug = this.getSlug(name);
@@ -64,24 +56,11 @@ export default class PostCompiler {
 
     let posts = await this.attachGaViews([...directories, ...files]);
 
-    console.log(`Saving ${this.contentType}s to cache...`);
-    await this.db.updateContent(this.contentType, posts);
-
-    return uniqueBy(this.sortByDate(posts), 'slug');
+    return this.sortByDate(posts);
   }
 
   async attachGaViews(posts): Promise<PostData[]> {
     for (const post of posts) {
-      // Hack to get around GA rate limiting.
-      await new Promise((resolve) => {
-        setTimeout(
-          async () => {
-            resolve(null);
-          },
-          process.env.NODE_ENV === "production" ? 250 : 0
-        );
-      });
-
       post.views = await this.ga.getPostViews(post.slug);
     }
 

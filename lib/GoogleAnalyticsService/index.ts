@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import gaData from './ga-data.json';
 
 const scopes = 'https://www.googleapis.com/auth/analytics.readonly';
 const jwt = new google.auth.JWT(process.env.GA_CLIENT_EMAIL, null, process.env.GA_PRIVATE_KEY, scopes);
@@ -7,61 +8,24 @@ const jwt = new google.auth.JWT(process.env.GA_CLIENT_EMAIL, null, process.env.G
 // https://developers.google.com/analytics/devguides/reporting/core/v3/reference
 
 class GoogleAnalyticsService {
+  gaData;
 
-  log(message) {
-    console.log(`GOOGLE ANALYTICS SERVICE LOG - ${message}`);
+  constructor() {
+    this.gaData = gaData;
   }
 
-  async getPageViews(startDate: string = "2012-01-01"): Promise<any> {
-    const result = await google.analytics('v3').data.ga.get({
-      'auth': jwt,
-      'ids': `ga:${process.env.GA_VIEW_ID}`,
-      'start-date': startDate,
-      'end-date': 'today',
-      'metrics': 'ga:pageviews'
-    });
-
-    return result.data;
+  log(message) {
+    console.log(`ANALYTICS SERVICE LOG - ${message}`);
   }
 
   async getPageViewCount(): Promise<number> {
-    return Number((await this.getPageViews()).totalsForAllResults['ga:pageviews']);
+    return Number(this.gaData.totalPageViewsForSite);
   }
 
   async getPostViews(slug: string): Promise<null | string> {
-    if(process.env.NODE_ENV !== 'production') {
-      function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
-
-      return getRandomInt(10000, 100000).toLocaleString();
-    }
-
-    try {
-      const result = await google.analytics('v3').data.ga.get({
-        'auth': jwt,
-        'ids': `ga:${process.env.GA_VIEW_ID}`,
-        'start-date': "2012-01-01",
-        'end-date': 'today',
-        'metrics': 'ga:pageviews',
-        'dimensions': 'ga:pagePath',
-        'filters': `ga:pagePath=@${slug}`
-      });
-  
-      // Something went wrong.
-      if (!String(result.status).startsWith('20')) {
-        return null;
-      }
-  
-      const total = result.data?.totalsForAllResults?.['ga:pageviews'];
-
-      return total ? Number(total).toLocaleString() : null;
-    } catch(e) {
-      this.log(e.message);
-      return null;
-    }
+    const rawValue = this.gaData.postViewCounts[slug];
+    
+    return Number(rawValue).toLocaleString();
   }
 }
 

@@ -7,8 +7,6 @@ const PostList = ({ posts }) => {
   return (
     <ul className="space-y-10">
       {posts.map((post) => {
-        post.views = 0;
-
         const { external, externalDomain } = post;
         const linkProps = {
           href: external ? external : `/posts/${post.slug}`,
@@ -42,7 +40,7 @@ const PostList = ({ posts }) => {
                   {post.lastUpdated && "Originally posted on"}
                 </DateFormatter>
 
-                {!external && post.views > 0 && <ViewCount count={post.views} />}
+                {!external && post.views.length && <ViewCount count={post.views} />}
               </div>
 
               <small className="block text-gray-500 mb-2">{post.excerpt}</small>
