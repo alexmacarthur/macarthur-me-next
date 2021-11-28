@@ -13,7 +13,7 @@ module.exports = withPlugins(
   async rewrites() {
     return [
       {
-        source: '/js/metrics.js',
+        source: '/js/numbers.js',
         destination: 'https://analytics.macarthur.me/js/plausible.js'
       },
       {
