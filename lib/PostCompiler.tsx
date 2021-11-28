@@ -26,35 +26,51 @@ export default class PostCompiler {
     this.ga = new GoogleAnalyticsService();
   }
 
-  async getPosts(): Promise<PostData[]> {
-    const files: PostData[] = this.readFiles().map((dirent): PostData => {
-      const { name } = dirent;
+  getFilesAndDirectories(slug = ""): {
+    type: string,
+    content: fs.Dirent
+  }[] {
+    const files = this.readFiles().map(content => {
+      return {
+        type: 'file', 
+        content
+      }
+    });
+
+    const directories = this.readDirectories().map(content => {
+      return {
+        type: 'directory', 
+        content
+      }
+    });
+
+    const filesAndDirectories = files.concat(directories);
+
+    if(!slug) {
+      return filesAndDirectories;
+    }
+
+    // Return an array of just that single item.
+    return [filesAndDirectories.find(thing => {
+      return this.getSlug(thing.content.name) === slug;
+    })].filter(i => !!i);
+  }
+
+  async getPosts(slug = ""): Promise<PostData[]> {
+    let posts = this.getFilesAndDirectories(slug).map(fileSystemThing => {
+      const { name } = fileSystemThing.content;
       const slug = this.getSlug(name);
+      const path = fileSystemThing.type === 'file' ? name : `${name}/index.md`;
 
       return {
         slug,
-        path: name,
+        path,
         date: this.getDate(name),
-        ...this.getContent(name, slug),
-      };
-    });
+        ...this.getContent(path, slug),
+      } as PostData;
+    })
 
-    const directories: PostData[] = this.readDirectories().map(
-      (dirent): PostData => {
-        const { name } = dirent;
-        const slug = this.getSlug(name);
-        const path = `${name}/index.md`;
-
-        return {
-          slug,
-          path,
-          date: this.getDate(name),
-          ...this.getContent(path, slug),
-        };
-      }
-    );
-
-    let posts = await this.attachGaViews([...directories, ...files]);
+    posts = await this.attachGaViews(posts);
 
     return this.sortByDate(posts);
   }
@@ -69,7 +85,7 @@ export default class PostCompiler {
 
   async getContentBySlug(slug: string): Promise<PostData> {
     return (
-      (await this.getPosts()).find((post) => {
+      (await this.getPosts(slug)).find((post) => {
         return post.slug === slug;
       }) || null
     );
