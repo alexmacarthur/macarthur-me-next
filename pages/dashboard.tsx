@@ -25,7 +25,7 @@ const Dashboard = ({ stats }) => {
           >
             Incremental Static Regeneration
           </a>
-          , which is revalidated upon request at most once every hour.
+          , which is revalidated upon request at most once every two hours (a completely arbitrary interval).
         </p>
       </div>
 
@@ -96,7 +96,7 @@ export async function getStaticProps() {
     },
     {
       title: "Total Website Views",
-      subTitle: "According to Google Analytics since November, 2015.",
+      subTitle: "Since November, 2015.",
       value: aService.getTotalViews(),
     },
     {
@@ -175,6 +175,6 @@ export async function getStaticProps() {
         return !!s.value;
       }),
     },
-    revalidate: 86400,
+    revalidate: 7200,
   };
 }
