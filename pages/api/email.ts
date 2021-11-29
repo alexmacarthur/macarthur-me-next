@@ -15,10 +15,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, message, name, password }: Email = req.body;
   const completedTime = req.headers["x-completion-time"] || "?";
 
-  if (password) {
-    return res.status(200).json({ email, message, name });
-  }
-
   await emailService.transport({
     to: process.env.MY_EMAIL,
     from: email,
@@ -29,6 +25,7 @@ Name: ${name}\n
 Email Address: ${email}\n
 Message: ${message}\n
 Completed In: ${completedTime}s
+Password: ${password}
 `,
   });
 
