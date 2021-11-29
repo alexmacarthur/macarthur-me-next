@@ -1,5 +1,5 @@
 import PageLayout from "../components/page-layout";
-import GoogleAnalyticsService from "../lib/GoogleAnalyticsService";
+import AnalyticsService from "../lib/AnalyticsService";
 import GitHubService from "../lib/GitHubService";
 import SupabaseService from "../lib/SupabaseService";
 import GoogleSearchService from "../lib/GoogleSearchService";
@@ -66,7 +66,7 @@ export async function getStaticProps() {
     value: number | string | Promise<number | string>;
   };
 
-  const gaService = new GoogleAnalyticsService();
+  const aService = new AnalyticsService();
   const ghService = new GitHubService();
   const supService = new SupabaseService();
   const gsService = new GoogleSearchService();
@@ -97,7 +97,7 @@ export async function getStaticProps() {
     {
       title: "Total Website Views",
       subTitle: "According to Google Analytics since November, 2015.",
-      value: gaService.getPageViewCount(),
+      value: aService.getTotalViews(),
     },
     {
       title: "Positive Feedback (👍) on Blog Posts",

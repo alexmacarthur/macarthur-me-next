@@ -2,8 +2,7 @@ import fs from "fs";
 import { join } from "path";
 import matter from "gray-matter";
 import { processMarkdown, stripMarkdown } from "./markdown";
-import { uniqueBy } from "../lib/utils";
-import GoogleAnalyticsService from "./GoogleAnalyticsService";
+import AnalyticsService from "./AnalyticsService";
 import SupabaseService from "./SupabaseService";
 
 export default class PostCompiler {
@@ -12,7 +11,7 @@ export default class PostCompiler {
   directory: string;
   slugPattern: RegExp;
   datePattern: RegExp = new RegExp(/\d{4}-\d{2}-\d{2}-/);
-  ga: GoogleAnalyticsService;
+  ga: AnalyticsService;
 
   constructor(
     contentType: ContentType,
@@ -23,7 +22,7 @@ export default class PostCompiler {
     this.contentType = contentType;
     this.directory = join(process.cwd(), `_${contentType}s`);
     this.slugPattern = slugPattern;
-    this.ga = new GoogleAnalyticsService();
+    this.ga = new AnalyticsService();
   }
 
   getFilesAndDirectories(slug = ""): {
@@ -70,17 +69,25 @@ export default class PostCompiler {
       } as PostData;
     })
 
-    posts = await this.attachGaViews(posts);
+    posts = await this.attachViewCounts(posts);
 
     return this.sortByDate(posts);
   }
 
-  async attachGaViews(posts): Promise<PostData[]> {
-    for (const post of posts) {
-      post.views = await this.ga.getPostViews(post.slug);
-    }
+  async attachViewCounts(posts): Promise<PostData[]> {
+    const postsWithViews = posts.map(post => {
+      post.views = this.ga.getTotalPostViews(post.slug);
 
-    return posts;
+      return post;
+    })
+
+    const results = await Promise.allSettled(postsWithViews.map(p => p.views));
+
+    (results as unknown as any[]).forEach((result, index) => {
+      postsWithViews[index].views = result.value;
+    });
+
+    return postsWithViews;
   }
 
   async getContentBySlug(slug: string): Promise<PostData> {
