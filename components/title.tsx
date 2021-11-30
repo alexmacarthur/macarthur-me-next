@@ -67,7 +67,7 @@ const Title = ({
             </DateFormatter>
           )}
 
-          {views && <ViewCount count={views} />}
+          <ViewCount count={views} />
         </div>
 
         {secondaryMeta && secondaryMeta()}

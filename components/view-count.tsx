@@ -1,7 +1,9 @@
 import { ReactElement } from "react";
 import ViewsIcon from "./icon-views";
 
-const ViewCount = ({ count }: { count: string }): ReactElement => {
+const ViewCount = ({ count = "" }: { count: string }): ReactElement => {
+  if(!count.length) return null;
+
   return (
     <span
       title={`${count} Google Analytics views`}

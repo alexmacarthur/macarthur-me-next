@@ -36,12 +36,19 @@ class AnalyticsService {
 
   async getTotalPostViews(slug: string): Promise<string> {
     const gaPostViews = this.getGaPostViews(slug);
-    const plausiblePostViews = await this.getPlausiblePostViews(slug)
+    const plausiblePostViews = await this.getPlausiblePostViews(slug);
+    const total = gaPostViews + plausiblePostViews;
 
-    return (gaPostViews + plausiblePostViews).toLocaleString();
+    if(!total) return "";
+
+    return total.toLocaleString();
   }
 
   getGaPostViews(slug: string): number {
+    const rawValue = this.gaData.postViewCounts[slug];
+    
+    if(!rawValue) return 0;
+
     return Number(this.gaData.postViewCounts[slug]);
   }
 
