@@ -25,7 +25,6 @@
     "bezier-easing": "^2.1.0",
     "date-fns": "^2.25.0",
     "globby": "^12.0.2",
-    "googleapis": "^89.0.0",
     "gray-matter": "4.0.3",
     "i": "^0.3.7",
     "image-size": "^1.0.0",
