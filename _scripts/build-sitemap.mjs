@@ -6,45 +6,54 @@ import { globbySync } from "globby";
 import * as prettier from "prettier";
 
 (async () => {
-  const pagesDirectory = `${process.cwd()}/.next/server/pages`;
-  const prettierConfig = await prettier.default.resolveConfig(
-    "./.prettierrc.js"
-  );
-
   rimraf.default.sync(`${process.cwd()}/public/sitemap.xml`);
 
-  const pages = globbySync([
-    `${pagesDirectory}/**/*.html`,
-    `!${pagesDirectory}/**/404.html`,
-  ]);
+  const postLinks = globbySync([
+    `${process.cwd()}/_posts/**/*.md`
+  ]).map(post => {
+    return `posts/${post.match(/(?:\d{4}-\d{2}-\d{2}-)(.+?)((?=(\/index)|(?=\.md)))/)[1]}`;
+  });
+
+  const pageLinks = globbySync([
+    `${process.cwd()}/_pages/**/*.md`,
+    `${process.cwd()}/pages/**/*.tsx`
+  ]).filter(page => {
+    if (page.match(/\[|\]/)) return false;
+    if (page.match(/pages\/_/)) return false;
+
+    return true;
+  })
+    .map(page => {
+      const pageSlug = page.match(/(?:pages\/)(.+?)((?=(\/index)|(?=\.(tsx|md))))/)[1];
+
+      if (pageSlug.match(/^index$/)) return '';
+
+      return pageSlug;
+    });
+
+  const allLinks = postLinks.concat(pageLinks);
 
   const sitemap = `
         <?xml version="1.0" encoding="UTF-8"?>
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-            ${pages
-              .map((page) => {
-                const path = page
-                  .replace(pagesDirectory, "")
-                  .replace(".html", "");
-                const route = path === "/index" ? "" : path;
+            ${allLinks
+      .map((slug) => {
+        const url = `https://macarthur.me/${slug}`.replace(/\/$/, '');
 
-                return `
+        return `
                         <url>
-                            <loc>${`https://macarthur.me${route}`}</loc>
+                            <loc>${url}</loc>
                             <changefreq>daily</changefreq>
                         </url>
                     `;
-              })
-              .join("")}
+      })
+      .join("")}
         </urlset>
     `;
 
-  // If you're not using Prettier, you can remove this.
   const formatted = prettier.default.format(sitemap, {
-    ...prettierConfig,
-    parser: "html",
+    parser: "html"
   });
 
-  // need to fix this..
-  writeFileSync(`${process.cwd()}/.next/sitemap.xml`, formatted);
+  writeFileSync(`${process.cwd()}/public/sitemap.xml`, formatted);
 })();
