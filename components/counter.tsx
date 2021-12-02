@@ -1,15 +1,23 @@
 import { CountUp } from 'countup.js';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const Counter = ({ value, render = null }) => {
+const Counter = ({ value, waitUntilVisible = true, classes = "" }) => {
     const counterRef = useRef(null);
-    const formattedValue = parseInt(value.replace(/\,/g, ''), 10);
+    const formattedValue = parseInt(value.replace(/\,/g, ''), 10);  
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        setIsMounted(true);
+
         const element = counterRef.current;
         if (!element) return;
 
+        // Accessibility!
+        if (window?.matchMedia("(prefers-reduced-motion: reduce)")?.matches) return;
+
         const countUp = new CountUp(element, formattedValue);
+
+        if (!waitUntilVisible) return countUp.start();
 
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
@@ -30,11 +38,11 @@ const Counter = ({ value, render = null }) => {
         }
     }, []);
 
-    if(render) {
-        return render(counterRef);
-    }
-
-    return <span ref={counterRef}>0</span>;
+    return (
+        <span ref={counterRef} className={classes}>
+            {isMounted ? value : "-"}
+        </span>
+    );
 }
 
 export default Counter;

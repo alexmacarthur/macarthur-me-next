@@ -48,9 +48,8 @@ const Dashboard = ({ stats }) => {
               </span>
               <Counter 
                 value={stat.value} 
-                render={(ref) => {
-                  return <span ref={ref} className="text-4xl md:text-5xl font-black">0</span>
-                }}
+                waitUntilVisible={false}
+                classes="text-4xl md:text-5xl font-black"
               />
             </li>
           );
