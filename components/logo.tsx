@@ -1,7 +1,7 @@
 import { ReactElement, useEffect } from "react";
 import BezierEasing from "bezier-easing";
 import { useRouter } from "next/router";
-import { randomInRange } from "../lib/utils";
+import { prefersReducedMotion, randomInRange } from "../lib/utils";
 
 /**
  * Get the current custom property value for the gradient angle.
@@ -55,6 +55,10 @@ const Logo = ({
   const defaultLogoText: string = short ? "AM" : "Alex MacArthur";
 
   useEffect(() => {
+    if(prefersReducedMotion()) {
+      return;
+    }
+
     let rafId: number = 0;
     let startTime: number = null;
     const startingAngle = getCurrentAngle();
