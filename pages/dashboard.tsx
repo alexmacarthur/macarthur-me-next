@@ -26,7 +26,8 @@ const Dashboard = ({ stats }) => {
           >
             Incremental Static Regeneration
           </a>
-          , which is revalidated upon request at most once every two hours (a completely arbitrary interval).
+          , which is revalidated upon request at most once every two hours (a
+          completely arbitrary interval).
         </p>
       </div>
 
@@ -46,8 +47,8 @@ const Dashboard = ({ stats }) => {
               <span className="text-sm italic text-gray-500 block mb-3">
                 {stat.subTitle}
               </span>
-              <Counter 
-                value={stat.value} 
+              <Counter
+                value={stat.value}
                 waitUntilVisible={false}
                 classes="text-4xl md:text-5xl font-black"
               />

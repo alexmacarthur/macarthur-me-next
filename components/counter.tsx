@@ -1,49 +1,52 @@
-import { CountUp } from 'countup.js';
+import { CountUp } from "countup.js";
 import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "../lib/utils";
 
 const Counter = ({ value, waitUntilVisible = true, classes = "" }) => {
-    const counterRef = useRef(null);
-    const formattedValue = parseInt(value.replace(/\,/g, ''), 10);  
-    const [isMounted, setIsMounted] = useState(false);
+  const counterRef = useRef(null);
+  const formattedValue = parseInt(value.replace(/\,/g, ""), 10);
+  const [isMounted, setIsMounted] = useState(false);
 
-    useEffect(() => {
-        setIsMounted(true);
+  useEffect(() => {
+    setIsMounted(true);
 
-        const element = counterRef.current;
-        if (!element) return;
+    const element = counterRef.current;
+    if (!element) return;
 
-        // Accessibility!
-        if (prefersReducedMotion()) return;
+    // Accessibility!
+    if (prefersReducedMotion()) return;
 
-        const countUp = new CountUp(element, formattedValue);
+    const countUp = new CountUp(element, formattedValue);
 
-        if (!waitUntilVisible) return countUp.start();
+    if (!waitUntilVisible) return countUp.start();
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    countUp.start();
-                    observer.unobserve(element);
-                }
-            });
-        }, {
-            rootMargin: "0px",
-            threshold: 1.0,
-        });
-
-        observer.observe(element);
-
-        return () => {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            countUp.start();
             observer.unobserve(element);
-        }
-    }, []);
-
-    return (
-        <span ref={counterRef} className={classes}>
-            {isMounted ? value : "-"}
-        </span>
+          }
+        });
+      },
+      {
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
     );
-}
+
+    observer.observe(element);
+
+    return () => {
+      observer.unobserve(element);
+    };
+  }, []);
+
+  return (
+    <span ref={counterRef} className={classes}>
+      {isMounted ? value : "-"}
+    </span>
+  );
+};
 
 export default Counter;

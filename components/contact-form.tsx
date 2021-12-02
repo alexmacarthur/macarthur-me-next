@@ -39,7 +39,7 @@ const ContactForm = () => {
     formRef.current.reset();
     setValidationMessage("Message successfully sent!");
     setCanSubmit(true);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const ContactForm = () => {
 
     if (differenceInSeconds < 3) {
       onSubmitSuccess();
-    return;
+      return;
     }
 
     setCanSubmit(false);
@@ -56,9 +56,9 @@ const ContactForm = () => {
 
     const response = await fetch("/api/email", {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "x-completion-time": String(differenceInSeconds)
+        "x-completion-time": String(differenceInSeconds),
       },
       body: new URLSearchParams(formData as any).toString(),
     });

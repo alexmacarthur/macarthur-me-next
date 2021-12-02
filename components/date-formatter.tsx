@@ -24,7 +24,7 @@ export default function DateFormatter({
         <time dateTime={dateObject.toISOString()}>{formattedDate}</time>
       </span>
     );
-  } catch(e) {
+  } catch (e) {
     return null;
   }
 }

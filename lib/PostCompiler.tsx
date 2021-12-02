@@ -16,7 +16,7 @@ export default class PostCompiler {
   constructor(
     contentType: ContentType,
     slugPattern: RegExp,
-    db = new SupabaseService
+    db = new SupabaseService()
   ) {
     this.db = db;
     this.contentType = contentType;
@@ -26,40 +26,42 @@ export default class PostCompiler {
   }
 
   getFilesAndDirectories(slug = ""): {
-    type: string,
-    content: fs.Dirent
+    type: string;
+    content: fs.Dirent;
   }[] {
-    const files = this.readFiles().map(content => {
+    const files = this.readFiles().map((content) => {
       return {
-        type: 'file', 
-        content
-      }
+        type: "file",
+        content,
+      };
     });
 
-    const directories = this.readDirectories().map(content => {
+    const directories = this.readDirectories().map((content) => {
       return {
-        type: 'directory', 
-        content
-      }
+        type: "directory",
+        content,
+      };
     });
 
     const filesAndDirectories = files.concat(directories);
 
-    if(!slug) {
+    if (!slug) {
       return filesAndDirectories;
     }
 
     // Return an array of just that single item.
-    return [filesAndDirectories.find(thing => {
-      return this.getSlug(thing.content.name) === slug;
-    })].filter(i => !!i);
+    return [
+      filesAndDirectories.find((thing) => {
+        return this.getSlug(thing.content.name) === slug;
+      }),
+    ].filter((i) => !!i);
   }
 
   async getPosts(slug = ""): Promise<PostData[]> {
-    let posts = this.getFilesAndDirectories(slug).map(fileSystemThing => {
+    let posts = this.getFilesAndDirectories(slug).map((fileSystemThing) => {
       const { name } = fileSystemThing.content;
       const slug = this.getSlug(name);
-      const path = fileSystemThing.type === 'file' ? name : `${name}/index.md`;
+      const path = fileSystemThing.type === "file" ? name : `${name}/index.md`;
 
       return {
         slug,
@@ -67,7 +69,7 @@ export default class PostCompiler {
         date: this.getDate(name),
         ...this.getContent(path, slug),
       } as PostData;
-    })
+    });
 
     posts = await this.attachViewCounts(posts);
 
@@ -75,13 +77,15 @@ export default class PostCompiler {
   }
 
   async attachViewCounts(posts): Promise<PostData[]> {
-    const postsWithViews = posts.map(post => {
+    const postsWithViews = posts.map((post) => {
       post.views = this.ga.getTotalPostViews(post.slug);
 
       return post;
-    })
+    });
 
-    const results = await Promise.allSettled(postsWithViews.map(p => p.views));
+    const results = await Promise.allSettled(
+      postsWithViews.map((p) => p.views)
+    );
 
     (results as unknown as any[]).forEach((result, index) => {
       postsWithViews[index].views = result.value;

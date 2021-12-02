@@ -55,7 +55,7 @@ const Logo = ({
   const defaultLogoText: string = short ? "AM" : "Alex MacArthur";
 
   useEffect(() => {
-    if(prefersReducedMotion()) {
+    if (prefersReducedMotion()) {
       return;
     }
 

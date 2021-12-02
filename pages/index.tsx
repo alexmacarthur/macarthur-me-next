@@ -38,13 +38,14 @@ export default function Index({ featuredPosts }) {
                 const postPath = `/posts/${slug}`;
 
                 return (
-                  <li className="border-4 rounded-md border-gray-800 hover:border-purple-500 flex flex-col h-full p-4 md:p-8" key={slug}>
+                  <li
+                    className="border-4 rounded-md border-gray-800 hover:border-purple-500 flex flex-col h-full p-4 md:p-8"
+                    key={slug}
+                  >
                     <div className="mb-8">
                       <h3 className="text-xl font-semibold mb-2">
                         <Link href={postPath}>
-                          <a>
-                            {title}
-                          </a>
+                          <a>{title}</a>
                         </Link>
                       </h3>
                       <DateFormatter date={date} />

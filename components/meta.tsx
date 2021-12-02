@@ -6,7 +6,7 @@ import {
   TWITTER_HANDLE,
   ALTERNATE_NAME,
   SITE_URL,
-  TITLE
+  TITLE,
 } from "../lib/constants";
 
 export default function Meta({
@@ -20,9 +20,7 @@ export default function Meta({
 }) {
   const router = useRouter();
   const url = `${SITE_URL}${router.asPath}`.replace(/\/$/, "");
-  const computedTitle = title
-    ? `${title} // Alex MacArthur`
-    : TITLE;
+  const computedTitle = title ? `${title} // Alex MacArthur` : TITLE;
 
   const schemaOrgJSONLD: any[] = [
     {
@@ -35,7 +33,7 @@ export default function Meta({
   ];
 
   if (isPost) {
-    const entry: {[key: string]: any} = {
+    const entry: { [key: string]: any } = {
       "@context": "http://schema.org",
       "@type": "BlogPosting",
       url: url,
@@ -49,15 +47,15 @@ export default function Meta({
       author: {
         "@type": "Person",
         name: "Alex MacArthur",
-        url: "https://macarthur.me"
+        url: "https://macarthur.me",
       },
     };
 
-    if(subTitle) {
+    if (subTitle) {
       entry.alternativeHeadline = subTitle;
     }
 
-    if(lastUpdated) {
+    if (lastUpdated) {
       entry.dateModified = new Date(lastUpdated).toISOString();
     }
 
@@ -98,10 +96,11 @@ export default function Meta({
       <meta name="description" content={description} key="description" />
 
       {/* Schema.org */}
-      <script type="application/ld+json" key="ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD)}}
-      >
-      </script>
+      <script
+        type="application/ld+json"
+        key="ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD) }}
+      ></script>
 
       {/* OpenGraph */}
       <meta property="og:url" content={url} key="og:url" />

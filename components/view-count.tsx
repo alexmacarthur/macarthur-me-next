@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import ViewsIcon from "./icon-views";
-import Counter from './counter';
+import Counter from "./counter";
 
 const ViewCount = ({ count = "" }: { count: string }): ReactElement => {
-  if(!count.length) return null;
+  if (!count.length) return null;
 
   return (
     <span
@@ -12,7 +12,9 @@ const ViewCount = ({ count = "" }: { count: string }): ReactElement => {
     >
       <ViewsIcon />
 
-      <span className="text-gray-500"><Counter value={count} /></span>
+      <span className="text-gray-500">
+        <Counter value={count} />
+      </span>
     </span>
   );
 };
