@@ -73,7 +73,7 @@ export default function PostLayout({
   return (
     <Layout ref={contentRef}>
       <Meta
-        isPost={true}
+        isPost={isPost}
         title={title}
         date={date}
         lastUpdated={lastUpdated}
