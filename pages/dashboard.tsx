@@ -8,6 +8,7 @@ import NpmService from "../lib/NpmService";
 import ExternalIcon from "../components/icon-external";
 import WordPressService from "../lib/WordPressService";
 import TwitterService from "../lib/TwitterService";
+import Counter from "../components/counter";
 
 const Dashboard = ({ stats }) => {
   return (
@@ -45,9 +46,12 @@ const Dashboard = ({ stats }) => {
               <span className="text-sm italic text-gray-500 block mb-3">
                 {stat.subTitle}
               </span>
-              <span className="text-4xl md:text-5xl font-black">
-                {stat.value}
-              </span>
+              <Counter 
+                value={stat.value} 
+                render={(ref) => {
+                  return <span ref={ref} className="text-4xl md:text-5xl font-black">0</span>
+                }}
+              />
             </li>
           );
         })}
