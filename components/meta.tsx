@@ -6,12 +6,15 @@ import {
   TWITTER_HANDLE,
   ALTERNATE_NAME,
   SITE_URL,
+  TITLE
 } from "../lib/constants";
 
 export default function Meta({
   isPost = false,
   description = "I'm Alex MacArthur, a web developer in Nashville-ish, TN.",
   title = "",
+  date = null,
+  lastUpdated = null,
   subTitle = "",
   image = "https://macarthur.me/open-graph.jpg",
 }) {
@@ -19,39 +22,46 @@ export default function Meta({
   const url = `${SITE_URL}${router.asPath}`.replace(/\/$/, "");
   const computedTitle = title
     ? `${title} // Alex MacArthur`
-    : "Alex MacArthur // Web Developer in Nashville";
-
-  // Special case: if we have a subtitle, override the description.
-  if (subTitle) {
-    description = subTitle;
-  }
+    : TITLE;
 
   const schemaOrgJSONLD: any[] = [
     {
       "@context": "http://schema.org",
       "@type": "WebSite",
       url: SITE_URL,
-      name: computedTitle,
-      alternateName: ALTERNATE_NAME,
+      name: TITLE,
+      alternateName: subTitle || ALTERNATE_NAME,
     },
   ];
 
   if (isPost) {
-    schemaOrgJSONLD.push([
-      {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        url: url,
-        name: computedTitle,
-        alternateName: ALTERNATE_NAME,
-        headline: computedTitle,
-        image: {
-          "@type": "ImageObject",
-          url: image,
-        },
-        description,
+    const entry: {[key: string]: any} = {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      url: url,
+      name: computedTitle,
+      alternateName: ALTERNATE_NAME,
+      datePublished: new Date(date).toISOString(),
+      headline: computedTitle,
+      isFamilyFriendly: "true",
+      image,
+      description,
+      author: {
+        "@type": "Person",
+        name: "Alex MacArthur",
+        url: "https://macarthur.me"
       },
-    ]);
+    };
+
+    if(subTitle) {
+      entry.alternativeHeadline = subTitle;
+    }
+
+    if(lastUpdated) {
+      entry.dateModified = new Date(lastUpdated).toISOString();
+    }
+
+    schemaOrgJSONLD.push(entry);
   }
 
   return (
@@ -88,8 +98,9 @@ export default function Meta({
       <meta name="description" content={description} key="description" />
 
       {/* Schema.org */}
-      <script type="application/ld+json" key="ld+json">
-        {JSON.stringify(schemaOrgJSONLD)}
+      <script type="application/ld+json" key="ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD)}}
+      >
       </script>
 
       {/* OpenGraph */}

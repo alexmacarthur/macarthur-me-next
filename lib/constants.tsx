@@ -7,3 +7,4 @@ export const LINKS = {
   linkedin: "https://linkedin.com/in/alexmacarthur",
   twitter: "https://www.twitter.com/amacarthur",
 };
+export const TITLE = "Alex MacArthur // Web Developer in Nashville";

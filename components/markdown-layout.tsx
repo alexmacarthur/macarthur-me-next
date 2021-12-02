@@ -75,6 +75,8 @@ export default function PostLayout({
       <Meta
         isPost={true}
         title={title}
+        date={date}
+        lastUpdated={lastUpdated}
         subTitle={subTitle}
         image={ogImage}
         description={excerpt}
