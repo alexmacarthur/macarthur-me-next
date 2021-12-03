@@ -22,7 +22,7 @@ export default function Meta({
   const url = `${SITE_URL}${router.asPath}`.replace(/\/$/, "");
   const computedTitle = title ? `${title} // Alex MacArthur` : TITLE;
 
-  const schemaOrgJSONLD: any[] = [
+  const schemaTypes: any[] = [
     {
       "@context": "http://schema.org",
       "@type": "WebSite",
@@ -33,7 +33,7 @@ export default function Meta({
   ];
 
   if (isPost) {
-    const entry: { [key: string]: any } = {
+    const blogPostSchemaType: { [key: string]: any } = {
       "@context": "http://schema.org",
       "@type": "BlogPosting",
       url: url,
@@ -52,14 +52,14 @@ export default function Meta({
     };
 
     if (subTitle) {
-      entry.alternativeHeadline = subTitle;
+      blogPostSchemaType.alternativeHeadline = subTitle;
     }
 
     if (lastUpdated) {
-      entry.dateModified = new Date(lastUpdated).toISOString();
+      blogPostSchemaType.dateModified = new Date(lastUpdated).toISOString();
     }
 
-    schemaOrgJSONLD.push(entry);
+    schemaTypes.push(blogPostSchemaType);
   }
 
   return (
@@ -99,7 +99,12 @@ export default function Meta({
       <script
         type="application/ld+json"
         key="ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "http://schema.org",
+            "@graph": schemaTypes,
+          }),
+        }}
       ></script>
 
       {/* OpenGraph */}
