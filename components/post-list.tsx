@@ -40,7 +40,9 @@ const PostList = ({ posts }) => {
                   {post.lastUpdated && "Originally posted on"}
                 </DateFormatter>
 
-                {!external && <ViewCount count={post.views} disableAnimation={true} />}
+                {!external && (
+                  <ViewCount count={post.views} disableAnimation={true} />
+                )}
               </div>
 
               <small className="block text-gray-500 mb-2">{post.excerpt}</small>

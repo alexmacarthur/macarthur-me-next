@@ -2,7 +2,13 @@ import { ReactElement } from "react";
 import ViewsIcon from "./icon-views";
 import Counter from "./counter";
 
-const ViewCount = ({ count = "", disableAnimation = false }: { count: string, disableAnimation?: boolean }): ReactElement => {
+const ViewCount = ({
+  count = "",
+  disableAnimation = false,
+}: {
+  count: string;
+  disableAnimation?: boolean;
+}): ReactElement => {
   if (!count.length) return null;
 
   return (

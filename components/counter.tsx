@@ -2,7 +2,12 @@ import { CountUp } from "countup.js";
 import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "../lib/utils";
 
-const Counter = ({ value, waitUntilVisible = true, classes = "", disableAnimation = false }) => {
+const Counter = ({
+  value,
+  waitUntilVisible = true,
+  classes = "",
+  disableAnimation = false,
+}) => {
   const counterRef = useRef(null);
   const formattedValue = parseInt(value.replace(/\,/g, ""), 10);
   const [isMounted, setIsMounted] = useState(false);
