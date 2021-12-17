@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import ViewsIcon from "./icon-views";
 import Counter from "./counter";
 
-const ViewCount = ({ count = "" }: { count: string }): ReactElement => {
+const ViewCount = ({ count = "", disableAnimation = false }: { count: string, disableAnimation?: boolean }): ReactElement => {
   if (!count.length) return null;
 
   return (
@@ -13,7 +13,7 @@ const ViewCount = ({ count = "" }: { count: string }): ReactElement => {
       <ViewsIcon />
 
       <span className="text-gray-500">
-        <Counter value={count} />
+        <Counter value={count} disableAnimation={disableAnimation} />
       </span>
     </span>
   );

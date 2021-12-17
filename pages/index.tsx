@@ -61,7 +61,7 @@ export default function Index({ featuredPosts }) {
                         Read It
                       </Button>
 
-                      <ViewCount count={views} />
+                      <ViewCount count={views} disableAnimation={true} />
                     </div>
                   </li>
                 );
