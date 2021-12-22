@@ -50,6 +50,7 @@ const Dashboard = ({ stats }) => {
               <Counter
                 value={stat.value}
                 waitUntilVisible={false}
+                showNumberBeforeMount={false}
                 classes="text-4xl md:text-5xl font-black"
               />
             </li>
