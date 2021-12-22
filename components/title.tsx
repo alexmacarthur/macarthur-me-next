@@ -67,7 +67,7 @@ const Title = ({
             </DateFormatter>
           )}
 
-          <ViewCount count={views} />
+          <ViewCount count={views} disableAnimation={true} />
         </div>
 
         {secondaryMeta && secondaryMeta()}
