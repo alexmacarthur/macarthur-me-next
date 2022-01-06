@@ -59,6 +59,7 @@ const ContactForm = () => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "x-completion-time": String(differenceInSeconds),
+        "x-is-trusted": e.isTrusted ? "1" : "0"
       },
       body: new URLSearchParams(formData as any).toString(),
     });

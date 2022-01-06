@@ -1,13 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-type Token = {
-  id: number,
-  service: string,
-  created_at: string,
-  refresh_token: string,
-  access_token: string
-}
-
 class SupabaseService {
   client: any;
 
@@ -20,6 +12,18 @@ class SupabaseService {
 
   getClient(): SupabaseClient {
     return this.client;
+  }
+  
+  async addContactFormSubmission(args: {
+    name: string,
+    email_address: string,
+    password: string, 
+    completed_time: number,
+    is_trusted: boolean
+  }) {
+    return await this.client
+      .from('contact_form_submissions')
+      .insert([args]);
   }
 
   async updateContent(contentType: ContentType, posts: PostData[]) {
