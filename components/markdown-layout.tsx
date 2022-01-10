@@ -37,6 +37,7 @@ export default function PostLayout({
     const observers = images.map((image) => {
       const observer = createObserver(image, () => {
         activateImage(image, (e) => {
+          console.log(e);
           e.target.style.opacity = "1";
         });
       });

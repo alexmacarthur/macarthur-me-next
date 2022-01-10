@@ -209,6 +209,15 @@ span {
     }
   }
 
+  blockquote {
+    p {
+      &:before, 
+      &:after {
+        content: none !important;
+      }
+    }
+  }
+
   // Do not make heading anchor links fancy.
   h2, h3, h4, h5, h5 {
     a {
