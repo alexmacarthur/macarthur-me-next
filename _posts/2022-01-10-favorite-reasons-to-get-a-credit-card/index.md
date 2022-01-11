@@ -46,7 +46,11 @@ I called my own bank to verify this, and sure enough, here's a snippet of the do
 
 ![](./debit-card-liability.png)
 
-And that means, void of any hair-splitting intricacies I'm missing, **a credit card doesn't have a discernable security advantage over a debit card.** And as such, this reason doesn't quite sway me. 
+And that means, void of any hair-splitting intricacies I'm missing, **a credit card doesn't have a discernable security advantage over a debit card.**
+
+### Waiting for Fraud to Be Resolved
+
+At this point, the remaining hesitation I've seen here is related to the amount of _time_ it takes for stolen money to be returned to your account after reporting it. It's a fair reason to be nervous. If you have relatively straightforward financial needs, you might have a single account where most of your available spending money lives. And if that's gone, even momentarily, it could wreak havoc on your day-to-day life. But even this risk is easily avoidable by keeping a healthy emergency fund in a _separate_ account -- something every responsible adult should do anyway.
 
 ## 2. "I use the rewards to cover expenses I would've had anyway."
 
