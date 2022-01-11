@@ -49,10 +49,12 @@ I called my own bank to verify this, and sure enough, here's a snippet of the do
 And that means, void of any hair-splitting intricacies I'm missing, **a credit card doesn't have a discernable security advantage over a debit card.**
 
 ### "But it takes TIME for fraud to be resolved!"
+ 
+On the surface, this concern sounds legitimate. If you have relatively straightforward financial needs, you might have a single account where most of your available spending money lives. And if that's gone, even momentarily, it could wreak havoc on your day-to-day life. But most (read: practically all) debit cards come with daily purchase limits out of the box. [They vary by bank & account](https://smartasset.com/checking-account/daily-atm-withdrawal-limits-daily-debit-purchase-limits), but with one of any sort in place, I have a hard time imagining one of these nightmare scenarios actually occurring. 
 
-A legitimate reason to be nervous. If you have relatively straightforward financial needs, you might have a single account where most of your available spending money lives. And if that's gone, even momentarily, it could wreak havoc on your day-to-day life. But even this risk is easily avoidable by keeping a healthy emergency fund in a _separate_ account -- something every responsible adult should do anyway.
+But let's say it happens. Maybe you temporarily increase the limit on your card, and someone takes advantage of that opportunity to clean you out. The felt consequences of that event are largely avoidable by **maintaining a healthy emergency fund in a _separate_ account** -- something every responsible adult should do anyway. If things get any weirder than that (e.g.: you raise the limit on BOTH accounts, both get fraudulently accessed, and every cent of both manages to get stolen at the same time), I think it's time to change your identity altogether and commit to using straight cash for the rest of your life. 
 
-So, in light of the law, increasingly common zero-liability policies, and the safeguards good money habits inherently bring with them, the appeal of this reason starts to become pretty weak.
+So, in light of the law, increasingly common zero-liability policies, other built-in card productions, and the safeguards good money habits inherently bring with them, the appeal of this reason starts to become pretty weak.
 
 ## 2. "I use the rewards to cover expenses I would've had anyway."
 
@@ -78,7 +80,7 @@ If you dig into some of these and other sources, there's a common thread as to w
 
 Summarized: when it hurts less, it costs more. 
 
-### Ok, but debit cards are *cards* too, right?
+### "Ok, but debit cards are *cards* too, right?"
 
 Yes — the fact that a debit card is still a *card* means that its users are subject to many of the same psychological forces as a credit card. But there are a couple of distinctions between the two that make the credit card worse: 
 
