@@ -76,6 +76,8 @@ class AnalyticsService {
     params.append('period', 'custom');
     params.append('date', `2021-01-01,${today}`);
 
+    console.log(`Fetching analytics for today: ${today}`)
+
     return params;
   }
 
