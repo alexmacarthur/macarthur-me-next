@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { processMarkdown, stripMarkdown } from "./markdown";
 import AnalyticsService from "./AnalyticsService";
 import SupabaseService from "./SupabaseService";
-import getConfig from 'next/config';
+import getConfig from "next/config";
 const { serverRuntimeConfig } = getConfig();
 
 export default class PostCompiler {

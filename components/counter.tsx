@@ -7,7 +7,7 @@ const Counter = ({
   waitUntilVisible = true,
   classes = "",
   disableAnimation = false,
-  showNumberBeforeMount = true
+  showNumberBeforeMount = true,
 }) => {
   const counterRef = useRef(null);
   const formattedValue = parseInt(value.replace(/\,/g, ""), 10);
@@ -52,7 +52,7 @@ const Counter = ({
     if (showNumberBeforeMount) return value;
 
     return isMounted ? value : "-";
-  }
+  };
 
   return (
     <span ref={counterRef} className={classes}>

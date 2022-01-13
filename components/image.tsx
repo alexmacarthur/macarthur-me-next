@@ -47,7 +47,7 @@ const Image = ({
     const { kill, observe } = createObserver(imageRef.current, () => {
       setShouldLoad(true);
     });
-    
+
     observe();
 
     return () => {
