@@ -4,6 +4,8 @@ import matter from "gray-matter";
 import { processMarkdown, stripMarkdown } from "./markdown";
 import AnalyticsService from "./AnalyticsService";
 import SupabaseService from "./SupabaseService";
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
 
 export default class PostCompiler {
   db;
@@ -20,7 +22,7 @@ export default class PostCompiler {
   ) {
     this.db = db;
     this.contentType = contentType;
-    this.directory = join(process.cwd(), `_${contentType}s`);
+    this.directory = join(serverRuntimeConfig.PROJECT_ROOT, `_${contentType}s`);
     this.slugPattern = slugPattern;
     this.ga = new AnalyticsService();
   }

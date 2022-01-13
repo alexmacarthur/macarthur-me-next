@@ -86,4 +86,7 @@ module.exports = withPlugins(
       }
     ]
   },
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname
+  }
 });
