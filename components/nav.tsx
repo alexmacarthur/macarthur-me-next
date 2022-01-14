@@ -95,8 +95,6 @@ const Nav = ({ isAbsolute = false }) => {
           justify-center
           h-screen
           w-screen
-          -z-10
-          lg:z-10
           lg:p-0
           lg:visible
           lg:top-auto

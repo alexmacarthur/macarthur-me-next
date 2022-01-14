@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { createObserver } from "../lib/images";
 
 interface ImageProps {
   src: string;
@@ -9,39 +10,18 @@ interface ImageProps {
   loadedClass?: string;
 }
 
-const createObserver = (imageElement, callback: () => any) => {
-  const options = {
-    rootMargin: "100px",
-    threshold: 1.0,
-  };
-
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        observer.unobserve(imageElement);
-        callback();
-      }
-    });
-  }, options);
-
-  return {
-    observe: () => observer.observe(imageElement),
-    kill: () => observer.observe(imageElement),
-  };
-};
-
 const Image = ({
   src,
   alt = "",
   height = "",
   width = "",
   classes = "",
-  loadedClass = "",
+  loadedClass = "opacity-1",
 }: ImageProps) => {
   const imageRef = useRef(null);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const computedClasses = `${classes} ${isLoaded ? loadedClass : ""}`;
+  const computedClasses = `${classes} ${isLoaded ? loadedClass : "opacity-0"}`;
 
   useEffect(() => {
     const { kill, observe } = createObserver(imageRef.current, () => {
@@ -53,20 +33,18 @@ const Image = ({
     return () => {
       kill();
     };
-  }, []);
+  });
 
   return (
-    <span>
-      <img
-        ref={imageRef}
-        src={shouldLoad ? src : ""}
-        alt={alt}
-        height={height}
-        width={width}
-        className={computedClasses}
-        onLoad={() => setIsLoaded(true)}
-      />
-    </span>
+    <img
+      ref={imageRef}
+      src={shouldLoad ? src : ""}
+      alt={alt}
+      height={height}
+      width={width}
+      className={"transition-all " + computedClasses}
+      onLoad={() => setIsLoaded(true)}
+    />
   );
 };
 

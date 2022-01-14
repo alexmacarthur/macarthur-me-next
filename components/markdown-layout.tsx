@@ -32,7 +32,7 @@ export default function PostLayout({
   useEffect(() => {
     if (!contentRef.current) return;
 
-    const images = [...contentRef.current.querySelectorAll("[data-lazy-src]")];
+    const images = Array.from(contentRef.current.querySelectorAll("[data-lazy-src]"));
 
     const observers = images.map((image) => {
       const observer = createObserver(image, () => {
@@ -49,7 +49,7 @@ export default function PostLayout({
     return () => {
       observers.forEach(({ kill }) => kill());
     };
-  }, []);
+  });
 
   const ContainerContent: any = () => (
     <>
