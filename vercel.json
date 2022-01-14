@@ -1,0 +1,7 @@
+{
+    "functions": {
+        "posts/[slug.tsx]": {
+            "includeFiles": "../../_posts/**"
+        }
+    }
+}
