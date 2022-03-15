@@ -119,7 +119,7 @@ export async function getStaticProps() {
       title: "Articles Published on <em>CSS Tricks</em>",
       link: "https://css-tricks.com/author/alexmacarthur",
       subTitle: "A fun privilege.",
-      value: Promise.resolve(2),
+      value: Promise.resolve(3),
     },
     {
       title: "Total Miles Run",
