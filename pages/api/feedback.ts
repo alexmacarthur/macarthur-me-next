@@ -18,8 +18,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const feedbackType = value ? "POSITIVE" : "NEGATIVE";
 
   await emailService.transport({
-    to: process.env.MY_EMAIL,
-    from: process.env.MY_EMAIL,
+    to: process.env.EMAIL_ADDRESS,
+    from: process.env.EMAIL_ADDRESS,
     subject: `You've Got ${feedbackType} Blog Feedback!`,
     text: `Here's the post: https://macarthur.me/posts/${slug}`,
   });
