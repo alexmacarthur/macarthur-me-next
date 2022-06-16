@@ -9,15 +9,7 @@ module.exports = withPlugins([[withBundleAnalyzer, {}]], {
     legacyBrowsers: false,
     browsersListForSwc: true,
   },
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      Object.assign(config.resolve.alias, {
-        'react/jsx-runtime.js': 'preact/compat/jsx-runtime',
-        react: 'preact/compat',
-        'react-dom': 'preact/compat'
-      });
-    }
-
+  webpack: (config) => {
     return config;
   },
   async rewrites() {
