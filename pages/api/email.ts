@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   await emailService.transport({
     to: process.env.EMAIL_ADDRESS,
-    from: email,
+    from: process.env.EMAIL_ADDRESS,
     replyTo: email,
     subject: "Contact Form Submitted",
     text: `
