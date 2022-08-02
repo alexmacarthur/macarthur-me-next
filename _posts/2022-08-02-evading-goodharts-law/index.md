@@ -81,7 +81,7 @@ I can’t help but see similarities in how the Bible speaks of faith and works. 
 
 And there’s no two-way causality here. Flipping the order will get you nowhere. Jesus is pretty direct:
 
-> Not everyone who says to me, ‘Lord, Lord,’ will enter the kingdom of heaven, but the one who does the will of my Father who is in heaven. On that day many will say to me, ‘Lord, Lord, did we not prophesy in your name, and cast out demons in your name and do many mighty works in your name’ And then will I declare to them, ‘I never knew you; depart from me, you workers of lawlessness.’ 
+> Not everyone who says to me, ‘Lord, Lord,’ will enter the kingdom of heaven, but the one who does the will of my Father who is in heaven. On that day many will say to me, ‘Lord, Lord, did we not prophesy in your name, and cast out demons in your name and do many mighty works in your name’ And then will I declare to them, ‘I never knew you; depart from me, you workers of lawlessness.’
 > 
 > Matthew 7:21–23 (ESV)
 
