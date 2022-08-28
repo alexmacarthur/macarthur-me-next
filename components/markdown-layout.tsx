@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { getMDXComponent } from "mdx-bundler/client";
 import ErrorPage from "next/error";
 import Container from "./container";
 import Layout from "./layout";
@@ -6,15 +7,17 @@ import Title from "./title";
 import Meta from "./meta";
 import Bio from "./bio";
 import { activateImage, createObserver } from "../lib/images";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { fullUrlFromPath } from "../lib/utils";
 import { JamComments } from "@jam-comments/next";
 
 import "prismjs/themes/prism-okaidia.css";
 import Feedback from "./feedback";
+import { MarkdownLayoutProps } from "../types/types";
 
 export default function PostLayout({
   pageData,
+  markdownCode,
   isPost = false,
   comments = [],
   jamCommentsApiKey = "",
@@ -22,8 +25,17 @@ export default function PostLayout({
 }: MarkdownLayoutProps) {
   const contentRef = useRef(null);
   const router = useRouter();
-  const { title, subTitle, date, ogImage, excerpt, lastUpdated, views } =
-    pageData;
+  const { 
+    title, 
+    subtitle, 
+    date, 
+    prettyDate,
+    openGraphImage, 
+    excerpt, 
+    lastUpdated,
+    prettyLastUpdated,
+    views } = pageData;
+  const MarkupComponent = useMemo(() => getMDXComponent(markdownCode), [markdownCode]);
 
   if (!router.isFallback && !pageData?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -55,9 +67,11 @@ export default function PostLayout({
     <>
       <Title
         date={date}
+        prettyDate={prettyDate}
         isPost={isPost}
-        subTitle={subTitle}
+        subTitle={subtitle}
         lastUpdated={lastUpdated}
+        prettyLastUpdated={prettyLastUpdated}
         views={isPost ? views : ""}
       >
         {title}
@@ -65,8 +79,9 @@ export default function PostLayout({
 
       <div
         className="post-content mx-auto prose max-w-none md:prose-lg"
-        dangerouslySetInnerHTML={{ __html: pageData.content }}
-      ></div>
+      >
+        <MarkupComponent />
+      </div>
     </>
   );
 
@@ -77,8 +92,8 @@ export default function PostLayout({
         title={title}
         date={date}
         lastUpdated={lastUpdated}
-        subTitle={subTitle}
-        image={ogImage}
+        subTitle={subtitle}
+        image={openGraphImage}
         description={excerpt}
       />
       <Container narrow={true}>

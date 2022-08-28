@@ -4,10 +4,12 @@ import ViewCount from "./view-count";
 
 type TitleProps = {
   children: React.ReactNode;
-  date?: string | Date;
+  date?: string;
+  prettyDate?: string;
   isPost?: boolean;
   subTitle?: string;
   lastUpdated?: string;
+  prettyLastUpdated?: string;
   secondaryMeta?: Function;
   views?: string;
 };
@@ -15,9 +17,11 @@ type TitleProps = {
 const Title = ({
   children,
   date,
+  prettyDate,
   isPost,
   subTitle,
   lastUpdated,
+  prettyLastUpdated,
   secondaryMeta,
   views,
 }: TitleProps) => {
@@ -55,14 +59,14 @@ const Title = ({
         <div className="flex items-center gap-3">
           {lastUpdated && (
             <>
-              <DateFormatter date={lastUpdated}>Updated on </DateFormatter>
+              <DateFormatter date={lastUpdated} prettyDate={prettyLastUpdated}>Updated on </DateFormatter>
 
               <span className="light-text">/</span>
             </>
           )}
 
           {date && (
-            <DateFormatter date={date}>
+            <DateFormatter date={date} prettyDate={prettyDate}>
               {lastUpdated && "Originally posted on"}
             </DateFormatter>
           )}

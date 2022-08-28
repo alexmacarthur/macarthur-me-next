@@ -1,12 +1,13 @@
 import MarkdownLayout from "../../components/markdown-layout";
-import { getContentBySlug, getAllPosts } from "../../lib/api";
-
 import "prismjs/themes/prism-okaidia.css";
+import CMSService from "../../lib/CMSService";
+import MarkdownService from "../../lib/MarkdownService";
 
-export default function Post({ post, comments, jamCommentsDomain, jamCommentsApiKey }) {
+export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey }) {
   return <MarkdownLayout
     pageData={post}
     comments={comments}
+    markdownCode={markdownCode}
     jamCommentsApiKey={jamCommentsApiKey}
     jamCommentsDomain={jamCommentsDomain}
     isPost={true}
@@ -14,13 +15,16 @@ export default function Post({ post, comments, jamCommentsDomain, jamCommentsApi
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getContentBySlug(params.slug, 'post');
+  const { slug } = params;
+  const post = await (new CMSService()).getPost(slug);
+  const { code } = await (new MarkdownService()).processMarkdown(post.markdown);
+
   const { fetchByPath } = require("@jam-comments/next");
 
   const comments = await fetchByPath({
     domain: process.env.JAM_COMMENTS_DOMAIN,
     apiKey: process.env.JAM_COMMENTS_API_KEY,
-    path: `/posts/${params.slug}`
+    path: `/posts/${slug}`
   });
 
   return {
@@ -28,23 +32,21 @@ export async function getStaticProps({ params }) {
       jamCommentsApiKey: process.env.JAM_COMMENTS_API_KEY,
       jamCommentsDomain: process.env.JAM_COMMENTS_DOMAIN,
       comments,
+      markdownCode: code, 
       post
-    },
-    revalidate: 3600
-  };
+    }, 
+  }
 }
 
 export async function getStaticPaths() {
-  const posts = await getAllPosts();
+  const posts = await (new CMSService()).getAllPosts();
 
   return {
-    paths: posts.map((post) => {
+    paths: posts.map(({ slug }) => {
       return {
-        params: {
-          slug: post.slug,
-        },
+        params: { slug },
       };
     }),
-    fallback: false,
-  };
+    fallback: false
+  }
 }

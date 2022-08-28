@@ -27,6 +27,7 @@ const PostList = ({ posts }) => {
                   <>
                     <DateFormatter
                       date={post.lastUpdated}
+                      prettyDate={post.prettyLastUpdated}
                       className="inline-block"
                     >
                       Updated on
@@ -36,7 +37,7 @@ const PostList = ({ posts }) => {
                   </>
                 )}
 
-                <DateFormatter date={post.date} className="inline-block">
+                <DateFormatter date={post.date} prettyDate={post.prettyDate} className="inline-block">
                   {post.lastUpdated && "Originally posted on"}
                 </DateFormatter>
 

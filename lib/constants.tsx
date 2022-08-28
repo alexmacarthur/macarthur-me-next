@@ -8,3 +8,4 @@ export const LINKS = {
   twitter: "https://www.twitter.com/amacarthur",
 };
 export const TITLE = "Alex MacArthur // Web Developer in Nashville";
+export const POSTS_PER_PAGE = 3;

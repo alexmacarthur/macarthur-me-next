@@ -1,4 +1,4 @@
-import SupabaseService from "../SupabaseService";
+import SupabaseService from "./SupabaseService";
 
 class StravaService {
   accessToken: string = "";
