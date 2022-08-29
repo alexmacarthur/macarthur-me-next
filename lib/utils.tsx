@@ -16,13 +16,3 @@ export const prefersReducedMotion = () => {
 
   return window.matchMedia("(prefers-reduced-motion: reduce)")?.matches;
 };
-
-export const generateExcerpt = (content: string, wordCount = 50) => {
-  const strippedContent = content
-    .replace(/\s\s+/g, " ")
-    .replace(/\r?\n|\r/g, "")
-    .replace(/\S+\.(gif|png|jpe?g)/g, ""); // Remove images.
-  const words = strippedContent.split(" ");
-
-  return words.slice(0, wordCount).join(" ") + "...";
-}

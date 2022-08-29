@@ -1,5 +1,11 @@
+import matter from "gray-matter";
 import { bundleMDX } from "mdx-bundler";
-import path from "path";
+import path, { join } from "path";
+import fs from "fs";
+import getConfig from "next/config";
+import { ContentEntity } from "../types/types";
+import { generateExcerptFromMarkdown } from "./markdown";
+const { serverRuntimeConfig } = getConfig();
 
 if (process.platform === "win32") {
   process.env.ESBUILD_BINARY_PATH = path.join(
@@ -41,40 +47,67 @@ const CodepenTransformer = {
 };
 
 class MarkdownSerivce {
-    async processMarkdown(rawMarkdown: string): Promise<{
-        code: string;
-        frontmatter: any;
-    }> {
-        const [remarkPlugins, rehypePlugins] = await this.getMarkdownPlugins();
+  pageDirectory: string;
 
-        return await bundleMDX({
-            source: rawMarkdown,
-            mdxOptions: (options) => ({
-            remarkPlugins: [...(options.remarkPlugins ?? []), ...remarkPlugins],
-            rehypePlugins: [...(options.rehypePlugins ?? []), ...rehypePlugins],
-            }),
-        });
-    }
+  constructor() {
+    this.pageDirectory = join(serverRuntimeConfig.PROJECT_ROOT, `_pages`);
+  }
 
-    private async getMarkdownPlugins() {
-        const { default: remarkEmbedder } = require("@remark-embedder/core");
+  async processMarkdown(rawMarkdown: string): Promise<{
+    code: string;
+    frontmatter: any;
+  }> {
+    const [remarkPlugins, rehypePlugins] = await this.getMarkdownPlugins();
 
-        const remarkPlugins = await Promise.all([
-            import("remark-prism").then((mod) => mod.default),
-            import("remark-gfm").then((mod) => mod.default),
-            Promise.resolve(() =>
-            remarkEmbedder({ transformers: [CodepenTransformer] })
-            ),
-        ]);
+    return await bundleMDX({
+      source: rawMarkdown,
+      mdxOptions: (options) => ({
+        remarkPlugins: [...(options.remarkPlugins ?? []), ...remarkPlugins],
+        rehypePlugins: [...(options.rehypePlugins ?? []), ...rehypePlugins],
+      }),
+    });
+  }
 
-        const rehypePlugins = await Promise.all([
-            import("rehype-slug").then((mod) => mod.default),
-            import("rehype-autolink-headings").then((mod) => mod.default),
-            import("rehype-external-links").then((mod) => mod.default),
-        ]);
+  private async getMarkdownPlugins() {
+    const { default: remarkEmbedder } = require("@remark-embedder/core");
 
-        return [remarkPlugins, rehypePlugins];
-    }
+    const remarkPlugins = await Promise.all([
+      import("remark-prism").then((mod) => mod.default),
+      import("remark-gfm").then((mod) => mod.default),
+      Promise.resolve(() =>
+        remarkEmbedder({ transformers: [CodepenTransformer] })
+      ),
+    ]);
+
+    const rehypePlugins = await Promise.all([
+      import("rehype-slug").then((mod) => mod.default),
+      import("rehype-autolink-headings").then((mod) => mod.default),
+      import("rehype-external-links").then((mod) => mod.default),
+    ]);
+
+    return [remarkPlugins, rehypePlugins];
+  }
+
+  getPage(slug: string): ContentEntity {
+    const fullPath = join(this.pageDirectory, `${slug}.md`);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { data: frontmatterData, content } = matter(fileContents);
+
+    return {
+      slug,
+      markdown: content,
+      description: generateExcerptFromMarkdown(content),
+      title: frontmatterData.title,
+      subtitle: frontmatterData.subTitle || "",
+      openGraphImage: frontmatterData.openGraphImage || ""
+    };
+  }
+
+  getAllPageSlugs(): string[] {
+    const pageFiles = fs.readdirSync(this.pageDirectory);
+
+    return pageFiles.map(file => file.replace(/.md$/, ""));
+  }
 }
 
 export default MarkdownSerivce;

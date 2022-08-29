@@ -2,7 +2,15 @@ import NotionService from "./NotionService";
 import chunk from "lodash.chunk";
 import { POSTS_PER_PAGE } from "./constants";
 import AnalyticsService from "./AnalyticsService";
-import { BlogPost } from "../types/types";
+import { ContentEntity } from "../types/types";
+
+interface PostCache {
+  allPosts?: ContentEntity[];
+}
+
+const postCache: PostCache = {
+  allPosts: undefined
+}
 
 class CMS {
   provider: NotionService;
@@ -13,7 +21,20 @@ class CMS {
     this.analyticsService = new AnalyticsService();
   }
 
-  async getAllPosts(): Promise<BlogPost[]> {
+  async getTotalPages(): Promise<number> {
+    const allPosts = await this.getAllPosts();
+    const postChunks = chunk(allPosts, POSTS_PER_PAGE);
+
+    return postChunks.length;
+  }  
+
+  async getAllPosts(): Promise<ContentEntity[]> {
+    if(postCache.allPosts) {
+      // @todo Figure out if this actually works in a deployed context.
+      console.log('Retrieving all posts from cache.');
+      return postCache.allPosts;
+    }
+
     let posts = [];
     let nextCursor = undefined;
     let hasMore = true;
@@ -28,15 +49,23 @@ class CMS {
         nextCursor = response.nextCursor;
     }
 
+    postCache.allPosts = posts;
+
     return posts;
   }
 
-  async getPosts(pageNumber: number = 2): Promise<{
-    posts: BlogPost[];
+  async getPosts({ 
+    pageNumber, 
+    propertiesToExclude = []
+  }: {
+    pageNumber: number, 
+    propertiesToExclude?: (keyof ContentEntity)[]
+  }): Promise<{
+    posts: ContentEntity[];
     hasMore: boolean;
     hasPrevious: boolean;
   }> {
-    let allPosts: BlogPost[] = [];
+    let allPosts: ContentEntity[] = [];
     let nextCursor;
     let hasMore = false;
 
@@ -62,7 +91,13 @@ class CMS {
     let posts = chunks[chunkIndex] ?? chunks.flat();
 
     return {
-      posts,
+      posts: posts.map(p => {
+        propertiesToExclude.forEach(property => {
+          delete p[property]
+        });
+
+        return p;
+      }),
       hasMore,
       hasPrevious: pageNumber > 1,
     };

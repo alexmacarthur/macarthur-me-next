@@ -1,5 +1,5 @@
-interface MarkdownLayoutProps {
-  pageData: BlogPost;
+interface MarkdownLayoutProps<T> {
+  pageData: T;
   isPost: boolean;
   comments?: any[];
   markdownCode: string;
@@ -21,22 +21,24 @@ declare namespace JSX {
   }
 }
 
-export interface BlogPost {
-  id: string;
+export interface ContentEntity {
   title: string;
-  subtitle: string | null;
+  subtitle?: string;
+  description: string;
+  slug: string;
+  markdown?: string;
+  openGraphImage?: string;
+}
+
+export interface BlogPost extends ContentEntity {
+  id: string;
   date: string;
   prettyDate: string;
-  description: string;
-  lastUpdated: string | null;
+  lastUpdated?: string;
   prettyLastUpdated?: string;
   externalUrl?: string;
   externalHost?: string;
-  slug: string;
-  excerpt: string;
-  views: string;
-  markdown?: string;
-  openGraphImage?: string;
+  views?: string;
 }
 
 type PropertyTypes = `title` | `rich_text` | `date`;

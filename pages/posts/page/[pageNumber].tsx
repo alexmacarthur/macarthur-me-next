@@ -1,5 +1,7 @@
 import PostListLayout from '../../../components/post-list-layout';
 import { getPageOfPosts, getPostPageCount, getTotalPostPages } from '../../../lib/api';
+import CMSService from '../../../lib/CMSService';
+import { PostListLayoutProps } from '../../../types/types';
 
 const Posts = ({ posts, previousPage, nextPage, currentPage, totalPages }: PostListLayoutProps) => {
   return (
@@ -16,6 +18,7 @@ const Posts = ({ posts, previousPage, nextPage, currentPage, totalPages }: PostL
 export default Posts;
 
 export async function getStaticProps({ params }) {
+  const cmsService = new CMSService();
   const pageNumber = Number(params.pageNumber);
   const numberOfPages = await getPostPageCount();
   const previousPage = pageNumber - 1;
@@ -23,18 +26,22 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-      posts: await getPageOfPosts(pageNumber),
+      posts: await cmsService.getPosts({
+        pageNumber, 
+        propertiesToExclude: ["markdown"]
+      }),
       previousPage: previousPage <= 0 ? null : previousPage,
       nextPage: nextPage > numberOfPages ? null : nextPage,
       currentPage: params.pageNumber,
-      totalPages: await getTotalPostPages()
+      totalPages: await cmsService.getTotalPages()
     },
     revalidate: 3600,
   }
 }
 
 export async function getStaticPaths() {
-  const count = await getPostPageCount();
+  const cmsService = new CMSService();
+  const count = await cmsService.getTotalPages()
   const emptyArray = new Array(count);
 
   return {

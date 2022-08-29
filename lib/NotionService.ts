@@ -1,10 +1,9 @@
 import { Client } from "@notionhq/client";
 import { NotionToMarkdown } from "notion-to-md";
 import { POSTS_PER_PAGE } from "./constants";
-import { extractUrl } from "./markdown";
-import { generateExcerpt } from "./utils";
+import { extractUrl, generateExcerptFromMarkdown } from "./markdown";
 import StaticAssetService from "./StaticAssetService";
-import { BlogPost, NotionProperties } from "../types/types";
+import { ContentEntity, NotionProperties } from "../types/types";
 
 interface MdBlock {
   type: string;
@@ -23,7 +22,7 @@ class NotionService {
     this.staticAssetService = new StaticAssetService();
   }
 
-  async getSingleBlogPost(slug: string): Promise<BlogPost> {
+  async getSingleBlogPost(slug: string): Promise<ContentEntity> {
     const database = process.env.NOTION_DATABASE_ID ?? "";
 
     const response = await this.client.databases.query({
@@ -91,7 +90,7 @@ class NotionService {
   }
 
   async getPublishedBlogPosts(start_cursor?: string, perPageOverride?: number): Promise<{
-    posts: BlogPost[];
+    posts: ContentEntity[];
     nextCursor: string | null;
     hasMore;
   }> {
@@ -136,7 +135,7 @@ class NotionService {
     return parts[parts.length - 2];
   }
 
-  private async pageToPostTransformer(page: any): Promise<BlogPost> {
+  private async pageToPostTransformer(page: any): Promise<ContentEntity> {
     let cover = page.cover;
 
     switch (cover?.type) {
@@ -211,12 +210,12 @@ class NotionService {
       excerpt: "",
       markdown,
       views: "",
-      description: generateExcerpt(markdown),
+      description: generateExcerptFromMarkdown(markdown),
       openGraphImage: cover,
       prettyDate: this.prettifyDate(postProperties.date),
       prettyLastUpdated: this.prettifyDate(postProperties.lastUpdated),
       ...postProperties,
-    } as BlogPost;
+    } as ContentEntity;
   }
 
   private prettifyDate(dateString: string): string {

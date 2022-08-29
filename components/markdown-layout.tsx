@@ -13,25 +13,25 @@ import { JamComments } from "@jam-comments/next";
 
 import "prismjs/themes/prism-okaidia.css";
 import Feedback from "./feedback";
-import { MarkdownLayoutProps } from "../types/types";
+import { BlogPost, MarkdownLayoutProps } from "../types/types";
 
-export default function PostLayout({
+export default function MarkdownLayout({
   pageData,
   markdownCode,
   isPost = false,
   comments = [],
   jamCommentsApiKey = "",
   jamCommentsDomain = "",
-}: MarkdownLayoutProps) {
+}: MarkdownLayoutProps<BlogPost>) {
   const contentRef = useRef(null);
   const router = useRouter();
   const { 
-    title, 
-    subtitle, 
-    date, 
+    title,
+    subtitle,
+    date,
     prettyDate,
     openGraphImage, 
-    excerpt, 
+    description, 
     lastUpdated,
     prettyLastUpdated,
     views } = pageData;
@@ -92,9 +92,9 @@ export default function PostLayout({
         title={title}
         date={date}
         lastUpdated={lastUpdated}
-        subTitle={subtitle}
+        subtitle={subtitle}
         image={openGraphImage}
-        description={excerpt}
+        description={description}
       />
       <Container narrow={true}>
         {!isPost && <ContainerContent />}

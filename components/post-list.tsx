@@ -46,7 +46,7 @@ const PostList = ({ posts }) => {
                 )}
               </div>
 
-              <small className="block text-gray-500 mb-2">{post.excerpt}</small>
+              <small className="block text-gray-500 mb-2">{post.description}</small>
 
               <Button
                 naked={true}

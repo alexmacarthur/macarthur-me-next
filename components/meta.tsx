@@ -7,15 +7,20 @@ import {
   ALTERNATE_NAME,
   SITE_URL,
   TITLE,
+  DESCRIPTION,
 } from "../lib/constants";
 
+interface MetaProps {
+
+}
+
 export default function Meta({
-  isPost = false,
-  description = "I'm Alex MacArthur, a web developer in Nashville-ish, TN.",
-  title = "",
+  description = DESCRIPTION,
+  title,
   date = null,
   lastUpdated = null,
-  subTitle = "",
+  type = "website",
+  subtitle = "",
   image = "https://macarthur.me/open-graph.jpg",
 }) {
   const router = useRouter();
@@ -28,7 +33,7 @@ export default function Meta({
       "@type": "WebSite",
       url: SITE_URL,
       name: TITLE,
-      alternateName: subTitle || ALTERNATE_NAME,
+      alternateName: subtitle || ALTERNATE_NAME,
     },
   ];
 
@@ -51,8 +56,8 @@ export default function Meta({
       },
     };
 
-    if (subTitle) {
-      blogPostSchemaType.alternativeHeadline = subTitle;
+    if (subtitle) {
+      blogPostSchemaType.alternativeHeadline = subtitle;
     }
 
     if (lastUpdated) {
@@ -117,9 +122,7 @@ export default function Meta({
       />
       <meta property="og:image" content={image} key="og:image" />
       <meta property="fb:admins" content={FB_ADMINS} key="fb:admins" />
-      {isPost ? (
-        <meta property="og:type" content="article" key="og:type" />
-      ) : null}
+      <meta property="og:type" content={type} key="og:type" />
 
       {/* Twitter Card */}
       <meta

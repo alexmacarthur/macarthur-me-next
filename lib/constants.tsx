@@ -9,3 +9,4 @@ export const LINKS = {
 };
 export const TITLE = "Alex MacArthur // Web Developer in Nashville";
 export const POSTS_PER_PAGE = 3;
+export const DESCRIPTION = "I'm Alex MacArthur, a web developer in Nashville-ish, TN.";
