@@ -5,16 +5,15 @@ import MarkdownService from "../lib/MarkdownService";
 export default function Page({ page, markdownCode }) {
   return <>
     <Meta
-      schemas={}
       title={page.title}
-      lastUpdated={lastUpdated}
-      subtitle={subtitle}
-      image={openGraphImage}
-      description={description}
+      lastUpdated={page.lastUpdated}
+      subtitle={page.subtitle}
+      image={page.openGraphImage}
+      description={page.description}
     />
     
     <MarkdownLayout 
-      pageData={page} 
+      pageData={page}
       markdownCode={markdownCode}
       isPost={false} 
     />

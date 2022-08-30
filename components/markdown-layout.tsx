@@ -4,7 +4,6 @@ import ErrorPage from "next/error";
 import Container from "./container";
 import Layout from "./layout";
 import Title from "./title";
-import Meta from "./meta";
 import Bio from "./bio";
 import { activateImage, createObserver } from "../lib/images";
 import { useRef, useEffect, useMemo } from "react";
@@ -29,9 +28,7 @@ export default function MarkdownLayout({
     title,
     subtitle,
     date,
-    prettyDate,
-    openGraphImage, 
-    description, 
+    prettyDate, 
     lastUpdated,
     prettyLastUpdated,
     views } = pageData;
@@ -87,15 +84,6 @@ export default function MarkdownLayout({
 
   return (
     <Layout ref={contentRef}>
-      <Meta
-        isPost={isPost}
-        title={title}
-        date={date}
-        lastUpdated={lastUpdated}
-        subtitle={subtitle}
-        image={openGraphImage}
-        description={description}
-      />
       <Container narrow={true}>
         {!isPost && <ContainerContent />}
 

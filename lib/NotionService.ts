@@ -3,7 +3,7 @@ import { NotionToMarkdown } from "notion-to-md";
 import { POSTS_PER_PAGE } from "./constants";
 import { extractUrl, generateExcerptFromMarkdown } from "./markdown";
 import StaticAssetService from "./StaticAssetService";
-import { ContentEntity, NotionProperties } from "../types/types";
+import { BlogPost, ContentEntity, NotionProperties } from "../types/types";
 
 interface MdBlock {
   type: string;
@@ -22,7 +22,7 @@ class NotionService {
     this.staticAssetService = new StaticAssetService();
   }
 
-  async getSingleBlogPost(slug: string): Promise<ContentEntity> {
+  async getSingleBlogPost(slug: string): Promise<BlogPost> {
     const database = process.env.NOTION_DATABASE_ID ?? "";
 
     const response = await this.client.databases.query({

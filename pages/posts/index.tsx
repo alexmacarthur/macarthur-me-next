@@ -1,16 +1,20 @@
+import Meta from '../../components/meta';
 import PostListLayout from '../../components/post-list-layout';
 import CMSService from '../../lib/CMSService';
 import { PostListLayoutProps } from '../../types/types';
 
 const Posts = ({ posts, previousPage, nextPage, currentPage, totalPages }: PostListLayoutProps) => {
   return (
-    <PostListLayout
-      posts={posts}
-      currentPage={currentPage}
-      previousPage={previousPage}
-      nextPage={nextPage}
-      totalPages={totalPages}
-    />
+    <>
+      <Meta />
+      <PostListLayout
+        posts={posts}
+        currentPage={currentPage}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        totalPages={totalPages}
+      />
+    </>
   )
 }
 

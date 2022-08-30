@@ -2,10 +2,10 @@ import NotionService from "./NotionService";
 import chunk from "lodash.chunk";
 import { POSTS_PER_PAGE } from "./constants";
 import AnalyticsService from "./AnalyticsService";
-import { ContentEntity } from "../types/types";
+import { BlogPost, ContentEntity } from "../types/types";
 
 interface PostCache {
-  allPosts?: ContentEntity[];
+  allPosts?: BlogPost[];
 }
 
 const postCache: PostCache = {
@@ -28,7 +28,7 @@ class CMS {
     return postChunks.length;
   }  
 
-  async getAllPosts(): Promise<ContentEntity[]> {
+  async getAllPosts(): Promise<BlogPost[]> {
     if(postCache.allPosts) {
       // @todo Figure out if this actually works in a deployed context.
       console.log('Retrieving all posts from cache.');

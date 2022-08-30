@@ -2,16 +2,59 @@ import MarkdownLayout from "../../components/markdown-layout";
 import "prismjs/themes/prism-okaidia.css";
 import CMSService from "../../lib/CMSService";
 import MarkdownService from "../../lib/MarkdownService";
+import Meta from "../../components/meta";
+import type { WithContext, BlogPosting } from "schema-dts";
+import { MY_NAME, SITE_URL } from "../../lib/constants";
+import useCurrentUrl from "../../hooks/useCurrentUrl";
 
 export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey }) {
-  return <MarkdownLayout
-    pageData={post}
-    comments={comments}
-    markdownCode={markdownCode}
-    jamCommentsApiKey={jamCommentsApiKey}
-    jamCommentsDomain={jamCommentsDomain}
-    isPost={true}
-  />;
+  let postSchema: WithContext<BlogPosting> = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    datePublished: post.date,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": useCurrentUrl()
+    },
+    headline: post.title,
+    isFamilyFriendly: true,
+    description: post.description,
+    image: post.openGraphImage,
+    author: {
+      "@type": "Person",
+      name: MY_NAME,
+      url: SITE_URL,
+    },
+  };
+
+  if (post.subtitle) {
+    postSchema.alternativeHeadline = post.subtitle;
+  }
+
+  if (post.lastUpdated) {
+    postSchema.dateModified = post.lastUpdated;
+  }
+
+  return (
+    <>
+      <Meta 
+        schema={postSchema}
+        title={post.title}
+        subtitle={post.subtitle}
+        image={post.openGraphImage}
+        description={post.description}
+      />
+      <MarkdownLayout
+        pageData={post}
+        comments={comments}
+        markdownCode={markdownCode}
+        jamCommentsApiKey={jamCommentsApiKey}
+        jamCommentsDomain={jamCommentsDomain}
+        isPost={true}
+      />
+    </>
+  )
+  
 }
 
 export async function getStaticProps({ params }) {
