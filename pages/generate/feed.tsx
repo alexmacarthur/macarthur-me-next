@@ -1,17 +1,20 @@
+import Container from "../../components/container";
 import generateRssFeed from "../../scripts/generateRssFeed";
 
-const Feed = () => {
+const Feed = ({ postCount }) => {
   return (
-    <>You did it.</>
+    <Container classes="text-center">
+      <h1>RSS feed generated!</h1>
+
+      <p>{postCount} posts</p>
+    </Container>
   );
 };
 
 export default Feed;
 
 export async function getStaticProps() {
-    await generateRssFeed();
-    
     return {
-        props: {}
+        props: await generateRssFeed()
     }
 }

@@ -99,14 +99,18 @@ class MarkdownSerivce {
       description: generateExcerptFromMarkdown(content),
       title: frontmatterData.title,
       subtitle: frontmatterData.subTitle || "",
-      openGraphImage: frontmatterData.openGraphImage || ""
+      openGraphImage: frontmatterData.openGraphImage || "",
     };
   }
 
   getAllPageSlugs(): string[] {
     const pageFiles = fs.readdirSync(this.pageDirectory);
 
-    return pageFiles.map(file => file.replace(/.md$/, ""));
+    return pageFiles.map((file) => file.replace(/.md$/, ""));
+  }
+
+  async getAllPages(): Promise<ContentEntity[]> {
+    return this.getAllPageSlugs().map(this.getPage.bind(this));
   }
 }
 

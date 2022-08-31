@@ -59,7 +59,9 @@ const Title = ({
         <div className="flex items-center gap-3">
           {lastUpdated && (
             <>
-              <DateFormatter date={lastUpdated} prettyDate={prettyLastUpdated}>Updated on </DateFormatter>
+              <DateFormatter date={lastUpdated} prettyDate={prettyLastUpdated}>
+                Updated on{" "}
+              </DateFormatter>
 
               <span className="light-text">/</span>
             </>

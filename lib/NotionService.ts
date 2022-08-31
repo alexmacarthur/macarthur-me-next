@@ -89,8 +89,16 @@ class NotionService {
     return updatedBlocks;
   }
 
-  async getPublishedBlogPosts(start_cursor?: string, perPageOverride?: number): Promise<{
-    posts: ContentEntity[];
+  async getPublishedBlogPosts({
+    startCursor,
+    perPageOverride,
+    hydrate = true,
+  }: {
+    startCursor?: string;
+    perPageOverride?: number;
+    hydrate?: boolean;
+  }): Promise<{
+    posts: Partial<BlogPost>[];
     nextCursor: string | null;
     hasMore;
   }> {
@@ -99,7 +107,7 @@ class NotionService {
     const response = await this.client.databases.query({
       database_id: database,
       page_size: perPageOverride || POSTS_PER_PAGE,
-      start_cursor: start_cursor || undefined,
+      start_cursor: startCursor || undefined,
       filter: {
         property: "Published",
         checkbox: {
@@ -116,7 +124,22 @@ class NotionService {
 
     const { next_cursor, has_more } = response;
     const posts = await Promise.all(
-      response.results.map((res) => this.pageToPostTransformer(res))
+      response.results.map((res) => {
+        // Don't query for all block data. Just get the slug.
+        if (!hydrate) {
+          return new Promise(async (resolve) => {
+            let slugObj = await this.client.pages.properties.retrieve({
+              page_id: res.id,
+              property_id: (res as any).properties.Slug.id,
+            });
+
+            // This is gross... yeah.
+            resolve({ slug: (slugObj as any).results[0].rich_text.plain_text });
+          });
+        }
+
+        return this.pageToPostTransformer(res);
+      })
     );
 
     return {
@@ -135,7 +158,7 @@ class NotionService {
     return parts[parts.length - 2];
   }
 
-  private async pageToPostTransformer(page: any): Promise<ContentEntity> {
+  private async pageToPostTransformer(page: any): Promise<BlogPost> {
     let cover = page.cover;
 
     switch (cover?.type) {
@@ -215,7 +238,7 @@ class NotionService {
       prettyDate: this.prettifyDate(postProperties.date),
       prettyLastUpdated: this.prettifyDate(postProperties.lastUpdated),
       ...postProperties,
-    } as ContentEntity;
+    };
   }
 
   private prettifyDate(dateString: string): string {

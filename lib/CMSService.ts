@@ -9,8 +9,8 @@ interface PostCache {
 }
 
 const postCache: PostCache = {
-  allPosts: undefined
-}
+  allPosts: undefined,
+};
 
 class CMS {
   provider: NotionService;
@@ -26,27 +26,31 @@ class CMS {
     const postChunks = chunk(allPosts, POSTS_PER_PAGE);
 
     return postChunks.length;
-  }  
+  }
 
-  async getAllPosts(): Promise<BlogPost[]> {
-    if(postCache.allPosts) {
+  async getAllPosts(hydrate: boolean = true): Promise<BlogPost[]> {
+    if (postCache.allPosts) {
       // @todo Figure out if this actually works in a deployed context.
-      console.log('Retrieving all posts from cache.');
+      console.log("Retrieving all posts from cache.");
       return postCache.allPosts;
     }
 
     let posts = [];
-    let nextCursor = undefined;
+    let startCursor = undefined;
     let hasMore = true;
 
-    while(hasMore) {
-        let response = await this.provider.getPublishedBlogPosts(nextCursor, 100);
+    while (hasMore) {
+      let response = await this.provider.getPublishedBlogPosts({
+        startCursor,
+        perPageOverride: 100,
+        hydrate,
+      });
 
-        console.log(`Fetched ${response.posts.length} posts...`);
+      console.log(`Fetched ${response.posts.length} posts...`);
 
-        posts = posts.concat(response.posts);
-        hasMore = response.hasMore;
-        nextCursor = response.nextCursor;
+      posts = posts.concat(response.posts);
+      hasMore = response.hasMore;
+      startCursor = response.nextCursor;
     }
 
     postCache.allPosts = posts;
@@ -54,12 +58,12 @@ class CMS {
     return posts;
   }
 
-  async getPosts({ 
-    pageNumber, 
-    propertiesToExclude = []
+  async getPosts({
+    pageNumber,
+    propertiesToExclude = [],
   }: {
-    pageNumber: number, 
-    propertiesToExclude?: (keyof ContentEntity)[]
+    pageNumber: number;
+    propertiesToExclude?: (keyof ContentEntity)[];
   }): Promise<{
     posts: ContentEntity[];
     hasMore: boolean;
@@ -74,9 +78,11 @@ class CMS {
         posts,
         nextCursor: next_cursor,
         hasMore: has_more,
-      } = await this.provider.getPublishedBlogPosts(nextCursor);
+      } = await this.provider.getPublishedBlogPosts({
+        startCursor: nextCursor,
+      });
 
-      allPosts = allPosts.concat(posts);
+      allPosts = allPosts.concat(posts as BlogPost[]);
       nextCursor = next_cursor;
       hasMore = has_more;
 
@@ -91,9 +97,9 @@ class CMS {
     let posts = chunks[chunkIndex] ?? chunks.flat();
 
     return {
-      posts: posts.map(p => {
-        propertiesToExclude.forEach(property => {
-          delete p[property]
+      posts: posts.map((p) => {
+        propertiesToExclude.forEach((property) => {
+          delete p[property];
         });
 
         return p;

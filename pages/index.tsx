@@ -10,7 +10,7 @@ import CMSService from "../lib/CMSService";
 import { BlogPost } from "../types/types";
 
 interface IndexProps {
-  featuredPosts: BlogPost[]
+  featuredPosts: BlogPost[];
 }
 
 export default function Index({ featuredPosts }: IndexProps) {

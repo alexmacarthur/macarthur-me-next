@@ -12,12 +12,12 @@ import {
 } from "../lib/constants";
 
 interface MetaProps {
-  schema?: WithContext<any>,
-  description?: string, 
-  title?: string, 
-  type?: string, 
-  subtitle?: string, 
-  image?: string
+  schema?: WithContext<any>;
+  description?: string;
+  title?: string;
+  type?: string;
+  subtitle?: string;
+  image?: string;
 }
 
 export default function Meta({
@@ -34,8 +34,8 @@ export default function Meta({
   const defaultSchema: WithContext<WebSite> = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    url: SITE_URL, 
-    name: TITLE, 
+    url: SITE_URL,
+    name: TITLE,
     alternateName: subtitle,
     description: DESCRIPTION,
     author: {
@@ -43,9 +43,9 @@ export default function Meta({
       name: MY_NAME,
       url: SITE_URL,
     },
-  }
+  };
 
-  console.log("HERE")
+  console.log("HERE");
   console.log(schema || defaultSchema);
 
   return (

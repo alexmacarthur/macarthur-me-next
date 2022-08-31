@@ -24,15 +24,19 @@ export default function MarkdownLayout({
 }: MarkdownLayoutProps<BlogPost>) {
   const contentRef = useRef(null);
   const router = useRouter();
-  const { 
+  const {
     title,
     subtitle,
     date,
-    prettyDate, 
+    prettyDate,
     lastUpdated,
     prettyLastUpdated,
-    views } = pageData;
-  const MarkupComponent = useMemo(() => getMDXComponent(markdownCode), [markdownCode]);
+    views,
+  } = pageData;
+  const MarkupComponent = useMemo(
+    () => getMDXComponent(markdownCode),
+    [markdownCode]
+  );
 
   if (!router.isFallback && !pageData?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -41,7 +45,9 @@ export default function MarkdownLayout({
   useEffect(() => {
     if (!contentRef.current) return;
 
-    const images = Array.from(contentRef.current.querySelectorAll("[data-lazy-src]"));
+    const images = Array.from(
+      contentRef.current.querySelectorAll("[data-lazy-src]")
+    );
 
     const observers = images.map((image) => {
       const observer = createObserver(image, () => {
@@ -74,9 +80,7 @@ export default function MarkdownLayout({
         {title}
       </Title>
 
-      <div
-        className="post-content mx-auto prose max-w-none md:prose-lg"
-      >
+      <div className="post-content mx-auto prose max-w-none md:prose-lg">
         <MarkupComponent />
       </div>
     </>

@@ -2,15 +2,14 @@ import fs from "fs";
 import { Feed } from "feed";
 import { DESCRIPTION, MY_NAME, SITE_URL, TITLE } from "../lib/constants";
 import CMSService from "../lib/CMSService";
-import { MDXProvider } from '@mdx-js/react'
+import { MDXProvider } from "@mdx-js/react";
 import MarkdownService from "../lib/MarkdownService";
-import ReactDOMServer from 'react-dom/server'
+import ReactDOMServer from "react-dom/server";
 import { getMDXComponent } from "mdx-bundler/client";
 import { BlogPost } from "../types/types";
 
-const cmsService = new CMSService();
-
-const generateRssFeed = async () => {
+const generateRssFeed = async (): Promise<{ postCount: number }> => {
+  const cmsService = new CMSService();
   const posts = await cmsService.getAllPosts();
   const date = new Date();
 
@@ -18,7 +17,7 @@ const generateRssFeed = async () => {
 
   const author = {
     name: MY_NAME,
-    link: SITE_URL
+    link: SITE_URL,
   };
 
   const feed = new Feed({
@@ -39,19 +38,21 @@ const generateRssFeed = async () => {
     author,
   });
 
-  const addToFeedPromises = posts.map(post => {
-    return new Promise(async (): Promise<BlogPost> => {
+  const addToFeedPromises = posts.map((post) => {
+    return new Promise<BlogPost>(async (resolve) => {
       try {
         const url = `${SITE_URL}/posts/${post.slug}`;
-        const { code } = await (new MarkdownService()).processMarkdown(post.markdown);
+        const { code } = await new MarkdownService().processMarkdown(
+          post.markdown
+        );
         const MarkupComponent = getMDXComponent(code);
-    
+
         const mdx = (
           <MDXProvider>
             <MarkupComponent />
           </MDXProvider>
-        )
-    
+        );
+
         feed.addItem({
           title: post.title,
           id: url,
@@ -63,15 +64,15 @@ const generateRssFeed = async () => {
           date: new Date(post.date),
         });
 
-        return post;
-      } catch(e) {
+        return resolve(post);
+      } catch (e) {
         console.error(`MDX processing failed for ${post.slug}: ${e.message}`);
-        return post;
+        return resolve(post);
       }
     });
-  })
+  });
 
-  await Promise.allSettled(addToFeedPromises);
+  await Promise.all(addToFeedPromises);
 
   fs.mkdirSync("./public/rss", { recursive: true });
   fs.writeFileSync("./public/rss/feed.xml", feed.rss2());
@@ -79,6 +80,10 @@ const generateRssFeed = async () => {
   fs.writeFileSync("./public/rss/feed.json", feed.json1());
 
   console.log("RSS feed generation finished!");
+
+  return {
+    postCount: posts.length,
+  };
 };
 
 export default generateRssFeed;

@@ -1,15 +1,18 @@
 class TwitterService {
-    async getFollowerCount() {
-        const response = await fetch("https://api.twitter.com/1.1/followers/ids.json?screen_name=amacarthur", {
-            headers: {
-                Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
-            }
-        });
+  async getFollowerCount() {
+    const response = await fetch(
+      "https://api.twitter.com/1.1/followers/ids.json?screen_name=amacarthur",
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+        },
+      }
+    );
 
-        const { ids } = await response.json();
+    const { ids } = await response.json();
 
-        return ids.length;
-    }
+    return ids.length;
+  }
 }
 
 export default TwitterService;

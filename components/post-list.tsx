@@ -37,7 +37,11 @@ const PostList = ({ posts }) => {
                   </>
                 )}
 
-                <DateFormatter date={post.date} prettyDate={post.prettyDate} className="inline-block">
+                <DateFormatter
+                  date={post.date}
+                  prettyDate={post.prettyDate}
+                  className="inline-block"
+                >
                   {post.lastUpdated && "Originally posted on"}
                 </DateFormatter>
 
@@ -46,7 +50,9 @@ const PostList = ({ posts }) => {
                 )}
               </div>
 
-              <small className="block text-gray-500 mb-2">{post.description}</small>
+              <small className="block text-gray-500 mb-2">
+                {post.description}
+              </small>
 
               <Button
                 naked={true}
