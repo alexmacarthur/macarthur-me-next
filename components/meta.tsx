@@ -45,9 +45,6 @@ export default function Meta({
     },
   };
 
-  console.log("HERE");
-  console.log(schema || defaultSchema);
-
   return (
     <Head>
       <title>{computedTitle}</title>
@@ -73,12 +70,6 @@ export default function Meta({
       <meta name="msapplication-TileColor" content="#000000" />
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#000" />
-      <link
-        rel="alternate"
-        type="application/rss+xml"
-        href="/feed.xml"
-        key="xml_feed"
-      />
       <meta name="description" content={description} key="description" />
 
       {/* Schema.org */}

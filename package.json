@@ -5,7 +5,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "prettify": "prettier ./**/*.{tsx,js,ts,mjs} --write"
+    "lint": "next lint",
+    "format": "prettier ./**/*.{tsx,js,ts} --write"
   },
   "browserslist": "defaults and supports es6-module and supports es6-module-dynamic-import, not opera > 0, not samsung > 0, not and_qq > 0",
   "dependencies": {
@@ -27,7 +28,6 @@
     "feed": "^4.2.2",
     "gray-matter": "4.0.3",
     "i": "^0.3.7",
-    "image-size": "^1.0.2",
     "isomorphic-fetch": "^3.0.0",
     "lodash.chunk": "^4.2.0",
     "mdx-bundler": "^9.0.1",
@@ -64,6 +64,8 @@
     "@types/node": "^18.7.14",
     "@types/react": "^18.0.18",
     "dotenv": "^16.0.2",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "postcss-import": "^15.0.0",

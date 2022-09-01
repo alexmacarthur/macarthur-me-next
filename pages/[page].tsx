@@ -7,7 +7,6 @@ export default function Page({ page, markdownCode }) {
     <>
       <Meta
         title={page.title}
-        lastUpdated={page.lastUpdated}
         subtitle={page.subtitle}
         image={page.openGraphImage}
         description={page.description}

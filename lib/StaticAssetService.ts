@@ -4,7 +4,7 @@ class StaticAssetService {
   provider;
 
   constructor() {
-    this.provider = R2Service;
+    this.provider = new R2Service();
   }
 
   get(key: string) {

@@ -15,12 +15,6 @@ interface PostListLayoutProps {
   totalPages: number;
 }
 
-declare namespace JSX {
-  interface IntrinsicElements {
-    "feedback-component": any;
-  }
-}
-
 export interface ContentEntity {
   title: string;
   subtitle?: string;

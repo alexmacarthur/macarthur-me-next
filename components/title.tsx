@@ -7,7 +7,7 @@ type TitleProps = {
   date?: string;
   prettyDate?: string;
   isPost?: boolean;
-  subTitle?: string;
+  subtitle?: string;
   lastUpdated?: string;
   prettyLastUpdated?: string;
   secondaryMeta?: Function;
@@ -19,7 +19,7 @@ const Title = ({
   date,
   prettyDate,
   isPost,
-  subTitle,
+  subtitle,
   lastUpdated,
   prettyLastUpdated,
   secondaryMeta,
@@ -48,9 +48,9 @@ const Title = ({
           {children}
         </h1>
 
-        {subTitle && (
+        {subtitle && (
           <h2 className="font-light text-xl italic text-gray-500 mb-2">
-            {subTitle}
+            {subtitle}
           </h2>
         )}
       </div>

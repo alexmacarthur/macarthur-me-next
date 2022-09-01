@@ -1,0 +1,10 @@
+{
+  "extends": "next/core-web-vitals", 
+  "rules": {
+    "import/no-anonymous-default-export": "off", 
+    "react/no-unescaped-entities": "off", 
+    "@next/next/no-img-element": "off",
+    "react-hooks/exhaustive-deps": "off", 
+    "react/display-name": "off"
+  }
+}

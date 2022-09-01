@@ -1,13 +1,15 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
+export const client = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+);
+
 class SupabaseService {
   client: any;
 
   constructor() {
-    this.client = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
-    );
+    this.client = client;
   }
 
   getClient(): SupabaseClient {
@@ -22,54 +24,6 @@ class SupabaseService {
     is_trusted: boolean;
   }) {
     return await this.client.from("contact_form_submissions").insert([args]);
-  }
-
-  async updateContent(contentType: ContentType, posts: PostData[]) {
-    const data = posts.map((post) => {
-      return {
-        slug: post.slug,
-        post_json: post,
-        content_type: contentType,
-      };
-    });
-
-    await this.deleteContent(contentType);
-
-    return await this.client.from("site_content_cache").insert(data);
-  }
-
-  async getContent(contentType: ContentType) {
-    const { data } = await this.client
-      .from("site_content_cache")
-      .select()
-      .eq("content_type", contentType);
-
-    if (!data.length) {
-      return [];
-    }
-
-    // If the cached post data is older than an hour,
-    // delete it so that a new batch can be generated.
-    const fifteenMinutesAgo = new Date();
-    fifteenMinutesAgo.setTime(fifteenMinutesAgo.getTime() - 15 * 60 * 1000);
-    const postTime = new Date(data[0].created_at);
-
-    if (postTime.getTime() < fifteenMinutesAgo.getTime()) {
-      console.log("Cache is old. Deleting.");
-
-      await this.deleteContent(contentType);
-
-      return [];
-    }
-
-    return data.map((post) => post.post_json);
-  }
-
-  deleteContent(contentType: ContentType): Promise<any> {
-    return this.client
-      .from("site_content_cache")
-      .delete()
-      .match({ content_type: contentType });
   }
 
   async getPositiveFeedbackCount(): Promise<number> {

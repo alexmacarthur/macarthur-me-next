@@ -38,10 +38,6 @@ export default function MarkdownLayout({
     [markdownCode]
   );
 
-  if (!router.isFallback && !pageData?.slug) {
-    return <ErrorPage statusCode={404} />;
-  }
-
   useEffect(() => {
     if (!contentRef.current) return;
 
@@ -66,13 +62,17 @@ export default function MarkdownLayout({
     };
   });
 
+  if (!router.isFallback && !pageData?.slug) {
+    return <ErrorPage statusCode={404} />;
+  }
+
   const ContainerContent: any = () => (
     <>
       <Title
         date={date}
         prettyDate={prettyDate}
         isPost={isPost}
-        subTitle={subtitle}
+        subtitle={subtitle}
         lastUpdated={lastUpdated}
         prettyLastUpdated={prettyLastUpdated}
         views={isPost ? views : ""}

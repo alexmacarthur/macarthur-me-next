@@ -1,5 +1,13 @@
 import { useEffect } from "react";
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "feedback-component": any;
+    }
+  }
+}
+
 const Feedback = ({ url }: { url: string }) => {
   const slug = url.split("/posts/").reverse()[0];
 
