@@ -3,6 +3,7 @@ module.exports = () => {
 
   return plugins.reduce((acc, next) => next(acc), {
     swcMinify: true,
+    staticPageGenerationTimeout: 500,
     experimental: {
       legacyBrowsers: false,
       browsersListForSwc: true,

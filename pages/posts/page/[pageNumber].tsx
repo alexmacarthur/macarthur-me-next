@@ -27,12 +27,14 @@ export async function getStaticProps({ params }) {
   const previousPage = pageNumber - 1;
   const nextPage = pageNumber + 1;
 
+  const response = await cmsService.getPosts({
+    pageNumber, 
+    propertiesToExclude: ["markdown"]
+  })
+
   return {
     props: {
-      posts: await cmsService.getPosts({
-        pageNumber, 
-        propertiesToExclude: ["markdown"]
-      }),
+      posts: response.posts,
       previousPage: previousPage <= 0 ? null : previousPage,
       nextPage: nextPage > numberOfPages ? null : nextPage,
       currentPage: params.pageNumber,

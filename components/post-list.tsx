@@ -4,6 +4,7 @@ import Button from "./button";
 import ViewCount from "./view-count";
 
 const PostList = ({ posts }) => {
+  
   return (
     <ul className="space-y-10">
       {posts.map((post) => {
