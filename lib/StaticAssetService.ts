@@ -12,17 +12,28 @@ class StaticAssetService {
   }
 
   async put(imageUrl: string, key: string): Promise<any> {
-    if (await this.get(key)) {
-      console.log(`Already uploaded! Skipping: ${key}`);
+    try {
+      if (await this.get(key)) {
+        console.log(`Already uploaded! Skipping: ${key}`);
+        
+        return Promise.resolve();
+      }
+    } catch(e) {
+      console.error(`Retrieval failed! Key: ${key}, url: ${imageUrl}`);
       return Promise.resolve();
     }
-
-    console.log(`Uploading image: ${key}`);
-
-    return this.provider.uploadImage({
-      imageUrl,
-      key,
-    });
+    
+    try {
+      console.log(`Uploading image: ${key}`);
+  
+      return this.provider.uploadImage({
+        imageUrl,
+        key,
+      });
+    } catch(e) {
+      console.error(`Upload failed! Key: ${key}, url: ${imageUrl}`);
+      return Promise.resolve();
+    }
   }
 }
 
