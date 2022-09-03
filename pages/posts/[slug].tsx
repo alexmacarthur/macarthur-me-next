@@ -6,10 +6,9 @@ import Meta from "../../components/meta";
 import type { WithContext, BlogPosting } from "schema-dts";
 import { MY_NAME, SITE_URL } from "../../lib/constants";
 import useCurrentUrl from "../../hooks/useCurrentUrl";
-import { useEffect, useState } from "react";
 import usePostViews from "../../hooks/usePostViews";
 
-export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey, scriptsToLoad }) {
+export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey }) {
   const postViews = usePostViews(post.slug);
 
   let postSchema: WithContext<BlogPosting> = {
@@ -39,16 +38,6 @@ export default function Post({ post, comments, markdownCode, jamCommentsDomain, 
     postSchema.dateModified = post.lastUpdated;
   }
 
-  useEffect(() => {
-    scriptsToLoad.forEach((s: string) => {
-      const script = document.createElement("script");
-      script.async = true;
-      script.src = s;
-
-      document.body.insertBefore(script, null);
-    });
-  }, []);
-
   return (
     <>
       <Meta 
@@ -58,6 +47,7 @@ export default function Post({ post, comments, markdownCode, jamCommentsDomain, 
         image={post.openGraphImage}
         description={post.description}
       />
+
       <MarkdownLayout
         pageData={post}
         comments={comments}
@@ -77,17 +67,6 @@ export async function getStaticProps({ params }) {
   const { code } = await (new MarkdownService()).processMarkdown(post.markdown);
   const { fetchByPath } = require("@jam-comments/next");
 
-  const vendorScripts = [
-    {
-      src: "https://cpwebassets.codepen.io/assets/embed/ei.js",
-      pattern: new RegExp("codepen.io/(.+)/pen/(.+)"),
-    },
-  ];
-
-  const scriptsToLoad = vendorScripts
-    .filter(({ pattern }) => pattern.test(post.markdown))
-    .map((s) => s.src);
-
   const comments = await fetchByPath({
     domain: process.env.JAM_COMMENTS_DOMAIN,
     apiKey: process.env.JAM_COMMENTS_API_KEY,
@@ -100,8 +79,7 @@ export async function getStaticProps({ params }) {
       jamCommentsDomain: process.env.JAM_COMMENTS_DOMAIN,
       comments,
       markdownCode: code, 
-      post, 
-      scriptsToLoad
+      post
     }, 
   }
 }

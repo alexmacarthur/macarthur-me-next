@@ -74,7 +74,19 @@ export default function MarkdownLayout({
         {title}
       </Title>
 
-      <div className="post-content mx-auto prose max-w-none md:prose-lg">
+      <div
+        className="
+        post-content 
+        mx-auto 
+        prose 
+        prose-headings:text-gray-700 
+        prose-headings:font-extrabold
+        prose-headings:mb-5
+        prose-headings:leading-tight
+        prose-headings:text-2xl
+        max-w-none 
+        md:prose-lg"
+      >
         <MarkupComponent />
       </div>
     </>
