@@ -44,7 +44,6 @@ const ThreadToBlogPost = () => {
   return (
     <Layout>
       <Meta
-        isPost={false}
         title={"Turn That Twitter Thread Into a Blog Post"}
         image={"https://macarthur.me/thread-to-post-og.jpg"}
         description={"A tool for those threads that probably just should've been blog post."}
@@ -53,7 +52,7 @@ const ThreadToBlogPost = () => {
         <article className="mb-16">
           <Title
             isPost={false}
-            subTitle={""}
+            subtitle={""}
           >
             Turn that tweet thread into a blog post.
           </Title>

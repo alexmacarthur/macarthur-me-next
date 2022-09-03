@@ -13,7 +13,6 @@ const Layout = forwardRef(
   ({ children, narrow = false }: LayoutProps, ref: any) => {
     return (
       <>
-        <Meta />
         <Nav />
         <main id="main" ref={ref}>
           <Container narrow={narrow} classes={"px-4"}>

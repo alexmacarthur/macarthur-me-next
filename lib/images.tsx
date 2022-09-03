@@ -1,7 +1,7 @@
 export function createObserver(imageElement, callback: () => any) {
   const options = {
     rootMargin: "100px",
-    threshold: .1,
+    threshold: 0.1,
   };
 
   const observer = new IntersectionObserver((entries, observer) => {
@@ -15,7 +15,7 @@ export function createObserver(imageElement, callback: () => any) {
 
   return {
     observe: () => observer.observe(imageElement),
-    kill: () => observer.unobserve(imageElement)
+    kill: () => observer.unobserve(imageElement),
   };
 }
 

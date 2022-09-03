@@ -14,7 +14,7 @@ const Dashboard = ({ stats }) => {
   return (
     <PageLayout
       title="Dashboard"
-      subTitle="The vanity metrics that mean the most to me."
+      subtitle="The vanity metrics that mean the most to me."
     >
       <div className="post-content mx-auto prose max-w-none md:prose-lg mb-12">
         <p>
@@ -23,6 +23,7 @@ const Dashboard = ({ stats }) => {
           <a
             href="https://vercel.com/docs/concepts/next.js/incremental-static-regeneration"
             target="_blank"
+            rel="noreferrer"
           >
             Incremental Static Regeneration
           </a>
@@ -39,7 +40,7 @@ const Dashboard = ({ stats }) => {
                 <h2 dangerouslySetInnerHTML={{ __html: stat.title }}></h2>
 
                 {stat.link && (
-                  <a href={stat.link} target="_blank">
+                  <a href={stat.link} target="_blank" rel="noreferrer">
                     <ExternalIcon />
                   </a>
                 )}

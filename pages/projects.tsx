@@ -25,7 +25,7 @@ const Star = (props) => {
 
 const Projects = ({ repos, specialProjects }) => {
   return (
-    <PageLayout title="Projects" subTitle="Code I Write on the Side">
+    <PageLayout title="Projects" subtitle="Code I Write on the Side">
       <div className="mb-12">
         <h2 className="text-4xl font-semibold mb-6">Some Special Ones</h2>
 
@@ -49,7 +49,7 @@ const Projects = ({ repos, specialProjects }) => {
                 >
                   <div className="mb-6">
                     <h3 className="font-bold text-3xl mb-2">
-                      <a href={link} target="_blank">
+                      <a href={link} target="_blank" rel="noreferrer">
                         {project.name}
                       </a>
                     </h3>

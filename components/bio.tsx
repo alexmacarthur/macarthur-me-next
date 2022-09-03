@@ -4,7 +4,7 @@ const Bio = () => {
   return (
     <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-3 md:space-x-6 mt-16">
       <div className="flex-none w-20 md:w-24 flex items-center justify-center md:justify-start">
-        <Image 
+        <Image
           src="/avatar.jpg"
           alt="my face"
           classes="rounded w-16 md:w-20"

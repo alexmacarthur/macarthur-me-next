@@ -34,7 +34,7 @@ const SocialLinks = () => {
               title={`${title} Profile`}
               href={url}
               target="_blank"
-              rel="noopener nofollow"
+              rel="noopener nofollow noreferrer"
               className="block w-10 h-10"
             >
               <Icon />

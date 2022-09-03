@@ -1,38 +1,43 @@
 import { useRouter } from "next/router";
+import { getMDXComponent } from "mdx-bundler/client";
 import ErrorPage from "next/error";
 import Container from "./container";
 import Layout from "./layout";
 import Title from "./title";
-import Meta from "./meta";
 import Bio from "./bio";
 import { activateImage, createObserver } from "../lib/images";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { fullUrlFromPath } from "../lib/utils";
 import { JamComments } from "@jam-comments/next";
 
 import "prismjs/themes/prism-okaidia.css";
 import Feedback from "./feedback";
+import { BlogPost, MarkdownLayoutProps } from "../types/types";
 
-export default function PostLayout({
+export default function MarkdownLayout({
   pageData,
+  markdownCode,
   isPost = false,
   comments = [],
   jamCommentsApiKey = "",
   jamCommentsDomain = "",
-}: MarkdownLayoutProps) {
+  views,
+}: MarkdownLayoutProps<BlogPost>) {
   const contentRef = useRef(null);
   const router = useRouter();
-  const { title, subTitle, date, ogImage, excerpt, lastUpdated, views } =
+  const { title, subtitle, date, prettyDate, lastUpdated, prettyLastUpdated } =
     pageData;
-
-  if (!router.isFallback && !pageData?.slug) {
-    return <ErrorPage statusCode={404} />;
-  }
+  const MarkupComponent = useMemo(
+    () => getMDXComponent(markdownCode),
+    [markdownCode]
+  );
 
   useEffect(() => {
     if (!contentRef.current) return;
 
-    const images = Array.from(contentRef.current.querySelectorAll("[data-lazy-src]"));
+    const images = Array.from(
+      contentRef.current.querySelectorAll("[data-lazy-src]")
+    );
 
     const observers = images.map((image) => {
       const observer = createObserver(image, () => {
@@ -51,36 +56,32 @@ export default function PostLayout({
     };
   });
 
+  if (!router.isFallback && !pageData?.slug) {
+    return <ErrorPage statusCode={404} />;
+  }
+
   const ContainerContent: any = () => (
     <>
       <Title
         date={date}
+        prettyDate={prettyDate}
         isPost={isPost}
-        subTitle={subTitle}
+        subtitle={subtitle}
         lastUpdated={lastUpdated}
+        prettyLastUpdated={prettyLastUpdated}
         views={isPost ? views : ""}
       >
         {title}
       </Title>
 
-      <div
-        className="post-content mx-auto prose max-w-none md:prose-lg"
-        dangerouslySetInnerHTML={{ __html: pageData.content }}
-      ></div>
+      <div className="post-content mx-auto prose max-w-none md:prose-lg">
+        <MarkupComponent />
+      </div>
     </>
   );
 
   return (
     <Layout ref={contentRef}>
-      <Meta
-        isPost={isPost}
-        title={title}
-        date={date}
-        lastUpdated={lastUpdated}
-        subTitle={subTitle}
-        image={ogImage}
-        description={excerpt}
-      />
       <Container narrow={true}>
         {!isPost && <ContainerContent />}
 

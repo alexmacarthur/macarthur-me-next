@@ -1,33 +1,48 @@
 import MarkdownLayout from "../components/markdown-layout";
-import { getContentBySlug, getAllPages } from "../lib/api";
+import Meta from "../components/meta";
+import MarkdownService from "../lib/MarkdownService";
 
-export default function Page({ page }) {
-  return <MarkdownLayout pageData={page} isPost={false} />;
+export default function Page({ page, markdownCode }) {
+  return (
+    <>
+      <Meta
+        title={page.title}
+        subtitle={page.subtitle}
+        image={page.openGraphImage}
+        description={page.description}
+      />
+
+      <MarkdownLayout
+        pageData={page}
+        markdownCode={markdownCode}
+        isPost={false}
+      />
+    </>
+  );
 }
 
 export async function getStaticProps({ params }) {
-  const page = await getContentBySlug(params.page, "page");
-  const content = page.content || "";
+  const markdownService = new MarkdownService();
+  const page = markdownService.getPage(params.page);
+  const { code: markdownCode } = await markdownService.processMarkdown(
+    page.markdown
+  );
 
   return {
     props: {
-      page: {
-        ...page,
-        content,
-      },
+      markdownCode,
+      page,
     },
   };
 }
 
 export async function getStaticPaths() {
-  const pages = await getAllPages();
+  const markdownService = new MarkdownService();
 
   return {
-    paths: pages.map((page) => {
+    paths: markdownService.getAllPageSlugs().map((page) => {
       return {
-        params: {
-          page: page.slug,
-        },
+        params: { page },
       };
     }),
     fallback: false,

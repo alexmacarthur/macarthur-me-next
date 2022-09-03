@@ -195,6 +195,10 @@ span {
   }
 
   p, li, blockquote {
+    img {
+      margin: 0 auto;
+    }
+
     /* Special hover effect */
     a {
       transition: all .12s ease-in-out;

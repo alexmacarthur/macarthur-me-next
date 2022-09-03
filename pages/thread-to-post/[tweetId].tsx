@@ -22,7 +22,7 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
           <article className="mb-16">
             <Title
               isPost={false}
-              subTitle={""}
+              subtitle={""}
             >
               Is that tweet even a thing?
             </Title>
@@ -48,7 +48,6 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
   return (
     <Layout>
       <Meta
-        isPost={false}
         title={title}
         image={"https://macarthur.me/thread-to-post-og.jpg"}
         description={`A blog post version of a Twitter thread from ${name}.`}
@@ -56,9 +55,9 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
       <Container narrow={true}>
         <article className="mb-16">
           <Title
-            date={new Date(date)}
+            date={date}
             isPost={false}
-            subTitle={""}
+            subtitle={""}
             secondaryMeta={() => {
               return <Button
                 naked={true}
@@ -84,7 +83,7 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
                   <a
                     className="md:opacity-0 absolute z-10 left-[.4rem] top-[.9rem]"
                     href={makeTweetLink(id)}
-                    target="_blank">
+                    target="_blank" rel="noreferrer">
                     <ExternalIcon classes="w-5 h-5 hover:text-purple-400" />
                   </a>
 
@@ -95,7 +94,7 @@ const ThreadToBlogPost = ({ thread, tweetId }: { thread: Thread, tweetId: string
                     {media.map(m => {
                       return (
                         <div className="px-6" key={m.media_key}>
-                          <img style={{maxHeight: '500px'}} className="mx-auto block" src={m.url} />
+                          <img style={{maxHeight: '500px'}} className="mx-auto block" src={m.url} alt="" />
                         </div>
                       )
                     })}

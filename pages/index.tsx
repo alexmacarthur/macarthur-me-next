@@ -3,12 +3,17 @@ import Nav from "../components/nav";
 import Logo from "../components/logo";
 import SocialLinks from "../components/social-links";
 import Link from "next/link";
-import { getAllPosts, getTopPosts } from "../lib/api";
 import ViewCount from "../components/view-count";
 import DateFormatter from "../components/date-formatter";
 import Button from "../components/button";
+import CMSService from "../lib/CMSService";
+import { BlogPost } from "../types/types";
 
-export default function Index({ featuredPosts }) {
+interface IndexProps {
+  featuredPosts: BlogPost[];
+}
+
+export default function Index({ featuredPosts }: IndexProps) {
   return (
     <>
       <Meta />
@@ -34,7 +39,7 @@ export default function Index({ featuredPosts }) {
 
             <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featuredPosts.map((post) => {
-                const { title, views, date, slug } = post;
+                const { title, views, date, slug, prettyDate } = post;
                 const postPath = `/posts/${slug}`;
 
                 return (
@@ -48,7 +53,7 @@ export default function Index({ featuredPosts }) {
                           <a>{title}</a>
                         </Link>
                       </h3>
-                      <DateFormatter date={date} />
+                      <DateFormatter date={date} prettyDate={prettyDate} />
                     </div>
 
                     <div className="mt-auto flex justify-between items-center">
@@ -87,20 +92,17 @@ export default function Index({ featuredPosts }) {
 }
 
 export async function getStaticProps() {
-  const posts = await getAllPosts();
+  const cmsService = new CMSService();
 
-  const featuredPosts = [
+  const featuredPostPromises = [
     "when-dom-updates-appear-to-be-asynchronous",
     "use-web-workers-for-your-event-listeners",
     "when-a-weakmap-came-in-handy",
-  ].map((slug) => {
-    return posts.find((post) => post.slug === slug);
-  });
+  ].map((slug) => cmsService.getPost(slug));
 
   return {
     props: {
-      topPosts: await getTopPosts(),
-      featuredPosts,
+      featuredPosts: await Promise.all(featuredPostPromises),
     },
     revalidate: 86400, // once per day
   };

@@ -1,66 +1,49 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { WebSite, WithContext } from "schema-dts";
+import useCurrentUrl from "../hooks/useCurrentUrl";
 
 import {
   FB_ADMINS,
   TWITTER_HANDLE,
-  ALTERNATE_NAME,
   SITE_URL,
   TITLE,
+  DESCRIPTION,
+  MY_NAME,
 } from "../lib/constants";
 
+interface MetaProps {
+  schema?: WithContext<any>;
+  description?: string;
+  title?: string;
+  type?: string;
+  subtitle?: string;
+  image?: string;
+}
+
 export default function Meta({
-  isPost = false,
-  description = "I'm Alex MacArthur, a web developer in Nashville-ish, TN.",
-  title = "",
-  date = null,
-  lastUpdated = null,
-  subTitle = "",
-  image = "https://macarthur.me/open-graph.jpg",
-}) {
-  const router = useRouter();
-  const url = `${SITE_URL}${router.asPath}`.replace(/\/$/, "");
+  schema,
+  title,
+  subtitle,
+  description = DESCRIPTION,
+  type = "website",
+  image = `${SITE_URL}/open-graph.jpg`,
+}: MetaProps) {
+  const url = useCurrentUrl();
   const computedTitle = title ? `${title} // Alex MacArthur` : TITLE;
 
-  const schemaTypes: any[] = [
-    {
-      "@context": "http://schema.org",
-      "@type": "WebSite",
+  const defaultSchema: WithContext<WebSite> = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: SITE_URL,
+    name: TITLE,
+    alternateName: subtitle,
+    description: DESCRIPTION,
+    author: {
+      "@type": "Person",
+      name: MY_NAME,
       url: SITE_URL,
-      name: TITLE,
-      alternateName: subTitle || ALTERNATE_NAME,
     },
-  ];
-
-  if (isPost) {
-    const blogPostSchemaType: { [key: string]: any } = {
-      "@context": "http://schema.org",
-      "@type": "BlogPosting",
-      url: url,
-      name: computedTitle,
-      alternateName: ALTERNATE_NAME,
-      datePublished: new Date(date).toISOString(),
-      headline: computedTitle,
-      isFamilyFriendly: "true",
-      image,
-      description,
-      author: {
-        "@type": "Person",
-        name: "Alex MacArthur",
-        url: "https://macarthur.me",
-      },
-    };
-
-    if (subTitle) {
-      blogPostSchemaType.alternativeHeadline = subTitle;
-    }
-
-    if (lastUpdated) {
-      blogPostSchemaType.dateModified = new Date(lastUpdated).toISOString();
-    }
-
-    schemaTypes.push(blogPostSchemaType);
-  }
+  };
 
   return (
     <Head>
@@ -87,12 +70,6 @@ export default function Meta({
       <meta name="msapplication-TileColor" content="#000000" />
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#000" />
-      <link
-        rel="alternate"
-        type="application/rss+xml"
-        href="/feed.xml"
-        key="xml_feed"
-      />
       <meta name="description" content={description} key="description" />
 
       {/* Schema.org */}
@@ -100,10 +77,7 @@ export default function Meta({
         type="application/ld+json"
         key="ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "http://schema.org",
-            "@graph": schemaTypes,
-          }),
+          __html: JSON.stringify(schema || defaultSchema),
         }}
       ></script>
 
@@ -117,9 +91,7 @@ export default function Meta({
       />
       <meta property="og:image" content={image} key="og:image" />
       <meta property="fb:admins" content={FB_ADMINS} key="fb:admins" />
-      {isPost ? (
-        <meta property="og:type" content="article" key="og:type" />
-      ) : null}
+      <meta property="og:type" content={type} key="og:type" />
 
       {/* Twitter Card */}
       <meta
