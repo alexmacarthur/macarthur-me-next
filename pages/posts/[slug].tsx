@@ -6,9 +6,12 @@ import Meta from "../../components/meta";
 import type { WithContext, BlogPosting } from "schema-dts";
 import { MY_NAME, SITE_URL } from "../../lib/constants";
 import useCurrentUrl from "../../hooks/useCurrentUrl";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import usePostViews from "../../hooks/usePostViews";
 
 export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey, scriptsToLoad }) {
+  const postViews = usePostViews(post.slug);
+
   let postSchema: WithContext<BlogPosting> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -62,10 +65,10 @@ export default function Post({ post, comments, markdownCode, jamCommentsDomain, 
         jamCommentsApiKey={jamCommentsApiKey}
         jamCommentsDomain={jamCommentsDomain}
         isPost={true}
+        views={postViews}
       />
     </>
   )
-  
 }
 
 export async function getStaticProps({ params }) {

@@ -5,6 +5,7 @@ interface MarkdownLayoutProps<T> {
   markdownCode: string;
   jamCommentsApiKey?: string;
   jamCommentsDomain?: string;
+  views?: string;
 }
 
 interface PostListLayoutProps {

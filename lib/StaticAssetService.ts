@@ -15,22 +15,22 @@ class StaticAssetService {
     try {
       if (await this.get(key)) {
         console.log(`Already uploaded! Skipping: ${key}`);
-        
+
         return Promise.resolve();
       }
-    } catch(e) {
+    } catch (e) {
       console.error(`Retrieval failed! Key: ${key}, url: ${imageUrl}`);
       return Promise.resolve();
     }
-    
+
     try {
       console.log(`Uploading image: ${key}`);
-  
+
       return this.provider.uploadImage({
         imageUrl,
         key,
       });
-    } catch(e) {
+    } catch (e) {
       console.error(`Upload failed! Key: ${key}, url: ${imageUrl}`);
       return Promise.resolve();
     }

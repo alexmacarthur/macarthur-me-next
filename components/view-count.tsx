@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import ViewsIcon from "./icon-views";
 import Counter from "./counter";
 
@@ -9,7 +9,7 @@ const ViewCount = ({
   count: string;
   disableAnimation?: boolean;
 }): ReactElement => {
-  if (!count.length) return null;
+  if (!count) return null;
 
   return (
     <span

@@ -21,18 +21,12 @@ export default function MarkdownLayout({
   comments = [],
   jamCommentsApiKey = "",
   jamCommentsDomain = "",
+  views,
 }: MarkdownLayoutProps<BlogPost>) {
   const contentRef = useRef(null);
   const router = useRouter();
-  const {
-    title,
-    subtitle,
-    date,
-    prettyDate,
-    lastUpdated,
-    prettyLastUpdated,
-    views,
-  } = pageData;
+  const { title, subtitle, date, prettyDate, lastUpdated, prettyLastUpdated } =
+    pageData;
   const MarkupComponent = useMemo(
     () => getMDXComponent(markdownCode),
     [markdownCode]

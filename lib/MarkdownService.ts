@@ -64,7 +64,6 @@ class MarkdownSerivce {
       mdxOptions: (options) => ({
         remarkPlugins: [...(options.remarkPlugins ?? []), ...remarkPlugins],
         rehypePlugins: [...(options.rehypePlugins ?? []), ...rehypePlugins],
-        // format: "md"
       }),
     });
   }

@@ -5,6 +5,7 @@ import { extractUrl, generateExcerptFromMarkdown } from "./markdown";
 import StaticAssetService from "./StaticAssetService";
 import { BlogPost, NotionProperties } from "../types/types";
 import DbCacheService from "./DbCacheService";
+import AnalyticsService from "./AnalyticsService";
 
 interface MdBlock {
   type: string;
@@ -144,12 +145,12 @@ class NotionService {
         let key = this.extractKey(url);
 
         if (process.env.NODE_ENV === "production") {
-        uploadPromises.push(this.staticAssetService.put(url, key));
+          uploadPromises.push(this.staticAssetService.put(url, key));
 
-        block.parent = block.parent.replace(
-          /!\[(.*?)\]\((.*)\)/,
-          `![$1](/proxy/${key})`
-        );
+          block.parent = block.parent.replace(
+            /!\[(.*?)\]\((.*)\)/,
+            `![$1](/proxy/${key})`
+          );
         }
       }
 

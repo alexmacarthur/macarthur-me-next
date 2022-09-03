@@ -1,7 +1,6 @@
 import NotionService from "./NotionService";
 import chunk from "lodash.chunk";
 import { POSTS_PER_PAGE } from "./constants";
-import AnalyticsService from "./AnalyticsService";
 import { BlogPost, ContentEntity } from "../types/types";
 
 interface PostCache {
@@ -18,7 +17,6 @@ class CMS {
 
   constructor() {
     this.provider = new NotionService();
-    this.analyticsService = new AnalyticsService();
   }
 
   async getTotalPages(): Promise<number> {
