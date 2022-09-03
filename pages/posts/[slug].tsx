@@ -6,8 +6,9 @@ import Meta from "../../components/meta";
 import type { WithContext, BlogPosting } from "schema-dts";
 import { MY_NAME, SITE_URL } from "../../lib/constants";
 import useCurrentUrl from "../../hooks/useCurrentUrl";
+import { useEffect } from "react";
 
-export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey }) {
+export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey, scriptsToLoad }) {
   let postSchema: WithContext<BlogPosting> = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -35,6 +36,16 @@ export default function Post({ post, comments, markdownCode, jamCommentsDomain, 
     postSchema.dateModified = post.lastUpdated;
   }
 
+  useEffect(() => {
+    scriptsToLoad.forEach((s: string) => {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = s;
+
+      document.body.insertBefore(script, null);
+    });
+  }, []);
+
   return (
     <>
       <Meta 
@@ -61,8 +72,18 @@ export async function getStaticProps({ params }) {
   const { slug } = params;
   const post = await (new CMSService()).getPost(slug);
   const { code } = await (new MarkdownService()).processMarkdown(post.markdown);
-
   const { fetchByPath } = require("@jam-comments/next");
+
+  const vendorScripts = [
+    {
+      src: "https://cpwebassets.codepen.io/assets/embed/ei.js",
+      pattern: new RegExp("codepen.io/(.+)/pen/(.+)"),
+    },
+  ];
+
+  const scriptsToLoad = vendorScripts
+    .filter(({ pattern }) => pattern.test(post.markdown))
+    .map((s) => s.src);
 
   const comments = await fetchByPath({
     domain: process.env.JAM_COMMENTS_DOMAIN,
@@ -76,7 +97,8 @@ export async function getStaticProps({ params }) {
       jamCommentsDomain: process.env.JAM_COMMENTS_DOMAIN,
       comments,
       markdownCode: code, 
-      post
+      post, 
+      scriptsToLoad
     }, 
   }
 }
