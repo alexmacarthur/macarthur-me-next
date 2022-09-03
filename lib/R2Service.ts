@@ -23,6 +23,7 @@ class R2Service {
         })
         .promise();
     } catch (_e) {
+      console.log(_e);
       return null;
     }
   }
