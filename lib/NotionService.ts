@@ -148,7 +148,7 @@ class NotionService {
 
         block.parent = block.parent.replace(
           /!\[(.*?)\]\((.*)\)/,
-          `![$1](${process.env.SITE_URL}/proxy/${key})`
+          `![$1](/proxy/${key})`
         );
         }
       }
