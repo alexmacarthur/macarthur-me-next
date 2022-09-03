@@ -26,7 +26,7 @@ export default function Meta({
   subtitle,
   description = DESCRIPTION,
   type = "website",
-  image = "https://macarthur.me/open-graph.jpg",
+  image = `${SITE_URL}/open-graph.jpg`,
 }: MetaProps) {
   const url = useCurrentUrl();
   const computedTitle = title ? `${title} // Alex MacArthur` : TITLE;

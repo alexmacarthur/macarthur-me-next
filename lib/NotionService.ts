@@ -143,14 +143,14 @@ class NotionService {
 
         let key = this.extractKey(url);
 
-        // if (process.env.NODE_ENV === "production") {
+        if (process.env.NODE_ENV === "production") {
         uploadPromises.push(this.staticAssetService.put(url, key));
 
         block.parent = block.parent.replace(
           /!\[(.*?)\]\((.*)\)/,
           `![$1](${process.env.SITE_URL}/proxied-image/${key})`
         );
-        // }
+        }
       }
 
       return block;
