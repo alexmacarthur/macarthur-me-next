@@ -5,7 +5,6 @@ import { extractUrl, generateExcerptFromMarkdown } from "./markdown";
 import StaticAssetService from "./StaticAssetService";
 import { BlogPost, NotionProperties } from "../types/types";
 import DbCacheService from "./DbCacheService";
-import AnalyticsService from "./AnalyticsService";
 
 interface MdBlock {
   type: string;
