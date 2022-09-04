@@ -7,7 +7,6 @@ import type { WithContext, BlogPosting } from "schema-dts";
 import { MY_NAME, SITE_URL } from "../../lib/constants";
 import useCurrentUrl from "../../hooks/useCurrentUrl";
 import usePostViews from "../../hooks/usePostViews";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey }) {
@@ -102,7 +101,6 @@ export async function getStaticPaths() {
       return {
         params: { slug },
       };
-    }),
-    fallback: false
+    })
   }
 }

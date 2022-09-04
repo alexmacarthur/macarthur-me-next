@@ -2,6 +2,7 @@ const withPreact = require('next-plugin-preact');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
+const redirects = require("./redirects.json");
 
 module.exports = () => {
   const plugins = [withPreact, withBundleAnalyzer];
@@ -94,6 +95,7 @@ module.exports = () => {
           destination: "https://codesandbox.io/s/dev-for-designers-bare-tvqu2",
           permanent: false,
         },
+        ...redirects
       ];
     },
     serverRuntimeConfig: {

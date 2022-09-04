@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "npm run generate:redirects && next build",
     "start": "next start",
     "lint": "next lint",
+    "generate:redirects": "ts-node --esm ./scripts/generateRedirects.ts",
     "analyze": "ANALYZE=true next build",
     "format": "prettier ./**/*.{tsx,js,ts} --write"
   },
@@ -27,6 +28,7 @@
     "countup.js": "^2.3.2",
     "date-fns": "^2.29.2",
     "esbuild": "^0.15.6",
+    "esm": "^3.2.25",
     "feed": "^4.2.2",
     "gray-matter": "4.0.3",
     "i": "^0.3.7",
@@ -55,7 +57,8 @@
     "sass": "^1.54.8",
     "schema-dts": "^1.1.0",
     "shelljs": "^0.8.5",
-    "strip-markdown": "^5.0.0"
+    "strip-markdown": "^5.0.0",
+    "ts-node": "^10.9.1"
   },
   "lint-staged": {
     ".{tsx,js,md,mjs}": "prettier --write"

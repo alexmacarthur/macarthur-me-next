@@ -3,14 +3,6 @@ import chunk from "lodash.chunk";
 import { POSTS_PER_PAGE } from "./constants";
 import { BlogPost, ContentEntity } from "../types/types";
 
-interface PostCache {
-  allPosts?: BlogPost[];
-}
-
-const postCache: PostCache = {
-  allPosts: undefined,
-};
-
 class CMS {
   provider: NotionService;
   analyticsService;
@@ -27,12 +19,6 @@ class CMS {
   }
 
   async getAllPosts(hydrate: boolean = true): Promise<BlogPost[]> {
-    if (postCache.allPosts) {
-      // @todo Figure out if this actually works in a deployed context.
-      console.log("Retrieving all posts from cache.");
-      return postCache.allPosts;
-    }
-
     let posts = [];
     let startCursor = undefined;
     let hasMore = true;
@@ -50,8 +36,6 @@ class CMS {
       hasMore = response.hasMore;
       startCursor = response.nextCursor;
     }
-
-    postCache.allPosts = posts;
 
     return posts;
   }

@@ -44,3 +44,4 @@ json_db
 public/post-images
 public/rss
 lib/image-data.json
+redirects.json
