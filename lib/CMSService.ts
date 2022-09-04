@@ -91,8 +91,14 @@ class CMS {
     };
   }
 
-  async getPost(slug: string) {
-    return this.provider.getSingleBlogPost(slug);
+  async getPost(slug: string, propertiesToExclude = []) {
+    const post = await this.provider.getSingleBlogPost(slug);
+
+    propertiesToExclude.forEach((property) => {
+      delete post[property];
+    });
+
+    return post;
   }
 }
 

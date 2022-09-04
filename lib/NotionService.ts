@@ -250,15 +250,22 @@ class NotionService {
 
     const markdown = await this.getMarkdown(page.id);
 
+    const externalHost = postProperties.externalUrl
+      ? new URL(postProperties.externalUrl).hostname
+      : null;
+
     return {
       id: page.id,
       excerpt: "",
       markdown,
       views: "",
+      externalHost,
       description: generateExcerptFromMarkdown(markdown),
       openGraphImage: cover,
       prettyDate: this.prettifyDate(postProperties.date),
-      prettyLastUpdated: this.prettifyDate(postProperties.lastUpdated),
+      prettyLastUpdated: postProperties.lastUpdated
+        ? this.prettifyDate(postProperties.lastUpdated)
+        : "",
       ...postProperties,
     };
   }

@@ -26,8 +26,7 @@ export default function Index({ featuredPosts }: IndexProps) {
               <Logo>I'm Alex MacArthur.</Logo>
             </h1>
             <span className="text-base">
-              A web developer who's prone to solving problems with JavaScript,
-              PHP, and Ruby.
+              A web developer bossing around computers in made-up languages.
             </span>
             <div className="mt-4 mb-20">
               <SocialLinks />
@@ -39,8 +38,18 @@ export default function Index({ featuredPosts }: IndexProps) {
 
             <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featuredPosts.map((post) => {
-                const { title, views, date, slug, prettyDate } = post;
+                const {
+                  title,
+                  views,
+                  date,
+                  slug,
+                  prettyDate,
+                  externalUrl,
+                  externalHost,
+                } = post;
                 const postPath = `/posts/${slug}`;
+                const postUrl = externalUrl ? externalUrl : postPath;
+                const target = externalUrl ? "_blank" : "_self";
 
                 return (
                   <li
@@ -49,8 +58,8 @@ export default function Index({ featuredPosts }: IndexProps) {
                   >
                     <div className="mb-8">
                       <h3 className="text-xl font-semibold mb-2">
-                        <Link href={postPath}>
-                          <a>{title}</a>
+                        <Link href={postUrl}>
+                          <a target={target}>{title}</a>
                         </Link>
                       </h3>
                       <DateFormatter date={date} prettyDate={prettyDate} />
@@ -60,10 +69,11 @@ export default function Index({ featuredPosts }: IndexProps) {
                       <Button
                         naked={true}
                         small={true}
-                        href={postPath}
-                        internal={true}
+                        href={postUrl}
+                        internal={!externalUrl}
+                        target={target}
                       >
-                        Read It
+                        Read It {externalHost ? `on ${externalHost}` : ""}
                       </Button>
 
                       <ViewCount count={views} disableAnimation={true} />
@@ -97,13 +107,14 @@ export async function getStaticProps() {
   const featuredPostPromises = [
     "when-dom-updates-appear-to-be-asynchronous",
     "use-web-workers-for-your-event-listeners",
-    "when-a-weakmap-came-in-handy",
-  ].map((slug) => cmsService.getPost(slug));
+    "send-an-http-request-on-page-exit",
+  ].map((slug) =>
+    cmsService.getPost(slug, ["markdown", "description", "openGraphImage"])
+  );
 
   return {
     props: {
       featuredPosts: await Promise.all(featuredPostPromises),
     },
-    revalidate: 86400, // once per day
   };
 }

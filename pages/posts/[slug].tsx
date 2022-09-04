@@ -101,6 +101,7 @@ export async function getStaticPaths() {
       return {
         params: { slug },
       };
-    })
+    }), 
+    fallback: false
   }
 }
