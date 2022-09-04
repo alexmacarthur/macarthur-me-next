@@ -6,10 +6,10 @@ import usePostViews from "../hooks/usePostViews";
 
 const PostListCard = ({ post }) => {
   const postViews = usePostViews(post.slug);
-  const { external, externalDomain } = post;
+  const { externalUrl, externalHost } = post;
   const linkProps = {
-    href: external ? external : `/posts/${post.slug}`,
-    target: external ? "_blank" : "_self",
+    href: externalUrl ? externalUrl : `/posts/${post.slug}`,
+    target: externalUrl ? "_blank" : "_self",
   };
 
   return (
@@ -43,13 +43,13 @@ const PostListCard = ({ post }) => {
           {post.lastUpdated && "Originally posted on"}
         </DateFormatter>
 
-        {!external && <ViewCount count={postViews} />}
+        {!externalUrl && <ViewCount count={postViews} />}
       </div>
 
       <small className="block text-gray-500 mb-2">{post.description}</small>
 
-      <Button naked={true} small={true} internal={!external} {...linkProps}>
-        Read It {externalDomain && <>({externalDomain})</>}
+      <Button naked={true} small={true} internal={!externalUrl} {...linkProps}>
+        Read It {externalUrl && <>({externalHost})</>}
       </Button>
     </article>
   );
