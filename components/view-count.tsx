@@ -3,14 +3,12 @@ import ViewsIcon from "./icon-views";
 import Counter from "./counter";
 
 const ViewCount = ({
-  count = "",
+  count,
   disableAnimation = false,
 }: {
   count: string;
   disableAnimation?: boolean;
 }): ReactElement => {
-  if (!count) return null;
-
   return (
     <span
       title={`${count} Google Analytics views`}
@@ -19,7 +17,10 @@ const ViewCount = ({
       <ViewsIcon />
 
       <span className="text-gray-500">
-        <Counter value={count} disableAnimation={disableAnimation} />
+        { !count
+          ? "-"
+          : <Counter value={count} disableAnimation={disableAnimation} />
+        }
       </span>
     </span>
   );

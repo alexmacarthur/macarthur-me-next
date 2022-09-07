@@ -83,7 +83,15 @@ class MarkdownSerivce {
     const rehypePlugins = await Promise.all([
       import("rehype-slug").then((mod) => mod.default),
       import("rehype-autolink-headings").then((mod) => mod.default),
-      import("rehype-external-links").then((mod) => mod.default),
+      import("rehype-external-links").then((mod) => {
+        return () => {
+          return mod.default({
+            target: (_element) => {
+              return "_blank";
+            }
+          })
+        }
+      }),
     ]);
 
     return [remarkPlugins, rehypePlugins];

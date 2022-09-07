@@ -12,6 +12,7 @@ type TitleProps = {
   prettyLastUpdated?: string;
   secondaryMeta?: Function;
   views?: string;
+  showViews?: boolean;
 };
 
 const Title = ({
@@ -24,6 +25,7 @@ const Title = ({
   prettyLastUpdated,
   secondaryMeta,
   views,
+  showViews = true
 }: TitleProps) => {
   return (
     <div className="mt-1 lg:mt-6 mb-4 lg:mb-9">
@@ -73,7 +75,7 @@ const Title = ({
             </DateFormatter>
           )}
 
-          <ViewCount count={views} />
+          { showViews && <ViewCount count={views} /> }
         </div>
 
         {secondaryMeta && secondaryMeta()}

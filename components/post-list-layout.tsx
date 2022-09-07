@@ -13,7 +13,7 @@ const PostListLayout = ({
 }: PostListLayoutProps) => {
   return (
     <Layout narrow={true}>
-      <Title>Posts</Title>
+      <Title showViews={false}>Posts</Title>
 
       <PostList posts={posts} />
 
