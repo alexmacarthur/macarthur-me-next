@@ -1,12 +1,11 @@
 import { useRouter } from "next/router";
-import { getMDXComponent } from "mdx-bundler/client";
 import ErrorPage from "next/error";
 import Container from "./container";
 import Layout from "./layout";
 import Title from "./title";
 import Bio from "./bio";
 import { activateImage, createObserver } from "../lib/images";
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect } from "react";
 import { fullUrlFromPath } from "../lib/utils";
 import { JamComments } from "@jam-comments/next";
 
@@ -27,10 +26,6 @@ export default function MarkdownLayout({
   const router = useRouter();
   const { title, subtitle, date, prettyDate, lastUpdated, prettyLastUpdated } =
     pageData;
-  const MarkupComponent = useMemo(
-    () => getMDXComponent(markdownCode),
-    [markdownCode]
-  );
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -86,9 +81,8 @@ export default function MarkdownLayout({
         prose-headings:text-2xl
         max-w-none 
         md:prose-lg"
-      >
-        <MarkupComponent />
-      </div>
+        dangerouslySetInnerHTML={{ __html: markdownCode }}
+      />
     </>
   );
 

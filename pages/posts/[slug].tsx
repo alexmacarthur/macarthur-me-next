@@ -1,5 +1,5 @@
-import MarkdownLayout from "../../components/markdown-layout";
 import "prismjs/themes/prism-okaidia.css";
+import MarkdownLayout from "../../components/markdown-layout";
 import CMSService from "../../lib/CMSService";
 import MarkdownService from "../../lib/MarkdownService";
 import Meta from "../../components/meta";
@@ -7,17 +7,8 @@ import type { WithContext, BlogPosting } from "schema-dts";
 import { MY_NAME, SITE_URL } from "../../lib/constants";
 import useCurrentUrl from "../../hooks/useCurrentUrl";
 import usePostViews from "../../hooks/usePostViews";
-import { useEffect } from "react";
 
 export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey }) {
-  const { externalUrl } = post;
-  
-  useEffect(() => {    
-    if(externalUrl) {
-      return window.location = externalUrl;
-    }
-  }, [externalUrl]);
-
   const postViews = usePostViews(post.slug);
 
   let postSchema: WithContext<BlogPosting> = {
@@ -94,7 +85,8 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const posts = await (new CMSService()).getAllPosts();
+  // @todo Don't need to fetch all properties here. 
+  const posts = await (new CMSService()).getAllPosts(false);
 
   return {
     paths: posts.map(({ slug }) => {

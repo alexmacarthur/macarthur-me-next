@@ -2,10 +2,7 @@ import fs from "fs";
 import { Feed } from "feed";
 import { DESCRIPTION, MY_NAME, SITE_URL, TITLE } from "../lib/constants";
 import CMSService from "../lib/CMSService";
-import { MDXProvider } from "@mdx-js/react";
 import MarkdownService from "../lib/MarkdownService";
-import ReactDOMServer from "react-dom/server";
-import { getMDXComponent } from "mdx-bundler/client";
 import { BlogPost } from "../types/types";
 
 const generateRssFeed = async (): Promise<{ postCount: number }> => {
@@ -45,20 +42,13 @@ const generateRssFeed = async (): Promise<{ postCount: number }> => {
         const { code } = await new MarkdownService().processMarkdown(
           post.markdown
         );
-        const MarkupComponent = getMDXComponent(code);
-
-        const mdx = (
-          <MDXProvider>
-            <MarkupComponent />
-          </MDXProvider>
-        );
 
         feed.addItem({
           title: post.title,
           id: url,
           link: url,
           description: post.description,
-          content: ReactDOMServer.renderToStaticMarkup(mdx),
+          content: code,
           author: [author],
           contributor: [author],
           date: new Date(post.date),

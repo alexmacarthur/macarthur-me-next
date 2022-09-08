@@ -1,10 +1,19 @@
 import matter from "gray-matter";
-import { bundleMDX } from "mdx-bundler";
 import path, { join } from "path";
 import fs from "fs";
 import getConfig from "next/config";
 import { ContentEntity } from "../types/types";
 import { generateExcerptFromMarkdown } from "./markdown";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkPrism from "remark-prism";
+import remarkGfm from "remark-gfm";
+import remarkEmbedder from "@remark-embedder/core";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeExternalLinks from "rehype-external-links";
+import remarkHtml from "remark-html";
+
 const { serverRuntimeConfig } = getConfig();
 
 if (process.platform === "win32") {
@@ -55,46 +64,22 @@ class MarkdownSerivce {
   }
 
   async processMarkdown(rawMarkdown: string): Promise<{
-    code: string;
-    frontmatter: any;
+    code: string
   }> {
-    const [remarkPlugins, rehypePlugins] = await this.getMarkdownPlugins();
+    const file = await unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(remarkPrism)
+      .use(remarkEmbedder, { transformers: [CodepenTransformer] })
+      .use(rehypeSlug)
+      .use(rehypeAutolinkHeadings)
+      .use(rehypeExternalLinks)
+      .use(remarkHtml, { sanitize: false })
+      .process(rawMarkdown);
 
-    return await bundleMDX({
-      source: rawMarkdown,
-      mdxOptions: (options) => ({
-        remarkPlugins: [...(options.remarkPlugins ?? []), ...remarkPlugins],
-        rehypePlugins: [...(options.rehypePlugins ?? []), ...rehypePlugins],
-      }),
-    });
-  }
-
-  private async getMarkdownPlugins() {
-    const { default: remarkEmbedder } = require("@remark-embedder/core");
-
-    const remarkPlugins = await Promise.all([
-      import("remark-prism").then((mod) => mod.default),
-      import("remark-gfm").then((mod) => mod.default),
-      Promise.resolve(() =>
-        remarkEmbedder({ transformers: [CodepenTransformer] })
-      ),
-    ]);
-
-    const rehypePlugins = await Promise.all([
-      import("rehype-slug").then((mod) => mod.default),
-      import("rehype-autolink-headings").then((mod) => mod.default),
-      import("rehype-external-links").then((mod) => {
-        return () => {
-          return mod.default({
-            target: (_element) => {
-              return "_blank";
-            }
-          })
-        }
-      }),
-    ]);
-
-    return [remarkPlugins, rehypePlugins];
+    return {
+      code: String(file)
+    }
   }
 
   getPage(slug: string): ContentEntity {

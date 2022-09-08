@@ -108,13 +108,8 @@ class NotionService {
         // Don't query for all block data. Just get the slug.
         if (!hydrate) {
           return new Promise(async (resolve) => {
-            let slugObj = await this.client.pages.properties.retrieve({
-              page_id: res.id,
-              property_id: (res as any).properties.Slug.id,
-            });
-
             // This is gross... yeah.
-            resolve({ slug: (slugObj as any).results[0].rich_text.plain_text });
+            resolve({ slug: (res as any).properties.Slug.rich_text[0].plain_text });
           });
         }
 
@@ -223,25 +218,20 @@ class NotionService {
 
     const postProperties = {} as any;
 
+    // @todo This no longer needs to be a set of promises.
     const promises = Object.entries(properties).map(async ([name, value]) => {
       const { property, type } = value;
 
       return new Promise(async (resolve): Promise<any> => {
-        const response = await this.client.pages.properties.retrieve({
-          page_id: page.id,
-          property_id: property.id,
-        });
-
-        if (response.type === "date") {
-          let dateValue = response.date?.start;
+        if (property.type === "date") {
+          let dateValue = property.date?.start;
           postProperties[name] = dateValue
             ? new Date(`${dateValue}T00:00:00.000-05:00`).toISOString()
             : null;
           return resolve(properties[name]);
         }
 
-        const result = response["results"][0];
-        postProperties[name] = result?.[type]?.plain_text || null;
+        postProperties[name] = property?.[type][0]?.plain_text || null;
         return resolve(postProperties[name]);
       });
     });
