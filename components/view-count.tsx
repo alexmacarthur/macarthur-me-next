@@ -17,10 +17,11 @@ const ViewCount = ({
       <ViewsIcon />
 
       <span className="text-gray-500">
-        { !count
-          ? "-"
-          : <Counter value={count} disableAnimation={disableAnimation} />
-        }
+        {!count ? (
+          "-"
+        ) : (
+          <Counter value={count} disableAnimation={disableAnimation} />
+        )}
       </span>
     </span>
   );

@@ -64,7 +64,7 @@ class MarkdownSerivce {
   }
 
   async processMarkdown(rawMarkdown: string): Promise<{
-    code: string
+    code: string;
   }> {
     const file = await unified()
       .use(remarkParse)
@@ -73,13 +73,15 @@ class MarkdownSerivce {
       .use(remarkEmbedder, { transformers: [CodepenTransformer] })
       .use(rehypeSlug)
       .use(rehypeAutolinkHeadings)
-      .use(rehypeExternalLinks)
+      .use(rehypeExternalLinks, {
+        target: "_blank",
+      })
       .use(remarkHtml, { sanitize: false })
       .process(rawMarkdown);
 
     return {
-      code: String(file)
-    }
+      code: String(file),
+    };
   }
 
   getPage(slug: string): ContentEntity {

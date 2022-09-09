@@ -109,7 +109,9 @@ class NotionService {
         if (!hydrate) {
           return new Promise(async (resolve) => {
             // This is gross... yeah.
-            resolve({ slug: (res as any).properties.Slug.rich_text[0].plain_text });
+            resolve({
+              slug: (res as any).properties.Slug.rich_text[0].plain_text,
+            });
           });
         }
 

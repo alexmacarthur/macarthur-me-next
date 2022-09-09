@@ -11,7 +11,9 @@ export default function PageLayout({ children, title, subtitle = "" }) {
           <title>{title} | Alex MacArthur</title>
         </Head>
 
-        <Title subtitle={subtitle} showViews={false}>{title}</Title>
+        <Title subtitle={subtitle} showViews={false}>
+          {title}
+        </Title>
 
         {children}
       </Container>
