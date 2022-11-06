@@ -18,7 +18,7 @@ export default function MarkdownLayout({
   markdownCode,
   isPost = false,
   views,
-  commentData,
+  commentData = null,
 }: MarkdownLayoutProps<BlogPost>) {
   const contentRef = useRef(null);
   const router = useRouter();
@@ -100,11 +100,13 @@ export default function MarkdownLayout({
 
               <Bio />
 
-              <div className="mt-16">
-                <JamComments
-                  markup={commentData}
-                />
-              </div>
+              {commentData && 
+                <div className="mt-16">
+                  <JamComments
+                    markup={commentData}
+                  />
+                </div>
+              }
             </div>
           </>
         )}

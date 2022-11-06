@@ -1,7 +1,7 @@
 interface MarkdownLayoutProps<T> {
   pageData: T;
   isPost: boolean;
-  commentData: any;
+  commentData?: any | null;
   markdownCode: string;
   views?: string;
 }
