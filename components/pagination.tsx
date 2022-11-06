@@ -18,26 +18,19 @@ const Pagination = ({
 
       <ul className="flex space-x-3">
         <li>
-          <Link href={`/posts/page/${previousPage}`}>
-            <a
-              className={`${
+          <Link href={`/posts/page/${previousPage}`} className={`${
                 previousPage ? "" : disabledClasses
-              } text-base font-light`}
-            >
-              Back
-            </a>
+              } text-base font-light`}>
+            Back
           </Link>
         </li>
 
         <li>
-          <Link href={`/posts/page/${nextPage}`}>
-            <a
-              className={`${
+          <Link href={`/posts/page/${nextPage}`} className={`${
                 nextPage ? "" : disabledClasses
               } text-base font-light`}
             >
-              Next
-            </a>
+            Next
           </Link>
         </li>
       </ul>

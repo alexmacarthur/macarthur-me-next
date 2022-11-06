@@ -8,7 +8,7 @@ import { MY_NAME, SITE_URL } from "../../lib/constants";
 import useCurrentUrl from "../../hooks/useCurrentUrl";
 import usePostViews from "../../hooks/usePostViews";
 
-export default function Post({ post, comments, markdownCode, jamCommentsDomain, jamCommentsApiKey }) {
+export default function Post({ post, commentData, markdownCode }) {
   const postViews = usePostViews(post.slug);
 
   let postSchema: WithContext<BlogPosting> = {
@@ -50,10 +50,8 @@ export default function Post({ post, comments, markdownCode, jamCommentsDomain, 
 
       <MarkdownLayout
         pageData={post}
-        comments={comments}
+        commentData={commentData}
         markdownCode={markdownCode}
-        jamCommentsApiKey={jamCommentsApiKey}
-        jamCommentsDomain={jamCommentsDomain}
         isPost={true}
         views={postViews}
       />
@@ -65,19 +63,19 @@ export async function getStaticProps({ params }) {
   const { slug } = params;
   const post = await (new CMSService()).getPost(slug);
   const { code } = await (new MarkdownService()).processMarkdown(post.markdown);
-  const { fetchByPath } = require("@jam-comments/next");
+  const { fetchMarkup } = require("@jam-comments/next");
 
-  const comments = await fetchByPath({
+  const commentData = await fetchMarkup({
     domain: process.env.JAM_COMMENTS_DOMAIN,
     apiKey: process.env.JAM_COMMENTS_API_KEY,
-    path: `/posts/${slug}`
+    path: `/posts/${params.slug}`
   });
 
   return {
     props: {
       jamCommentsApiKey: process.env.JAM_COMMENTS_API_KEY,
       jamCommentsDomain: process.env.JAM_COMMENTS_DOMAIN,
-      comments,
+      commentData,
       markdownCode: code, 
       post
     }, 

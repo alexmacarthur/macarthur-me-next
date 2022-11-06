@@ -1,19 +1,17 @@
-const withPreact = require('next-plugin-preact');
+// const withPreact = require('next-plugin-preact');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 const redirects = require("./redirects.json");
 
 module.exports = () => {
-  const plugins = [withPreact, withBundleAnalyzer];
+  const plugins = [withBundleAnalyzer];
 
   return plugins.reduce((acc, next) => next(acc), {
     swcMinify: true,
     staticPageGenerationTimeout: 500,
     experimental: {
-      esmExternals: false,
-      legacyBrowsers: false,
-      browsersListForSwc: true,
+      legacyBrowsers: false
     },
     async rewrites() {
       return [

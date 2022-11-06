@@ -58,8 +58,8 @@ export default function Index({ featuredPosts }: IndexProps) {
                   >
                     <div className="mb-8">
                       <h3 className="text-xl font-semibold mb-2">
-                        <Link href={postUrl}>
-                          <a target={target}>{title}</a>
+                        <Link href={postUrl} target={target}>
+                          {title}
                         </Link>
                       </h3>
                       <DateFormatter date={date} prettyDate={prettyDate} />
