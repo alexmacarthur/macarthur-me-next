@@ -196,7 +196,7 @@ const logTweet = async ({
   isValid: boolean;
 }) => {
   return await supabase
-    .from<definitions["converted_twitter_threads"]>("converted_twitter_threads")
+    .from("converted_twitter_threads")
     .insert([
       {
         conversation_id: tweetId,
