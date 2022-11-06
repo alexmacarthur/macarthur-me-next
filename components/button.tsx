@@ -54,7 +54,7 @@ const Button = ({
   // Wrap in special, magic link component.
   if (internal) {
     return (
-      <Link href={href}>
+      <Link href={href} legacyBehavior>
         <ButtonLink />
       </Link>
     );

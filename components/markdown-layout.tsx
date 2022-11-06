@@ -17,10 +17,8 @@ export default function MarkdownLayout({
   pageData,
   markdownCode,
   isPost = false,
-  comments = [],
-  jamCommentsApiKey = "",
-  jamCommentsDomain = "",
   views,
+  commentData,
 }: MarkdownLayoutProps<BlogPost>) {
   const contentRef = useRef(null);
   const router = useRouter();
@@ -104,9 +102,7 @@ export default function MarkdownLayout({
 
               <div className="mt-16">
                 <JamComments
-                  comments={comments}
-                  domain={jamCommentsDomain}
-                  apiKey={jamCommentsApiKey}
+                  markup={commentData}
                 />
               </div>
             </div>

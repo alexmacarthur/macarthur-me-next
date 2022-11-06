@@ -16,7 +16,7 @@ const PostListCard = ({ post }) => {
     <article>
       <h2 className="text-2xl font-bold">
         <Link {...linkProps}>
-          <a {...linkProps}>{post.title}</a>
+          {post.title}
         </Link>
       </h2>
 

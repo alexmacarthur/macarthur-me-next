@@ -1,10 +1,8 @@
 interface MarkdownLayoutProps<T> {
   pageData: T;
   isPost: boolean;
-  comments?: any[];
+  commentData: any;
   markdownCode: string;
-  jamCommentsApiKey?: string;
-  jamCommentsDomain?: string;
   views?: string;
 }
 
