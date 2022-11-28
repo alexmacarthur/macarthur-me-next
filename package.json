@@ -13,7 +13,7 @@
   "browserslist": "defaults and supports es6-module and supports es6-module-dynamic-import, not opera > 0, not samsung > 0, not and_qq > 0",
   "dependencies": {
     "@babel/preset-env": "^7.20.2",
-    "@jam-comments/next": "^2.0.7",
+    "@jam-comments/next": "^2.1.0",
     "@next/bundle-analyzer": "^13.0.5",
     "@notionhq/client": "^2.2.2",
     "@ramseyinhouse/feedback-component": "^1.0.3",
