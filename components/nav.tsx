@@ -125,7 +125,10 @@ const Nav = ({ isAbsolute = false }) => {
                   className="text-6xl lg:text-xl font-bold lg:font-light text-white lg:text-gray-500 hover:text-white lg:hover:text-gray-900 lg:font-200"
                   key={item.link}
                 >
-                  <Link href={item.link} className="py-2 border-b-4 border-transparent hover:border-gray-200">
+                  <Link
+                    href={item.link}
+                    className="py-2 border-b-4 border-transparent hover:border-gray-200"
+                  >
                     {item.name}
                   </Link>
                 </li>

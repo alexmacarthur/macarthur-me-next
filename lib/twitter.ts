@@ -195,15 +195,13 @@ const logTweet = async ({
   tweetId: string;
   isValid: boolean;
 }) => {
-  return await supabase
-    .from("converted_twitter_threads")
-    .insert([
-      {
-        conversation_id: tweetId,
-        is_valid: isValid,
-        environment: process.env.NODE_ENV,
-      },
-    ]);
+  return await supabase.from("converted_twitter_threads").insert([
+    {
+      conversation_id: tweetId,
+      is_valid: isValid,
+      environment: process.env.NODE_ENV,
+    },
+  ]);
 };
 
 const capitalizeString = (string: string): string => {

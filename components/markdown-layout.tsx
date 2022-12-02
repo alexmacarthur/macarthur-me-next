@@ -100,13 +100,11 @@ export default function MarkdownLayout({
 
               <Bio />
 
-              {commentData && 
+              {commentData && (
                 <div className="mt-16">
-                  <JamComments
-                    markup={commentData}
-                  />
+                  <JamComments markup={commentData} />
                 </div>
-              }
+              )}
             </div>
           </>
         )}

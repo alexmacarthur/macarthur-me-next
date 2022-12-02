@@ -15,9 +15,7 @@ const PostListCard = ({ post }) => {
   return (
     <article>
       <h2 className="text-2xl font-bold">
-        <Link {...linkProps}>
-          {post.title}
-        </Link>
+        <Link {...linkProps}>{post.title}</Link>
       </h2>
 
       <div className="flex items-center mb-3 gap-3 text-base">
