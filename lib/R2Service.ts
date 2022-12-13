@@ -43,7 +43,7 @@ class R2Service {
         Bucket: BUCKET_NAME,
         Key: key,
         Body: buffer,
-        ContentType: res.headers.get("image/webp") as string,
+        ContentType: "image/webp"
       })
       .promise();
   }
