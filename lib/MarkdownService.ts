@@ -3,15 +3,14 @@ import path, { join } from "path";
 import fs from "fs";
 import getConfig from "next/config";
 import { ContentEntity } from "../types/types";
-import { generateExcerptFromMarkdown } from "./markdown";
-import { unified } from "unified";
+import { externalMarkdownLinks, generateExcerptFromMarkdown } from "./markdown";
+import { PluggableList, Preset, unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkPrism from "remark-prism";
 import remarkGfm from "remark-gfm";
 import remarkEmbedder from "@remark-embedder/core";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeExternalLinks from "rehype-external-links";
 import remarkHtml from "remark-html";
 
 const { serverRuntimeConfig } = getConfig();
@@ -72,10 +71,8 @@ class MarkdownSerivce {
       .use(remarkPrism)
       .use(remarkEmbedder, { transformers: [CodepenTransformer] })
       .use(rehypeSlug)
-      .use(rehypeAutolinkHeadings)
-      .use(rehypeExternalLinks, {
-        target: "_blank",
-      })
+      .use(externalMarkdownLinks)
+      .use(rehypeAutolinkHeadings as Preset | PluggableList)
       .use(remarkHtml, { sanitize: false })
       .process(rawMarkdown);
 

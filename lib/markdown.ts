@@ -1,5 +1,6 @@
 import { remark } from "remark";
 import strip from "strip-markdown";
+import { visit } from "unist-util-visit";
 
 export function stripMarkdown(markdown: string) {
   const result = remark().use(strip).processSync(markdown);
@@ -19,4 +20,23 @@ export function generateExcerptFromMarkdown(content: string, wordCount = 50) {
   const words = strippedContent.split(" ");
 
   return words.slice(0, wordCount).join(" ") + "...";
+}
+
+export function externalMarkdownLinks() {
+  return (ast) => {
+    function visitor(node) {
+      const data = node.data || (node.data = {});
+      const props = data.hProperties || (data.hProperties = {});
+      const url = node.url;
+
+      if (!url.includes("macarthur.me")) {
+        props.target = "_blank";
+        props.rel = "noopener";
+      }
+
+      return node;
+    }
+
+    visit(ast, "link", visitor);
+  };
 }

@@ -56,7 +56,8 @@ module.exports = {
               fontSize: '.9em !important'
             },
             th: {
-              color: theme('colors.gray.700')
+              color: theme('colors.gray.700'),
+              fontSize: `theme('fontSize.base') !important`
             },
             'code::before': {
               content: 'none',
