@@ -54,6 +54,7 @@
     "rimraf": "^3.0.2",
     "sass": "^1.56.2",
     "schema-dts": "^1.1.0",
+    "sharp": "^0.31.2",
     "shelljs": "^0.8.5",
     "strip-markdown": "^5.0.0",
     "ts-node": "^10.9.1",

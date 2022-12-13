@@ -1,4 +1,5 @@
 import S3 from "aws-sdk/clients/s3.js";
+import sharp from "sharp";
 
 const s3 = new S3({
   endpoint: `https://${process.env.CLOUDFLARE_ACCOUNT_KEY}.r2.cloudflarestorage.com`,
@@ -32,12 +33,17 @@ class R2Service {
     const res = await fetch(imageUrl);
     const blob = await res.arrayBuffer();
 
+    const buffer = await sharp(Buffer.from(blob))
+      .resize({ width: 900 })
+      .webp({ quality: 100 })
+      .toBuffer();
+
     return s3
       .upload({
         Bucket: BUCKET_NAME,
         Key: key,
-        Body: Buffer.from(blob),
-        ContentType: res.headers.get("Content-Type") as string,
+        Body: buffer,
+        ContentType: res.headers.get("image/webp") as string,
       })
       .promise();
   }
