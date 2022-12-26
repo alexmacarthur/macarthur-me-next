@@ -29,21 +29,32 @@ class R2Service {
     }
   }
 
-  async uploadImage({ imageUrl, key }: { imageUrl: string; key: string }) {
-    const res = await fetch(imageUrl);
-    const blob = await res.arrayBuffer();
+  async optimizeImageBlob(blob: ArrayBuffer, isGif: boolean) {
+    if(isGif) {
+      return sharp(blob, { animated: true })
+        .gif()
+        .toBuffer();
+    }
 
-    const buffer = await sharp(Buffer.from(blob))
+    return sharp(blob)
       .resize({ width: 900 })
       .webp({ quality: 100 })
       .toBuffer();
+  }
+
+  async uploadImage({ imageUrl, key }: { imageUrl: string; key: string }) {
+    const res = await fetch(imageUrl);
+    const blob = await res.arrayBuffer();
+    const contentType = res.headers.get("Content-Type");
+    const isGif = contentType.includes("image/gif");
+    const buffer = await this.optimizeImageBlob(Buffer.from(blob), isGif);
 
     return s3
       .upload({
         Bucket: BUCKET_NAME,
         Key: key,
         Body: buffer,
-        ContentType: "image/webp"
+        ContentType: isGif ? "image/gif" : "image/webp"
       })
       .promise();
   }
