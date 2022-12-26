@@ -47,13 +47,13 @@ class R2Service {
     const blob = await res.arrayBuffer();
     const contentType = res.headers.get("Content-Type");
     const isGif = contentType.includes("image/gif");
-    const buffer = await this.optimizeImageBlob(Buffer.from(blob), isGif);
+    const imageBuffer = await this.optimizeImageBlob(Buffer.from(blob), isGif);
 
     return s3
       .upload({
         Bucket: BUCKET_NAME,
         Key: key,
-        Body: buffer,
+        Body: imageBuffer,
         ContentType: isGif ? "image/gif" : "image/webp"
       })
       .promise();
