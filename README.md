@@ -1,3 +1,5 @@
-# macarthur.me
+# macarthur-me-next
 
-See it [here](https://macarthur.me).
+I've moved to Astro! See the latest version of my site here: 
+
+https://github.com/alexmacarthur/macarthur-me-astro
